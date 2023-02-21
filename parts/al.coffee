@@ -31,8 +31,6 @@ Docs.before.insert (userId, doc)->
     # doc.upvoters = []
     return
 
-
-
 if Meteor.isClient 
     Template.home.events
         'keyup .new_public_message': (e,t)->
