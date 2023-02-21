@@ -32,7 +32,7 @@ Docs.before.insert (userId, doc)->
     return
 
 if Meteor.isClient 
-    Template.home.helpers
+    Template.alfred.helpers
         food_orders: ->
             user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find
@@ -65,80 +65,10 @@ if Meteor.isClient
     Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
     Template.registerHelper '_author', () -> Meteor.users.findOne @_author_id
 
-    Template.home.onCreated ->
+    Template.alfred.onCreated ->
         @autorun => @subscribe 'chat', ->
         @autorun => @subscribe 'users', ->
             
-    Template.message_item.events
-        'click .vote_up': ->
-            Meteor.call 'upvote',@_id,->
-            # Docs.update @_id,
-            #     $inc:
-            #         points:1
-            #     $addToSet:
-            #         upvoter_ids:Meteor.userId()
-        'click .vote_down': ->
-            Meteor.call 'downvote',@_id,->
-            # Docs.update @_id,
-            #     $inc:
-            #         points:-1
-            #     $addToSet:
-            #         downvoter_ids:Meteor.userId()
-                    
-    Template.home.events
-        'hover .tada': (e,t)-> $(e.currentTarget).closest('.tada').transition('pulse', 500)
-        'click .fly_right': (e,t)-> $(e.currentTarget).closest('.grid').transition('fade right', 500)
-        'click .zoom': (e,t)-> $(e.currentTarget).closest('.grid').transition('drop', 500)
-        'click .fade_left': (e,t)-> 
-            $(e.currentTarget).closest('.card').transition('fade left', 500)
-            $(e.currentTarget).closest('.grid').transition('fade left', 500)
-        'click .fade_down': (e,t)-> $(e.currentTarget).closest('.grid').transition('fade down', 500)
-        'click .fly_down': (e,t)-> $(e.currentTarget).closest('.grid').transition('fly down', 500)
-        # 'click .button': ->
-        #     $(e.currentTarget).closest('.button').transition('bounce', 1000)
-    
-        # 'click a(not:': ->
-        #     $('.global_container')
-        #     .transition('fade out', 200)
-        #     .transition('fade in', 200)
-    
-        'click .log_view': ->
-            # console.log Template.currentData()
-            # console.log @
-            Docs.update @_id,
-                $inc: views: 1
-        'click .logout': ->
-            Session.set('loading',true)
-            Meteor.logout(()->
-                Session.set('loading',false)
-                $('body').toast({message:"logged out", position:'bottom right'})
-                )
-        'keyup .new_message': (e)->
-            if e.which is 13
-                val = $('.new_message').val().trim()
-                if val.length > 0
-                    Docs.insert 
-                        model:'message'
-                        body:val
-                val = $('.new_message').val('')
-                $('body').toast({message:"#{val} message added", position:'bottom right'})
-                
-    Template.home.helpers
-        is_loading: -> Session.get('loading')
-        message_docs: ->
-            Docs.find 
-                model:'message'
-    Template.message_item.helpers
-        upvote_class: ->
-            if @upvoter_ids and Meteor.userId() in @upvoter_ids
-                'green large'
-            else 
-                'outline'
-        downvote_class: ->
-            if @downvoter_ids and Meteor.userId() in @downvoter_ids
-                'red large'
-            else 
-                'outline'
     
 if Meteor.isServer
     Cloudinary.config

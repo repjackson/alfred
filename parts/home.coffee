@@ -3,15 +3,6 @@ if Meteor.isClient
         current_model_filter: ->
             Session.get('model_filter')
     Template.smaba.events
-        # 'keyup .search_site': _.throttle((e,t)->
-        # 'click .search_site': (e,t)->
-            # synth = window.speechSynthesis;
-        
-            # utterThis = new SpeechSynthesisUtterance(@valueOf())
-            # # utterThis = new SpeechSynthesisUtterance('wat ah yoo freakin queah, ask the smaht bah!')
-            # # utterThis = new SpeechSynthesisUtterance('ask the smaht bah, its wicked smaht')
-            # synth.speak(utterThis);
-            
         'click .clear_search': (e,t)->
             Session.set('current_query', null)
             t.$('.current_query').val('')
@@ -78,20 +69,7 @@ if Meteor.isClient
     
 
 if Meteor.isClient
-    Template.model_block.onCreated ->
-        @autorun => @subscribe 'model_docs', @data.model, 5,->
-    Template.model_block.helpers
-        model_block_docs: ->
-            Docs.find {
-                model:@model
-            }, limit:5
-if Meteor.isServer
-    Meteor.publish 'my_current_thing', (current_thing_id)->
-        # user = Meteor.user()
-        Docs.find current_thing_id
-    
-if Meteor.isClient
-    Template.home.helpers
+    Template.alfred.helpers
         is_searching: -> Session.get('current_query')
         # model_filters: -> model_filters.array()
         view_template: -> "#{@model}_view"
@@ -132,17 +110,13 @@ if Meteor.isClient
             Docs.find match,
                 sort:_timestamp:-1
                 limit:5
-            
-    Template.add_tab.events 
-        # 'click .toggle_addmode': ->
-        #     Session.set('addmode', !Session.get('addmode'))
-    Template.home.helpers
+    Template.alfred.helpers
         view_latest_class: -> 
             if Session.get('view_latest') then 'large active' else 'compact basic'
         fullview_doc: ->
             if Session.get('fullview_id')
                 Docs.findOne Session.get('fullview_id')
-    Template.home.events
+    Template.alfred.events
         'click .view_latest': ->
             # trying different view session storage
             current_role = Docs.findOne Meteor.user().current_role_id
@@ -168,7 +142,6 @@ if Meteor.isClient
                 Docs.insert 
                     model:'post'
                     published:false
-            Router.go "/add/#{new_id}"
             Meteor.users.update Meteor.userId(),
                 $set:
                     editing:true
@@ -179,9 +152,6 @@ if Meteor.isClient
         'click .unpick_model': -> 
             # model_filters.remove @valueOf()
             Session.set('model_filter',null)
-        'click .toggle_editing':->
-            Session.set('editing', !Session.get('editing'))
-            console.log Session.get('editing')
         'click .show_modal': (e,t)->
             Session.set('current_thing_id', @_id)
             console.log @
@@ -224,20 +194,6 @@ if Meteor.isClient
     #         # user = Meteor.user()
     #         # Docs.findOne user.current_thing_id
     #         Docs.findOne Session.get('current_thing_id')
-    Template.thing_picker.helpers
-        model_crud_class:->
-            current_doc = Docs.findOne Meteor.user()._doc_id
-            if current_doc and @model is current_doc.model
-                'big'
-            else 
-                'basic'
-            # if @model is Template.parentData().model
-            # parent = Template.parentData()
-            # if parent and parent.model
-    Template.add_doc.onCreated ->
-        @autorun => Meteor.subscribe 'user_current_doc', ->
-        @autorun => Meteor.subscribe 'doc_by_id', Router.current().params.doc_id, ->
-            
 if Meteor.isServer 
     Meteor.publish 'user_current_doc', ->
         if Meteor.user()
@@ -247,7 +203,7 @@ if Meteor.isServer
 if Meteor.isClient
     # @model_filters = new ReactiveArray []
     
-    # Template.home_card.onDestroyed ->
+    # Template.alfred_card.onDestroyed ->
     #     # console.log 'destroy', @data
     #     if @data
     #         found = Markers.findOne
@@ -255,7 +211,7 @@ if Meteor.isClient
     #         if found
     #             Markers.remove found._id
     #                 lng:@data.lng
-    Template.home_card.events 
+    Template.alfred_card.events 
         'click .toggle_fullview': ->
             Session.set('fullview_id',@_id)
             $('body').toast({message: 'toggle full view'})
@@ -277,7 +233,7 @@ if Meteor.isClient
     #                 lng:"#{@lng}"
                 
             
-    Template.home.onCreated ->
+    Template.alfred.onCreated ->
         # @autorun => @subscribe 'my_current_thing', ->
         # @autorun => @subscribe 'my_current_thing', Session.get('current_thing_id'),->
         
