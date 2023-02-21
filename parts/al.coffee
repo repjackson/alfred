@@ -32,56 +32,6 @@ Docs.before.insert (userId, doc)->
     return
 
 if Meteor.isClient 
-    Template.home.events
-        'keyup .new_public_message': (e,t)->
-            if e.which is 13
-                val = $('.new_public_message').val()
-                console.log val
-                target_user = Meteor.users.findOne(username:Router.current().params.username)
-                Docs.insert
-                    model:'message'
-                    body: val
-                    is_private:false
-                    target_user_id: target_user._id
-                val = $('.new_public_message').val('')
-
-        'click .submit_public_message': (e,t)->
-            val = $('.new_public_message').val()
-            console.log val
-            target_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.insert
-                model:'message'
-                is_private:false
-                body: val
-                target_user_id: target_user._id
-            val = $('.new_public_message').val('')
-
-
-        'keyup .new_private_message': (e,t)->
-            if e.which is 13
-                val = $('.new_private_message').val()
-                console.log val
-                target_user = Meteor.users.findOne(username:Router.current().params.username)
-                Docs.insert
-                    model:'message'
-                    body: val
-                    is_private:true
-                    target_user_id: target_user._id
-                val = $('.new_private_message').val('')
-
-        'click .submit_private_message': (e,t)->
-            val = $('.new_private_message').val()
-            console.log val
-            target_user = Meteor.users.findOne(username:Router.current().params.username)
-            Docs.insert
-                model:'message'
-                body: val
-                is_private:true
-                target_user_id: target_user._id
-            val = $('.new_private_message').val('')
-
-
-
     Template.home.helpers
         food_orders: ->
             user = Meteor.users.findOne(username:Router.current().params.username)
