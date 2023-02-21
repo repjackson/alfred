@@ -1,4 +1,6 @@
 if Meteor.isClient
+    @picked_tags = new ReactiveArray []
+        
     Template.model_dropdown.helpers
         current_model_filter: ->
             Session.get('model_filter')
@@ -201,42 +203,7 @@ if Meteor.isServer
                 _id: Meteor.user()._doc_id
     
 if Meteor.isClient
-    # @model_filters = new ReactiveArray []
-    
-    # Template.alfred_card.onDestroyed ->
-    #     # console.log 'destroy', @data
-    #     if @data
-    #         found = Markers.findOne
-    #             lat:@data.lat
-    #         if found
-    #             Markers.remove found._id
-    #                 lng:@data.lng
-    Template.alfred_card.events 
-        'click .toggle_fullview': ->
-            Session.set('fullview_id',@_id)
-            $('body').toast({message: 'toggle full view'})
-
-    #     'click .map_me': ->
-    #         # navigator.geolocation.getCurrentPosition (position) =>
-    #         #     console.log 'navigator position', position
-    #         #     Session.set('current_lat', position.coords.latitude)
-    #         #     Session.set('current_long', position.coords.longitude)
-                
-    #         #     console.log 'saving long', position.coords.longitude
-    #         #     console.log 'saving lat', position.coords.latitude
-            
-    #         #     pos = Geolocation.currentLocation()
-    #         #     map.setView([Session.get('current_lat'), Session.get('current_long')], 13);
-    #             Markers.insert 
-    #                 title:@title
-    #                 lat: "#{@lat}"
-    #                 lng:"#{@lng}"
-                
-            
     Template.alfred.onCreated ->
-        # @autorun => @subscribe 'my_current_thing', ->
-        # @autorun => @subscribe 'my_current_thing', Session.get('current_thing_id'),->
-        
         @autorun => @subscribe 'home_docs',
             Session.get('current_query')
             Session.get('model_filter')
@@ -244,14 +211,6 @@ if Meteor.isClient
             picked_tags.array()
             Session.get('view_latest')
             # Session.get('post_title_filter')
-        
-        # @autorun => @subscribe 'all_markers',->
-        # @autorun => @subscribe 'latest_home_docs',model_filters.array(),->
-        
-        # @autorun => @subscribe 'all_users', ->
-        # @autorun => @subscribe 'post_facets',
-        #     picked_tags.array()
-        #     Session.get('post_title_filter')
 
 if Meteor.isServer
     Meteor.publish 'home_docs_count', (query_object, sort_object)->
@@ -424,12 +383,3 @@ if Meteor.isClient
         #     selectFirstResult:true	            
         #   })
         # $('.tabular.menu .item').tab();
-    Template.nav.onRendered ->
-        $('.menu .item').popup();
-        # $('.tabular.menu .item').tab();
-
-
-    # Template.closest_allies.helpers 
-    #     user_docs: ->
-    #         Meteor.users.find {}
-

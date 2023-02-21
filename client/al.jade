@@ -46,14 +46,13 @@ template(name='alfred')
             // +quickchat
             unless session_get 'fullview_id'
                 .ui.center.aligned.column.grid
-                    unless currentUser.admin_mode
-                        .ui.animated.fade.tertiary.circular.large.center.alligned.zoomer.button.launch_modal.add_doc(style="color:green")
-                            .visible.content
-                                // i.big.green.play.dark-mode.icon(class=gicon)
-                                +ilarge name='play-button-circled--v1' color='40C057' cl='ui image'
-        
-                            .hidden.content
-                                .ui.massive.header Engage
+                    .ui.animated.fade.tertiary.circular.large.center.alligned.zoomer.button.launch_modal.add_doc(style="color:green")
+                        .visible.content
+                            // i.big.green.play.dark-mode.icon(class=gicon)
+                            +i name='play-button-circled--v1' color='40C057' cl='ui image'
+    
+                        .hidden.content
+                            .ui.massive.header Engage
                     .centered   
                         // .ui.search
                         //     .ui.large.icon.input.search_bar
@@ -208,7 +207,7 @@ template(name='home_card')
                     img.ui.avatar.image(src="{{c.url _author.image_id height=200}}" title=_author.username)
                     |#{_author.username}
                 div
-                +parent_block
+                // +parent_block
                 // +parent_avatar
             span.right.floated
                 |#{when}
@@ -234,9 +233,9 @@ template(name='home_card')
             |!{brief}
             |!{content}
         if link
-            +link_field
+            // +link_field
         else if youtube_id
-            +youtube_view key='youtube_id'
+            // +youtube_view key='youtube_id'
 
             img.ui.fluid.image.toggle_fullview.pointer(src="{{c.url image_id width=500 height=500}}")
         .content 
@@ -256,7 +255,7 @@ template(name='home_card')
                 //     each seven_tags 
                 //         .ui.basic.label #{this}
 
-                +eft_view_item_small
+                // +eft_view_item_small
       
             .content
                 .left.floated
@@ -271,7 +270,7 @@ template(name='home_card')
                 //         .ui.small.inverted.label #{this}
                 // //- +comments
                 div
-                +eft_viewer_small
+                // +eft_viewer_small
                 // if currentUser.admin_mode
                 //     +print_this
                 //     +remove_button
@@ -304,7 +303,7 @@ template(name='home_list_item')
                 
                 |#{_author.username}
                 div
-                +parent_block
+                // +parent_block
             span.right.floated
                 |#{when}
                 +model_icon
@@ -332,7 +331,7 @@ template(name='home_list_item')
                 //     each seven_tags 
                 //         .ui.basic.label #{this}
 
-                +eft_view_item_small
+                // +eft_view_item_small
       
             .content
                 .left.floated
@@ -347,13 +346,13 @@ template(name='home_list_item')
                 //         .ui.small.inverted.label #{this}
                 // //- +comments
                 div
-                +eft_viewer_small
+                // +eft_viewer_small
                 // if currentUser.admin_mode
                 //     +print_this
                 //     +remove_button
                 // each tags 
                 //     .ui.small.label #{this}
-                +comments
+                // +comments
             // if template_exists
             //     +Template.dynamic template=model_template
       
@@ -405,3 +404,15 @@ template(name='filter_model')
                     
 template(name='i')
     img(src="https://img.icons8.com/office/48/000000/#{name}.png" class='ui inline image' title=title)
+    
+template(name='session_set')
+    .ui.compact.large.circular.button.set_session_value(class=calculated_class)
+        // if icon
+        //     +i name=icon cl='ui mini centered image'
+        // if icon_view 
+        i.icon(class=icon)
+        // else 
+        if label
+            |#{label}
+        else 
+            |#{value}
