@@ -42,10 +42,10 @@ body
     
 template(name='alfred')
     .ui.padded.divided.celled.stackable.grid
-        .eleven.wide.column
+        .sixteen.wide.column
             // +quickchat
             unless session_get 'fullview_id'
-                .ui.center.aligned.column.grid
+                .ui.center.aligned.column
                     .ui.animated.fade.tertiary.circular.large.center.alligned.zoomer.button.launch_modal.add_doc(style="color:green")
                         .visible.content
                             // i.big.green.play.dark-mode.icon(class=gicon)
@@ -69,11 +69,11 @@ template(name='alfred')
                         //         i.remove.icon
                         //         |#{this}
                         +smaba
-                        div
                         +session_set key='view_mode' value='grid' icon='th' 
                         +session_set key='view_mode' value='list' icon='list'
                         +session_set key='view_mode' value='feed' icon='stream'
-            .scrolling
+            .scrollin
+                .ui.hidden.divider
                 if session_get 'fullview_id'
                     .ui.circular.basic.purple.icon.button.clear_fullview 
                         i.large.remove.icon
@@ -178,21 +178,6 @@ template(name='smaba')
             if image_id
                 img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
             |{{cut title}}
-
-template(name='model_block')
-    details.ui.fluid.styled.accordion
-        summary.title
-            // .ui.header 
-            i.large.icon(class=icon)
-            // +i name=icon cl='ui avatar image'
-            |#{title}
-            // i.dropdown.icon
-        .content
-            each model_block_docs
-                a.ui.large.tertiary.button.fly_right(href="/#{model}/#{_id}")
-                    if image_id
-                        img.ui.avatar.image(src="{{c.url image_id}}" title=_author.username)
-                    |#{title}
 
 template(name='home_card')
     a.ui.card(href="/d/#{model}/#{_id}")
