@@ -41,7 +41,7 @@ body
     +alfred
     
 template(name='alfred')
-    .ui.padded.divided.celled.stackable.grid
+    .ui.padded.divided.celled.stackable.center.aligned.grid
         .sixteen.wide.column
             // +quickchat
             unless session_get 'fullview_id'
@@ -89,14 +89,9 @@ template(name='alfred')
                         each doc_results
                             +home_card
                 else    
-                    .ui.ten.wide.column.centered.mobile.hidden
-                        .ui.centered.one.cards.scrollin
-                            each doc_results
-                                +home_card
-                    .ui.sixteen.wide.column.centered.mobile.only
-                        .ui.centered.one.cards.scrolling
-                            each doc_results
-                                +home_card
+                    .ui.centered.one.cards.scrolling
+                        each doc_results
+                            +home_card
     
 template(name='icon_browser')
     // .ui.header icons
@@ -183,8 +178,9 @@ template(name='home_card')
     a.ui.card(href="/d/#{model}/#{_id}")
         .content.smallscroll 
             // a.ui.centered.inline.header.zoomer(href="/d/#{model}/#{_id}")
-            a.ui.centered.inline.header.zoomer
-                |#{title}
+            if title
+                a.ui.centered.inline.header.zoomer
+                    |#{title}
             span.left.floated
                 if icon 
                     +i name=icon color=icon_color
@@ -214,11 +210,14 @@ template(name='home_card')
         //         iframe.invert(width='100%' height='500px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
 
         .content.smallscroll 
-            |{{nl2br  body}}
-            |!{brief}
-            |!{content}
+            if body
+                |{{nl2br body}}
+            if brief
+                |!{brief}
+            if content
+                |!{content}
         if link
-            // +link_field
+            +link_field
         else if youtube_id
             // +youtube_view key='youtube_id'
 
