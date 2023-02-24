@@ -33,6 +33,7 @@ Docs.before.insert (userId, doc)->
 
 if Meteor.isClient 
     Template.datepicker.onRendered ->
+        Session.setDefault('view_calendar',true)
         @picker = new easepick.create({
             element: "#datepicker",
             css: [
@@ -54,12 +55,18 @@ if Meteor.isClient
         #   type: 'date',
         #   startCalendar: $('#rangestart')
         # });
+    Template.session_toggle.events 
+        'click .toggle': ->
+            console.log Session.get("#{@key}"), @key
+            Session.set("#{@key}", !Session.get("#{@key}"))
     Template.datepicker.events 
         'click .get': (e,t)-> 
             console.log t.picker.getStartDate()
             console.log t.picker.getEndDate()
             # Template.currentInstance()getStartDate
     Template.loom.helpers
+        session_is: (key)->
+            Session.get("#{key}")
         food_orders: ->
             user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find

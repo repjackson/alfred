@@ -97,6 +97,7 @@ template(name='loom')
                     +session_set key='view_mode' value='grid' icon='th' 
                     +session_set key='view_mode' value='list' icon='list'
                     +session_set key='view_mode' value='feed' icon='stream'
+                    +session_toggle key='view_calendar' value='calendar' icon='calendar'
             .scrolling
                 // .ui.hidden.divider
                 if session_is 'view_mode' 'list'
@@ -112,15 +113,25 @@ template(name='loom')
                         each doc_results
                             +home_card
         .scrolling.eight.wide.centered.column
-            +datepicker
-        if session_get 'fullview_id'
-            .scrolling.eight.wide.centered.column
-                .ui.circular.basic.purple.icon.button.clear_fullview 
-                    i.large.remove.icon
-                with fullview_doc 
-                    .ui.one.cards
-                        +home_card
-        
+            .ui.equal.width.grid 
+                if session_get 'fullview_id'
+                    .column
+                        .ui.circular.basic.purple.icon.button.clear_fullview 
+                            i.large.remove.icon
+                        with fullview_doc 
+                            .ui.one.cards
+                                +home_card
+                if session_is 'view_calendar'
+                    .column
+                        +datepicker
+                // .scrolling.eight.wide.centered.column
+            
+    
+template(name='session_toggle')
+    .ui.button.toggle
+        if icon     
+            i.icon(class=icon)
+        |#{label}
     
 template(name='icon_browser')
     // .ui.header icons
