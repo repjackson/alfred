@@ -40,6 +40,24 @@ head
 body 
     +loom
     
+    
+template(name='datepicker')
+    .ui.form
+        .two.fields
+            .field
+                label Start date
+                #rangestart.ui.calendar
+                    .ui.input.left.icon
+                        i.calendar.icon
+                        input(type='text' placeholder='Start')
+            // .field
+            //     label End date
+            //     #rangeend.ui.calendar
+            //         .ui.input.left.icon
+            //             i.calendar.icon
+            //             input(type='text' placeholder='End')
+    
+    
 template(name='loom')
     .ui.padded.divided.celled.stackable.centered.grid
         .eight.wide.center.aligned.column
@@ -66,7 +84,6 @@ template(name='loom')
                     //     a.ui.label.unpick_model(title='remove filter')
                     //         i.remove.icon
                     //         |#{this}
-                        
                     // each model_filters 
                     //     a.ui.label.unpick_model(title='remove filter')
                     //         i.remove.icon
@@ -89,6 +106,8 @@ template(name='loom')
                     .ui.centered.one.cards
                         each doc_results
                             +home_card
+        .scrolling.eight.wide.centered.column
+            +datepicker
         if session_get 'fullview_id'
             .scrolling.eight.wide.centered.column
                 .ui.circular.basic.purple.icon.button.clear_fullview 

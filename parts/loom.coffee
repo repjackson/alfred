@@ -32,6 +32,17 @@ Docs.before.insert (userId, doc)->
     return
 
 if Meteor.isClient 
+    Template.datepicker.onRendered ->
+        $('#rangestart').calendar({
+          type: 'date',
+          today:false
+        #   endCalendar: $('#rangeend')
+        });
+        # $('#rangeend').calendar({
+        #   type: 'date',
+        #   startCalendar: $('#rangestart')
+        # });
+
     Template.loom.helpers
         food_orders: ->
             user = Meteor.users.findOne(username:Router.current().params.username)
