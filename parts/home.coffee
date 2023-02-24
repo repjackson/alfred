@@ -204,6 +204,9 @@ if Meteor.isServer
                 _id: Meteor.user()._doc_id
     
 if Meteor.isClient
+    Template.home_card.events 
+        'click .pick_me': -> Session.set('fullview_id', @_id)
+    
     Template.loom.onCreated ->
         @autorun => @subscribe 'home_docs',
             Session.get('current_query')

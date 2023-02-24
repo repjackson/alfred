@@ -41,60 +41,62 @@ body
     +loom
     
 template(name='loom')
-    .ui.padded.divided.celled.stackable.center.aligned.grid
-        .sixteen.wide.column
+    .ui.padded.divided.celled.stackable.centered.grid
+        .eight.wide.center.aligned.column
             // +quickchat
             img.ui.tiny.inline.image(src="https://cdn-icons-png.flaticon.com/512/2128/2128771.png")
             .ui.inline.header loom
         
-            unless session_get 'fullview_id'
-                .ui.center.aligned.column
-                    .ui.animated.fade.tertiary.circular.large.center.alligned.zoomer.button.launch_modal.add_doc(style="color:green")
-                        .visible.content
-                            // i.big.green.play.dark-mode.icon(class=gicon)
-                            +i name='play-button-circled--v1' color='40C057' cl='ui image'
-    
-                        .hidden.content
-                            .ui.massive.header Engage
-                    .centered   
-                        // .ui.search
-                        //     .ui.large.icon.input.search_bar
-                        //         input.prompt(type='text' placeholder='add/request/search...')
-                        //         i.search.icon
-                        //     .results
-                        // with model_filter_doc
-                        //     a.ui.label.unpick_model(title='remove filter')
-                        //         i.remove.icon
-                        //         |#{this}
-                            
-                        // each model_filters 
-                        //     a.ui.label.unpick_model(title='remove filter')
-                        //         i.remove.icon
-                        //         |#{this}
-                        +smaba
-                        +session_set key='view_mode' value='grid' icon='th' 
-                        +session_set key='view_mode' value='list' icon='list'
-                        +session_set key='view_mode' value='feed' icon='stream'
-        .scrolling.eight.wide.centered.column
-            .ui.hidden.divider
-            if session_get 'fullview_id'
+            // unless session_get 'fullview_id'
+            .ui.center.aligned.column
+                .ui.animated.fade.tertiary.circular.large.center.alligned.zoomer.button.launch_modal.add_doc(style="color:green")
+                    .visible.content
+                        // i.big.green.play.dark-mode.icon(class=gicon)
+                        +i name='play-button-circled--v1' color='40C057' cl='ui image'
+
+                    .hidden.content
+                        .ui.massive.header Engage
+                .centered   
+                    // .ui.search
+                    //     .ui.large.icon.input.search_bar
+                    //         input.prompt(type='text' placeholder='add/request/search...')
+                    //         i.search.icon
+                    //     .results
+                    // with model_filter_doc
+                    //     a.ui.label.unpick_model(title='remove filter')
+                    //         i.remove.icon
+                    //         |#{this}
+                        
+                    // each model_filters 
+                    //     a.ui.label.unpick_model(title='remove filter')
+                    //         i.remove.icon
+                    //         |#{this}
+                    +smaba
+                    +session_set key='view_mode' value='grid' icon='th' 
+                    +session_set key='view_mode' value='list' icon='list'
+                    +session_set key='view_mode' value='feed' icon='stream'
+            .scrolling
+                // .ui.hidden.divider
+                if session_is 'view_mode' 'list'
+                    .ui.divided.selection.items 
+                        each doc_results 
+                            +home_list_item
+                else if session_is 'view_mode' 'grid'
+                    .ui.three.stackable.cards
+                        each doc_results
+                            +home_card
+                else    
+                    .ui.centered.one.cards
+                        each doc_results
+                            +home_card
+        if session_get 'fullview_id'
+            .scrolling.eight.wide.centered.column
                 .ui.circular.basic.purple.icon.button.clear_fullview 
                     i.large.remove.icon
                 with fullview_doc 
                     .ui.one.cards
                         +home_card
-            else if session_is 'view_mode' 'list'
-                .ui.divided.selection.items 
-                    each doc_results 
-                        +home_list_item
-            else if session_is 'view_mode' 'grid'
-                .ui.three.stackable.cards
-                    each doc_results
-                        +home_card
-            else    
-                .ui.centered.one.cards.scrolling
-                    each doc_results
-                        +home_card
+        
     
 template(name='icon_browser')
     // .ui.header icons
@@ -214,7 +216,7 @@ template(name='smaba')
             |{{cut title}}
 
 template(name='home_card')
-    a.ui.card(href="/d/#{model}/#{_id}")
+    a.ui.card.pick_me
         .content.smallscroll 
             // a.ui.centered.inline.header.zoomer(href="/d/#{model}/#{_id}")
             if title
