@@ -44,60 +44,43 @@ body
     
     
 template(name='datepicker')
-    // .ui.button.get get
     .get
         #datepicker
-    // .ui.form
-    //     .two.fields
-    //         .field
-    //             label Start date
-    //             #rangestart.ui.calendar
-    //                 .ui.input.left.icon
-    //                     i.calendar.icon
-    //                     input(type='text' placeholder='Start')
-            // .field
-            //     label End date
-            //     #rangeend.ui.calendar
-            //         .ui.input.left.icon
-            //             i.calendar.icon
-            //             input(type='text' placeholder='End')
     
     
 template(name='loom')
     .ui.padded.divided.celled.stackable.centered.grid
         .eight.wide.center.aligned.column
             // +quickchat
-            img.ui.tiny.inline.image(src="https://cdn-icons-png.flaticon.com/512/2128/2128771.png")
+            img.ui.mini.inline.image(src="https://cdn-icons-png.flaticon.com/512/2128/2128771.png")
             .ui.inline.header loom
         
             // unless session_get 'fullview_id'
-            .ui.center.aligned.column
-                .ui.animated.fade.tertiary.circular.large.center.alligned.zoomer.button.launch_modal.add_doc(style="color:green")
-                    .visible.content
-                        // i.big.green.play.dark-mode.icon(class=gicon)
-                        +i name='play-button-circled--v1' color='40C057' cl='ui image'
+            .ui.animated.fade.tertiary.circular.large.center.alligned.zoomer.button.launch_modal.add_doc(style="color:green")
+                .visible.content
+                    // i.big.green.play.dark-mode.icon(class=gicon)
+                    +i name='play-button-circled--v1' color='40C057' cl='ui image'
 
-                    .hidden.content
-                        .ui.massive.header Engage
-                .centered   
-                    // .ui.search
-                    //     .ui.large.icon.input.search_bar
-                    //         input.prompt(type='text' placeholder='add/request/search...')
-                    //         i.search.icon
-                    //     .results
-                    // with model_filter_doc
-                    //     a.ui.label.unpick_model(title='remove filter')
-                    //         i.remove.icon
-                    //         |#{this}
-                    // each model_filters 
-                    //     a.ui.label.unpick_model(title='remove filter')
-                    //         i.remove.icon
-                    //         |#{this}
-                    +smaba
-                    +session_set key='view_mode' value='grid' icon='th' 
-                    +session_set key='view_mode' value='list' icon='list'
-                    +session_set key='view_mode' value='feed' icon='stream'
-                    +session_toggle key='view_calendar' value='calendar' icon='calendar'
+                .hidden.content
+                    .ui.massive.header Engage
+            // .ui.search
+            //     .ui.large.icon.input.search_bar
+            //         input.prompt(type='text' placeholder='add/request/search...')
+            //         i.search.icon
+            //     .results
+            // with model_filter_doc
+            //     a.ui.label.unpick_model(title='remove filter')
+            //         i.remove.icon
+            //         |#{this}
+            // each model_filters 
+            //     a.ui.label.unpick_model(title='remove filter')
+            //         i.remove.icon
+            //         |#{this}
+            +smaba
+            // +session_set key='view_mode' value='grid' icon='th' 
+            // +session_set key='view_mode' value='list' icon='list'
+            // +session_set key='view_mode' value='feed' icon='stream'
+            +session_toggle key='view_calendar' label='calendar' icon='calendar'
             .scrolling
                 // .ui.hidden.divider
                 if session_is 'view_mode' 'list'
@@ -112,23 +95,21 @@ template(name='loom')
                     .ui.centered.one.cards
                         each doc_results
                             +home_card
-        .scrolling.eight.wide.centered.column
-            .ui.equal.width.grid 
-                if session_get 'fullview_id'
-                    .column
-                        .ui.circular.basic.purple.icon.button.clear_fullview 
-                            i.large.remove.icon
-                        with fullview_doc 
-                            .ui.one.cards
-                                +home_card
-                if session_is 'view_calendar'
-                    .column
-                        +datepicker
+        if session_get 'fullview_id'
+            .scrolling.eight.wide.centered.column
+                .ui.circular.basic.purple.icon.button.clear_fullview 
+                    i.large.remove.icon
+                with fullview_doc 
+                    .ui.one.cards
+                        +home_card
+        else if session_is 'view_calendar'
+            .column
+                +datepicker
                 // .scrolling.eight.wide.centered.column
             
     
 template(name='session_toggle')
-    .ui.button.toggle
+    .ui.tertiary.button.toggle
         if icon     
             i.icon(class=icon)
         |#{label}
@@ -150,41 +131,41 @@ template(name='eft_dropdown')
         if current_model_filter
             |#{current_model_filter}
         .menu
-            +eft_filter color="red" icon='heart' label='care'
-            +eft_filter color="FF73EA" icon='food' label='food'
+            +eft_filter color="red" icon='heart' label='Care'
+            +eft_filter color="FF73EA" icon='food' label='Food'
                 //pink
-            +eft_filter color="B785E1" icon='home' label='housing'
+            +eft_filter color="B785E1" icon='home' label='Housing'
                 //lavender
-            +eft_filter color="6b0fb9" icon='tshirt' label='clothing'
+            +eft_filter color="6b0fb9" icon='tshirt' label='Clothing'
                 //purple
-            +eft_filter color="0000f7" icon='smile' label='wellness'
+            +eft_filter color="0000f7" icon='smile' label='Wellness'
                 //darkblue
-            +eft_filter color="00ddff" icon='car' label='travel'
+            +eft_filter color="00ddff" icon='car' label='Travel'
                 //lightblue
-            +eft_filter color="00ffc3" icon='dog' label='animals'
+            +eft_filter color="00ffc3" icon='dog' label='Animals'
                 //turquoise
-            +eft_filter color="148023" icon='leaf' label='plants'
+            +eft_filter color="148023" icon='leaf' label='Plants'
                 //darkgreen
-            +eft_filter color="35ca2d" icon='recycle' label='regen'
+            +eft_filter color="35ca2d" icon='recycle' label='Regen'
                 //brightgreen
-            +eft_filter color="ffff00" icon='lightning' label='energy'
+            +eft_filter color="ffff00" icon='lightning' label='Energy'
                 //yellow
-            +eft_filter color="ffd000" icon='paint brush' label='art'
+            +eft_filter color="ffd000" icon='paint brush' label='Art'
                 //gold
-            +eft_filter color="ff6f00" icon='university' label='education'
+            +eft_filter color="ff6f00" icon='university' label='Education'
                 //orange
-            +eft_filter color="FF0000" icon='users' label='community'
+            +eft_filter color="FF0000" icon='users' label='Community'
                 //red
-            +eft_filter color="000000" icon='ambulance' label='emergency'
+            +eft_filter color="000000" icon='ambulance' label='Emergency'
 
 
 template(name='model_dropdown')
     .ui.simple.dropdown.button
         i.database.icon
-        i.dropdown.icon 
+        // i.dropdown.icon 
         if current_model_filter
             |#{current_model_filter}
-        .menu
+        .center.aligned.menu
             // .ui.dropdown-content
             // .item
             +filter_model model='post' icon='for-you' color='1255B8'
@@ -218,9 +199,34 @@ template(name='model_dropdown')
             // +filter_model model='food' icon='food' 83DFF4
             // .ui.dropdown-content
 
+    
+template(name='link_field')
+    // if icon
+        +i  ame=icon
+            i.icon(class=icon)
+    // .ui.inline.header
+        |#{title} #{label}
+    .spacer
+        a.ui.tertiary.button(href=link target='_window')
+            |#{field_value}
+        +site_embed data=this label='site browser' icon='globe'
+
+template(name='site_embed')       
+    // .ui.header #{this}
+    // details.ui.accordion 
+    //     summary.title 
+    //         |link
+    //         i.dropdown.icon
+    //     .content
+    iframe.invert(width='100%' height='400px' src=data.link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+
 
 
 template(name='smaba')
+    each picked_tags
+        .ui.label
+            i.remove.link.icon.zoomer.unpick_tag(title='clear tag')
+            |#{this}
     +eft_dropdown
     .ui.icon.left.action.input
         if current_site_search
@@ -230,10 +236,6 @@ template(name='smaba')
         input.search_site(type='text' autocomplete="off" value=current_site_search placeholder='ask loom...')
     +model_dropdown
     // tags
-    each picked_tags
-        .ui.label
-            i.remove.icon
-            |#{this}
             
     // users
     each user_search_results
@@ -292,10 +294,10 @@ template(name='home_card')
                 |!{brief}
             if content
                 |!{content}
-        if link
-            +link_field
-        else if youtube_id
-            // +youtube_view key='youtube_id'
+            if link
+                +link_field
+            if youtube_id
+                +youtube_view key='youtube_id'
 
             img.ui.fluid.image.toggle_fullview.pointer(src="{{c.url image_id width=500 height=500}}")
         .content 
@@ -437,17 +439,21 @@ template(name='model_icon')
         +i name='what-i-do' color='42E8C4' cl='ui inline mini image'
     if _is 'model' 'resource'
         +i name='field-and-tractor' color='42E8C4' cl='ui inline mini image'
-
-      
-      
-        +home_card
-        //should be small_card    
+    // +home_card
+    // //should be small_card    
     
     
 template(name='eft_filter')
-    a.ui.header.item.toggle_item.invert(style="color:##{color}" class=side_item_class)
-        span.glabel #{label}
-        i.icon.gicon(class=icon)
+    .ui.animated.fade.inverted.tertiary.circular.large.button.zoomer.invert.pick_eft(style="color:##{color}")
+        i.large.icon(class=icon)
+        strong #{label}
+        // .visible.content
+        // .hidden.content
+    // a.ui.header.item.toggle_item.invert(style="color:##{color}" class=side_item_class)
+        // span.glabel #{label}
+        
+        // i.icon.gicon(class=icon)
+        
         // if session_is 'expand_leftbar' true
         
         // if is_toggled
