@@ -57,6 +57,7 @@ if Meteor.isClient
     Template.datepicker.events 
         'click .get': (e,t)-> 
             console.log t.picker.getStartDate()
+            console.log t.picker.getEndDate()
             # Template.currentInstance()getStartDate
     Template.loom.helpers
         food_orders: ->
