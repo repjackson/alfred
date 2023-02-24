@@ -72,7 +72,7 @@ if Meteor.isClient
     
 
 if Meteor.isClient
-    Template.alfred.helpers
+    Template.loom.helpers
         is_searching: -> Session.get('current_query')
         # model_filters: -> model_filters.array()
         view_template: -> "#{@model}_view"
@@ -113,13 +113,13 @@ if Meteor.isClient
             Docs.find match,
                 sort:_timestamp:-1
                 limit:5
-    Template.alfred.helpers
+    Template.loom.helpers
         view_latest_class: -> 
             if Session.get('view_latest') then 'large active' else 'compact basic'
         fullview_doc: ->
             if Session.get('fullview_id')
                 Docs.findOne Session.get('fullview_id')
-    Template.alfred.events
+    Template.loom.events
         'click .view_latest': ->
             # trying different view session storage
             current_role = Docs.findOne Meteor.user().current_role_id
@@ -204,7 +204,7 @@ if Meteor.isServer
                 _id: Meteor.user()._doc_id
     
 if Meteor.isClient
-    Template.alfred.onCreated ->
+    Template.loom.onCreated ->
         @autorun => @subscribe 'home_docs',
             Session.get('current_query')
             Session.get('model_filter')

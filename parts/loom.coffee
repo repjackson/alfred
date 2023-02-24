@@ -32,7 +32,7 @@ Docs.before.insert (userId, doc)->
     return
 
 if Meteor.isClient 
-    Template.alfred.helpers
+    Template.loom.helpers
         food_orders: ->
             user = Meteor.users.findOne(username:Router.current().params.username)
             Docs.find
@@ -65,7 +65,7 @@ if Meteor.isClient
     Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
     Template.registerHelper '_author', () -> Meteor.users.findOne @_author_id
 
-    Template.alfred.onCreated ->
+    Template.loom.onCreated ->
         @autorun => @subscribe 'chat', ->
         @autorun => @subscribe 'users', ->
             

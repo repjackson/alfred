@@ -1,5 +1,5 @@
 head
-    title alfred
+    title loom
     meta(name='viewport', content='user-scalable=yes, initial-scale=1.0, maximum-scale=3.0, width=device-width')
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
@@ -38,12 +38,15 @@ head
         gtag('config', 'G-GLYPPRGJFQ');
 
 body 
-    +alfred
+    +loom
     
-template(name='alfred')
+template(name='loom')
     .ui.padded.divided.celled.stackable.center.aligned.grid
         .sixteen.wide.column
             // +quickchat
+            img.ui.tiny.inline.image(src="https://cdn-icons-png.flaticon.com/512/2128/2128771.png")
+            .ui.inline.header loom
+        
             unless session_get 'fullview_id'
                 .ui.center.aligned.column
                     .ui.animated.fade.tertiary.circular.large.center.alligned.zoomer.button.launch_modal.add_doc(style="color:green")
@@ -72,26 +75,26 @@ template(name='alfred')
                         +session_set key='view_mode' value='grid' icon='th' 
                         +session_set key='view_mode' value='list' icon='list'
                         +session_set key='view_mode' value='feed' icon='stream'
-            .scrollin
-                .ui.hidden.divider
-                if session_get 'fullview_id'
-                    .ui.circular.basic.purple.icon.button.clear_fullview 
-                        i.large.remove.icon
-                    with fullview_doc 
-                        .ui.one.cards
-                            +home_card
-                else if session_is 'view_mode' 'list'
-                    .ui.divided.selection.items 
-                        each doc_results 
-                            +home_list_item
-                else if session_is 'view_mode' 'grid'
-                    .ui.three.stackable.cards
-                        each doc_results
-                            +home_card
-                else    
-                    .ui.centered.one.cards.scrolling
-                        each doc_results
-                            +home_card
+        .scrolling.eight.wide.centered.column
+            .ui.hidden.divider
+            if session_get 'fullview_id'
+                .ui.circular.basic.purple.icon.button.clear_fullview 
+                    i.large.remove.icon
+                with fullview_doc 
+                    .ui.one.cards
+                        +home_card
+            else if session_is 'view_mode' 'list'
+                .ui.divided.selection.items 
+                    each doc_results 
+                        +home_list_item
+            else if session_is 'view_mode' 'grid'
+                .ui.three.stackable.cards
+                    each doc_results
+                        +home_card
+            else    
+                .ui.centered.one.cards.scrolling
+                    each doc_results
+                        +home_card
     
 template(name='icon_browser')
     // .ui.header icons
@@ -102,6 +105,41 @@ template(name='icon_browser')
     // .ui.divided.list
     //     each org_task_docs
     //         +task_item_small
+    
+template(name='eft_dropdown')
+    .ui.simple.dropdown.button
+        i.heart.icon
+        i.dropdown.icon 
+        if current_model_filter
+            |#{current_model_filter}
+        .menu
+            +eft_filter color="red" icon='heart' label='care'
+            +eft_filter color="FF73EA" icon='food' label='food'
+                //pink
+            +eft_filter color="B785E1" icon='home' label='housing'
+                //lavender
+            +eft_filter color="6b0fb9" icon='tshirt' label='clothing'
+                //purple
+            +eft_filter color="0000f7" icon='smile' label='wellness'
+                //darkblue
+            +eft_filter color="00ddff" icon='car' label='travel'
+                //lightblue
+            +eft_filter color="00ffc3" icon='dog' label='animals'
+                //turquoise
+            +eft_filter color="148023" icon='leaf' label='plants'
+                //darkgreen
+            +eft_filter color="35ca2d" icon='recycle' label='regen'
+                //brightgreen
+            +eft_filter color="ffff00" icon='lightning' label='energy'
+                //yellow
+            +eft_filter color="ffd000" icon='paint brush' label='art'
+                //gold
+            +eft_filter color="ff6f00" icon='university' label='education'
+                //orange
+            +eft_filter color="FF0000" icon='users' label='community'
+                //red
+            +eft_filter color="000000" icon='ambulance' label='emergency'
+
 
 template(name='model_dropdown')
     .ui.simple.dropdown.button
@@ -146,12 +184,13 @@ template(name='model_dropdown')
 
 
 template(name='smaba')
+    +eft_dropdown
     .ui.icon.left.action.input
         if current_site_search
             i.remove.large.red.link.icon.clear_search.zoomer(title='clear search')
         else
             i.search.large.grey.link.icon.zoomer(title='search')
-        input.search_site(type='text' autocomplete="off" value=current_site_search placeholder='ask alfred...')
+        input.search_site(type='text' autocomplete="off" value=current_site_search placeholder='ask loom...')
     +model_dropdown
     // tags
     each picked_tags
@@ -387,7 +426,7 @@ template(name='filter_model')
                     
                     
 template(name='i')
-    img(src="https://img.icons8.com/office/48/000000/#{name}.png" class='ui inline image' title=title)
+    img(src="https://img.icons8.com/ios/48/000000/#{name}.png" class='ui inline image' title=title)
     
 template(name='session_set')
     .ui.compact.large.circular.button.set_session_value(class=calculated_class)
