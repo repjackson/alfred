@@ -25,6 +25,8 @@ head
     link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
     link(rel="manifest" href="/site.webmanifest")
     // link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
+    script(src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js")
+
 
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.js')
@@ -42,14 +44,16 @@ body
     
     
 template(name='datepicker')
-    .ui.form
-        .two.fields
-            .field
-                label Start date
-                #rangestart.ui.calendar
-                    .ui.input.left.icon
-                        i.calendar.icon
-                        input(type='text' placeholder='Start')
+    .ui.button.get get
+    #datepicker
+    // .ui.form
+    //     .two.fields
+    //         .field
+    //             label Start date
+    //             #rangestart.ui.calendar
+    //                 .ui.input.left.icon
+    //                     i.calendar.icon
+    //                     input(type='text' placeholder='Start')
             // .field
             //     label End date
             //     #rangeend.ui.calendar

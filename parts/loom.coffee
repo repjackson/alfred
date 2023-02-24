@@ -33,16 +33,31 @@ Docs.before.insert (userId, doc)->
 
 if Meteor.isClient 
     Template.datepicker.onRendered ->
-        $('#rangestart').calendar({
-          type: 'date',
-          today:false
-        #   endCalendar: $('#rangeend')
-        });
+        @picker = new easepick.create({
+            element: "#datepicker",
+            css: [
+                "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"
+            ],
+            zIndex: 10,
+            plugins: [
+                "RangePlugin"
+            ]
+            inline: true
+        })
+        console.log @picker
+        # $('#rangestart').calendar({
+        #   type: 'date',
+        #   today:true,
+        # #   endCalendar: $('#rangeend')
+        # });
         # $('#rangeend').calendar({
         #   type: 'date',
         #   startCalendar: $('#rangestart')
         # });
-
+    Template.datepicker.events 
+        'click .get': (e,t)-> 
+            console.log t.picker.getStartDate()
+            # Template.currentInstance()getStartDate
     Template.loom.helpers
         food_orders: ->
             user = Meteor.users.findOne(username:Router.current().params.username)
