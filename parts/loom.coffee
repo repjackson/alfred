@@ -125,7 +125,7 @@ if Meteor.isClient
     Template.model_dropdown.helpers
         current_model_filter: ->
             Session.get('model_filter')
-    Template.smaba.events
+    Template.loom.events
         'click .unpick_tag': (e,t)->
             picked_tags.remove @valueOf()
         'click .clear_search': (e,t)->
@@ -481,7 +481,7 @@ if Meteor.isClient
             #             model_filters:@model
                 
     
-    Template.smaba.onRendered ->
+    Template.loom.onRendered ->
         # categoryContent = [
         #     { category:'eft', title:'food', color:"FF73EA", icon:'food' }
         #     { category:'eft', title:'housing', color:"B785E1", icon:'home' }

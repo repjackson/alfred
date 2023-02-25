@@ -1,0 +1,51 @@
+template(name='comments')
+    if currentUser
+        .ui.fluid.icon.large.input
+            input.add_comment(type='text' placeholder='write a comment')
+    .ui.comments
+        each doc_comments
+            .comment.mark_viewed
+                a.avatar.pointer.zoomer.fly_right(href="/user/#{_author.username}") 
+                    img.ui.avatar.image.zoomer(src="{{c.url _author.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                .ui.popup
+                    a.pointer.zoomer(href="/user/#{_author.username}") 
+                        img.ui.image.zoomer(src="{{c.url _author.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                
+                .content
+                    a.author.zoomer(href="/user/#{_author.username}") 
+                        |#{_author.username}
+                    .text #{body}
+                    .metadata
+                        .date #{when}
+                        if currentUser
+                            +voting_small
+                            if currentUser.admin_mode
+                                +viewing_small
+                                +remove_button
+                    +replys
+
+template(name='replys')
+    if currentUser
+        .ui.fluid.icon.large.input
+            input.add_comment(type='text' placeholder='write a reply')
+    .ui.comments
+        each doc_comments
+            .comment.mark_viewed
+                a.avatar.pointer.zoomer.fly_right(href="/user/#{_author.username}") 
+                    img.ui.avatar.image.zoomer(src="{{c.url _author.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                .ui.popup
+                    a.pointer.zoomer(href="/user/#{_author.username}") 
+                        img.ui.image.zoomer(src="{{c.url _author.image_id width=200 height=200 gravity='face' crop='fill'}}")
+                
+                .content
+                    a.author.zoomer(href="/user/#{_author.username}") 
+                        |#{_author.username}
+                    .text #{body}
+                    .metadata
+                        .date #{when}
+                        if currentUser
+                            +voting_small
+                            if currentUser.admin_mode
+                                +viewing_small
+                                +remove_button
+                                

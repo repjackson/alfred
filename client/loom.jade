@@ -49,59 +49,57 @@ template(name='datepicker')
     
     
 template(name='loom')
+    .ui.attached.menu
+        .item
+            .ui.inline.header
+                img.ui.mini.inline.image(src="https://cdn-icons-png.flaticon.com/512/2128/2128771.png")
+                |loom
+        .item
+            .ui.icon.left.action.input
+                if current_site_search
+                    i.remove.large.red.link.icon.clear_search.zoomer(title='clear search')
+                else
+                    i.search.large.grey.link.icon.zoomer(title='search')
+                input.search_site(type='text' autocomplete="off" value=current_site_search placeholder='ask loom...')
+        // .item
+        +model_dropdown
     .ui.padded.divided.celled.stackable.centered.grid
         .eight.wide.center.aligned.column
             // +quickchat
-            img.ui.mini.inline.image(src="https://cdn-icons-png.flaticon.com/512/2128/2128771.png")
-            .ui.inline.header loom
-        
-            // unless session_get 'fullview_id'
-            // .ui.animated.fade.tertiary.circular.large.center.alligned.zoomer.button.launch_modal.add_doc(style="color:green")
-            //     .visible.content
-            //         // i.big.green.play.dark-mode.icon(class=gicon)
-            //         +i name='play-button-circled--v1' color='40C057' cl='ui image'
-
-            //     .hidden.content
-            //         .ui.massive.header Engage
-            // .ui.search
-            //     .ui.large.icon.input.search_bar
-            //         input.prompt(type='text' placeholder='add/request/search...')
-            //         i.search.icon
-            //     .results
-            // with model_filter_doc
-            //     a.ui.label.unpick_model(title='remove filter')
-            //         i.remove.icon
-            //         |#{this}
-            // each model_filters 
-            //     a.ui.label.unpick_model(title='remove filter')
-            //         i.remove.icon
-            //         |#{this}
-            +smaba
-            // +session_set key='view_mode' value='grid' icon='th' 
-            // +session_set key='view_mode' value='list' icon='list'
-            // +session_set key='view_mode' value='feed' icon='stream'
-            +session_toggle key='view_calendar' label='calendar' icon='calendar'
-            .scrolling
-                // .ui.hidden.divider
-                if session_is 'view_mode' 'list'
-                    .ui.divided.selection.items 
-                        each doc_results 
-                            +home_list_item
-                else if session_is 'view_mode' 'grid'
-                    .ui.three.stackable.cards
-                        each doc_results
-                            +home_card
-                else    
-                    .ui.centered.one.cards
-                        each doc_results
-                            +home_card
+            each picked_tags
+                .ui.label
+                    i.remove.link.icon.zoomer.unpick_tag(title='clear tag')
+                    |#{this}
+            if currentUser
+                +session_set key='view_mode' value='grid' icon='th' 
+                +session_set key='view_mode' value='list' icon='list'
+                +session_set key='view_mode' value='feed' icon='stream'
+                +session_toggle key='view_calendar' label='calendar' icon='calendar'
+                .scrolling
+                    // .ui.hidden.divider
+                    if session_is 'view_mode' 'list'
+                        .ui.divided.selection.items 
+                            each doc_results 
+                                +home_list_item
+                    else if session_is 'view_mode' 'grid'
+                        .ui.three.stackable.cards
+                            each doc_results
+                                +home_card
+                    else    
+                        .ui.centered.one.cards
+                            each doc_results
+                                +home_card
+            else 
+                +login
         if session_get 'fullview_id'
             .scrolling.eight.wide.centered.column
-                .ui.circular.basic.purple.icon.button.clear_fullview 
-                    i.large.remove.icon
+                .ui.circular.basic.fluid.compact.purple.icon.button.clear_fullview 
+                    i.left.chevron.icon
+                .ui.hidden.divider
                 with fullview_doc 
                     .ui.one.cards
                         +home_card
+                    +comments
         else if session_is 'view_calendar'
             .column
                 +datepicker
@@ -125,38 +123,6 @@ template(name='icon_browser')
     //         +task_item_small
     
 template(name='eft_dropdown')
-    .ui.simple.dropdown.button
-        i.heart.icon
-        i.dropdown.icon 
-        if current_model_filter
-            |#{current_model_filter}
-        .menu
-            +eft_filter color="red" icon='heart' label='Care'
-            +eft_filter color="FF73EA" icon='food' label='Food'
-                //pink
-            +eft_filter color="B785E1" icon='home' label='Housing'
-                //lavender
-            +eft_filter color="6b0fb9" icon='tshirt' label='Clothing'
-                //purple
-            +eft_filter color="0000f7" icon='smile' label='Wellness'
-                //darkblue
-            +eft_filter color="00ddff" icon='car' label='Travel'
-                //lightblue
-            +eft_filter color="00ffc3" icon='dog' label='Animals'
-                //turquoise
-            +eft_filter color="148023" icon='leaf' label='Plants'
-                //darkgreen
-            +eft_filter color="35ca2d" icon='recycle' label='Regen'
-                //brightgreen
-            +eft_filter color="ffff00" icon='lightning' label='Energy'
-                //yellow
-            +eft_filter color="ffd000" icon='paint brush' label='Art'
-                //gold
-            +eft_filter color="ff6f00" icon='university' label='Education'
-                //orange
-            +eft_filter color="FF0000" icon='users' label='Community'
-                //red
-            +eft_filter color="000000" icon='ambulance' label='Emergency'
 
 
 template(name='model_dropdown')
@@ -165,7 +131,7 @@ template(name='model_dropdown')
         // i.dropdown.icon 
         if current_model_filter
             |#{current_model_filter}
-        .center.aligned.menu
+        .menu
             // .ui.dropdown-content
             // .item
             +filter_model model='post' icon='for-you' color='1255B8'
@@ -220,37 +186,6 @@ template(name='site_embed')
     //     .content
     iframe.invert(width='100%' height='400px' src=data.link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
 
-
-
-template(name='smaba')
-    each picked_tags
-        .ui.label
-            i.remove.link.icon.zoomer.unpick_tag(title='clear tag')
-            |#{this}
-    +eft_dropdown
-    .ui.icon.left.action.input
-        if current_site_search
-            i.remove.large.red.link.icon.clear_search.zoomer(title='clear search')
-        else
-            i.search.large.grey.link.icon.zoomer(title='search')
-        input.search_site(type='text' autocomplete="off" value=current_site_search placeholder='ask loom...')
-    +model_dropdown
-    // tags
-            
-    // users
-    each user_search_results
-        button.ui.button.goto_doc
-            if image_id
-                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-            |#{username}
-            
-            
-    // doc results       
-    each doc_search_results
-        button.ui.button.goto_doc(title=model)
-            if image_id
-                img.ui.avatar.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-            |{{cut title}}
 
 template(name='home_card')
     a.ui.card.pick_me
@@ -417,9 +352,7 @@ template(name='home_list_item')
                 // +comments
             // if template_exists
             //     +Template.dynamic template=model_template
-      
-      
-      
+            
 template(name='model_icon')
     if _is 'model' 'org' 
         +i name='groups' color='83DFF4' cl='ui inline mini image'
@@ -444,7 +377,7 @@ template(name='model_icon')
     
     
 template(name='eft_filter')
-    .ui.animated.fade.inverted.tertiary.circular.large.button.zoomer.invert.pick_eft(style="color:##{color}")
+    .ui.tertiary.circular.large.button.zoomer.pick_eft(style="color:##{color}")
         i.large.icon(class=icon)
         strong #{label}
         // .visible.content
