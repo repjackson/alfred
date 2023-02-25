@@ -1,4 +1,6 @@
 if Meteor.isClient
+    Template.print_this.events 
+        'click .print': -> console.log @
     Template.comments.onRendered ->
         # Meteor.setTimeout ->
         #     $('.accordion').accordion()
@@ -33,12 +35,9 @@ if Meteor.isClient
                     body:comment
                 t.$('.add_comment').val('')
                 t.$('.add_comment').transition('bounce', 1000)
-
-
         'click .remove_comment': ->
             if confirm 'Confirm remove comment'
-                Docs.remove @_idif Meteor.isClient
-                
+                Docs.remove @_id
                 
     Template.replys.onRendered ->
         # Meteor.setTimeout ->
@@ -55,9 +54,9 @@ if Meteor.isClient
                 parent = Docs.findOne Template.parentData()._id
             if parent
                 Docs.find {
-                    # parent_id:parent._id
-                    parent_ids:$in:[parent._id]
-                    model:'reply'
+                    parent_id:parent._id
+                    # parent_ids:$in:[parent._id]
+                    # model:'reply'
                 }, sort:_timestamp:-1
     Template.replys.events
         'keyup .add_reply': (e,t)->

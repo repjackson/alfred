@@ -22,7 +22,7 @@ template(name='comments')
                             if currentUser.admin_mode
                                 +viewing_small
                                 +remove_button
-                    +replys
+                    // +replys
 
 template(name='replys')
     if currentUser
@@ -48,6 +48,11 @@ template(name='replys')
                             if currentUser.admin_mode
                                 +viewing_small
                                 +remove_button
+             
+template(name='print_this')
+    i.link.circular.code.icon.print
+template(name='author_info')             
+    |#{_author_username}
                                 
 template(name='voting_small')
     if points
@@ -58,3 +63,17 @@ template(name='voting_small')
     i.thumbs.down.link.icon.downvote(class=downvote_class)
     //- each downvoter_ids
     //-     +user_pill
+    
+template(name='voting')
+    .ui.icon.circular.basic.button.upvote(title='upvote')
+        i.thumbs.up.icon(class=upvote_class)
+    //- each upvoter_ids
+    //-     +user_pill
+    .ui.icon.circular.basic.button.downvote(title='downvote')
+        i.thumbs.down.icon(class=downvote_class)
+    //- each downvoter_ids
+    //-     +user_pill
+    if points
+        strong #{points} pts
+    if anon_points
+        strong #{anon_points} anon pts

@@ -82,7 +82,6 @@ if Meteor.isClient
 
     Template.site_embed.onRendered ->
         # $('.accordion').accordion()
-    Template.loom.onCreated ->
             
     
 if Meteor.isServer
@@ -375,20 +374,22 @@ if Meteor.isServer
         result_count = Docs.find(match).count()
         console.log result_count
         Docs.find match,
-            limit:6
+            limit:10
             sort:"#{sort_key}":sort_direction
-            fields:
-                title:1
-                model:1
-                body:1
-                image_id:1
-                views:1
-                points:1
-                link:1
-                parent_id:1
-                efts:1
-                _author_id:1
-                _timestamp:1
+            # fields:
+            #     title:1
+            #     model:1
+            #     body:1
+            #     image_id:1
+            #     views:1
+            #     points:1
+            #     link:1
+            #     tags:1
+            #     parent_id:1
+            #     efts:1
+            #     _author_id:1
+            #     _author_username:1
+            #     _timestamp:1
     
     # Meteor.publish 'post_docs', (
     #     model_filters=[]

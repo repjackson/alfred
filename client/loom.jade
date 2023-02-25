@@ -102,8 +102,7 @@ template(name='loom')
                 .ui.hidden.divider
                 with fullview_doc 
                     .ui.one.cards
-                        +home_card
-                    +comments
+                        +full_view
         else if session_is 'view_calendar'
             .column
                 +datepicker
@@ -221,29 +220,33 @@ template(name='home_card')
             if location
                 |#{datetime}
         // if youtube_id 
-        //     +youtube_view key='youtube_id'
+            +youtube_view key='youtube_id'
         // if link
-        //     .content.smallscroll 
-        //         iframe.invert(width='100%' height='500px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+            .content.smallscroll 
+                iframe.invert(width='100%' height='500px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
 
         .content.smallscroll 
-            if body
+            if body 
+                // - limit to 200 words closed block
                 |{{nl2br body}}
-            if brief
+            else if brief
                 |!{brief}
-            if content
+            else if content
                 |!{content}
             if link
-                +link_field
-            if youtube_id
+                .content.smallscroll 
+                    iframe.invert(width='100%' height='500px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+            else if youtube_id
                 +youtube_view key='youtube_id'
-
-            img.ui.fluid.image.toggle_fullview.pointer(src="{{c.url image_id width=500 height=500}}")
+            else if img
+                img.ui.fluid.image.toggle_fullview.pointer(src="{{c.url image_id width=50 height=50}}")
         .content 
             .description
                 // .ui.header lat: #{lat}
                 // .ui.header lng: #{lng}
                 //     // i.newspaper.large.icon
+                +author_info
+                +print_this
                 if location 
                     .ui.label 
                         i.marker.icon
@@ -252,9 +255,9 @@ template(name='home_card')
                 //     img.ui.image(src="{{c.url _author.image_id width=400 height=400}}")
                     // i.user.icon
                     |#{_author_username}
-                // if tags 
-                //     each seven_tags 
-                //         .ui.basic.label #{this}
+                if tags 
+                    each seven_tags 
+                        .ui.basic.label #{this}
 
                 // +eft_view_item_small
       
@@ -269,7 +272,6 @@ template(name='home_card')
                     //- i.eye.icon
                 //     each viewer_usernames
                 //         .ui.small.inverted.label #{this}
-                // //- +comments
                 div
                 // +eft_viewer_small
                 // if currentUser.admin_mode
@@ -281,8 +283,101 @@ template(name='home_card')
                     +remove_button
             // if template_exists
             //     +Template.dynamic template=model_template
-        // .extra.content
-        //     +comments
+        
+        
+        
+template(name='full_view')
+    .ui.fluid.segment
+        .content 
+            // a.ui.centered.inline.header.zoomer(href="/d/#{model}/#{_id}")
+            if title
+                a.ui.centered.inline.header.zoomer
+                    |#{title}
+            span.left.floated
+                if icon 
+                    +i name=icon color=icon_color
+                a.view_user(title='view profile')
+                    img.ui.avatar.image(src="{{c.url _author.image_id height=200}}" title=_author.username)
+                    |#{_author.username}
+                div
+                // +parent_block
+                // +parent_avatar
+            span.right.floated
+                |#{when}
+                +model_icon
+                if currentUser.admin_mode
+                    if published 
+                        i.green.icon(title='published')
+                    else 
+                        i.yellow.save.icon(title='draft')
+            div
+            if location
+                |#{location}            
+            if location
+                |#{datetime}
+        // if youtube_id 
+            +youtube_view key='youtube_id'
+        // if link
+            .content.smallscroll 
+                iframe.invert(width='100%' height='500px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+
+        .content.smallscrol
+            if body 
+                // - limit to 200 words closed block
+                |{{nl2br body}}
+            else if brief
+                |!{brief}
+            else if content
+                |!{content}
+            if link
+                .content.smallscroll 
+                    iframe.invert(width='100%' height='500px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+            else if youtube_id
+                +youtube_view key='youtube_id'
+            else if img
+                img.ui.fluid.image.toggle_fullview.pointer(src="{{c.url image_id width=50 height=50}}")
+        .content 
+            .description
+                // .ui.header lat: #{lat}
+                // .ui.header lng: #{lng}
+                //     // i.newspaper.large.icon
+                +author_info
+                +print_this
+                if location 
+                    .ui.label 
+                        i.marker.icon
+                        |#{location}
+                // .ui.image.large.label 
+                //     img.ui.image(src="{{c.url _author.image_id width=400 height=400}}")
+                    // i.user.icon
+                    |#{_author_username}
+                if tags 
+                    each seven_tags 
+                        .ui.basic.label #{this}
+
+                // +eft_view_item_small
+      
+            .content
+                .left.floated
+                    // +voting
+                a.right.floated.zoomer.fly_right(href="/d/#{model}/#{_id}")
+                    i.eye.icon
+                    | #{views} views
+                    each viewer_usernames
+                        .ui.small.inverted.label #{this}
+                if _author_id
+                    +author_info
+                div
+                // +eft_viewer_small
+                if currentUser.admin_mode
+                    +print_this
+                    +remove_button
+                each tags 
+                    .ui.small.label #{this}
+            // if template_exists
+            //     +Template.dynamic template=model_template
+        .extra.content
+            +comments
       
 template(name='home_list_item')
     // if _is 'model' 'role'
@@ -321,16 +416,18 @@ template(name='home_list_item')
                 |!{content}
         .content 
             .description
-                // .ui.header lat: #{lat}
-                // .ui.header lng: #{lng}
-                //     // i.newspaper.large.icon
-                // .ui.image.large.label 
-                //     img.ui.image(src="{{c.url _author.image_id width=400 height=400}}")
-                    // i.user.icon
+                .ui.header lat: #{lat}
+                .ui.header lng: #{lng}
+                    // i.newspaper.large.icon
+                .ui.image.large.label 
+                    if image_id
+                        img.ui.image(src="{{c.url _author.image_id width=400 height=400}}")
+                    else 
+                        i.user.icon
                     |#{_author_username}
-                // if tags 
-                //     each seven_tags 
-                //         .ui.basic.label #{this}
+                if tags 
+                    each seven_tags 
+                        .ui.basic.label #{this}
 
                 // +eft_view_item_small
       
@@ -345,7 +442,6 @@ template(name='home_list_item')
                     //- i.eye.icon
                 //     each viewer_usernames
                 //         .ui.small.inverted.label #{this}
-                // //- +comments
                 div
                 // +eft_viewer_small
                 // if currentUser.admin_mode
@@ -353,7 +449,6 @@ template(name='home_list_item')
                 //     +remove_button
                 // each tags 
                 //     .ui.small.label #{this}
-                // +comments
             // if template_exists
             //     +Template.dynamic template=model_template
             
@@ -378,7 +473,6 @@ template(name='model_icon')
         +i name='field-and-tractor' color='42E8C4' cl='ui inline mini image'
     // +home_card
     // //should be small_card    
-    
     
 template(name='eft_filter')
     .ui.tertiary.circular.large.button.zoomer.pick_eft(style="color:##{color}")
@@ -406,7 +500,7 @@ template(name='filter_model')
                     
                     
 template(name='i')
-    img(src="https://img.icons8.com/ios/48/000000/#{name}.png" class='ui inline image' title=title)
+    img(src="https://img.icons8.com/color/48/000000/#{name}.png" class='ui inline image' title=title)
     
 template(name='session_set')
     .ui.compact.large.circular.button.set_session_value(class=calculated_class)

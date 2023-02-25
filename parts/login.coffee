@@ -59,11 +59,11 @@ if Meteor.isClient
     Template.login.helpers
         username: -> Session.get 'username'
         logging_in: -> Session.equals 'enter_mode', 'login'
-        enter_class: ->
-            if Session.get('username').length
-                if Meteor.loggingIn() then 'loading disabled' else ''
-            else
-                'disabled'
+        # enter_class: ->
+        #     if Session.get('username') and Session.get('username').length
+        #         if Meteor.loggingIn() then 'loading disabled' else ''
+        #     else
+        #         'disabled'
         is_logging_in: -> Meteor.loggingIn()
 if Meteor.isClient
     Template.register.onCreated ->
@@ -163,7 +163,7 @@ if Meteor.isClient
             Session.get('username') and Session.get('password').length>2
         username: -> Session.get 'username'
         registering: -> Session.equals 'enter_mode', 'register'
-        enter_class: -> if Meteor.loggingIn() then 'loading disabled' else ''
+        # enter_class: -> if Meteor.loggingIn() then 'loading disabled' else ''
 
 if Meteor.isServer
     Meteor.methods
