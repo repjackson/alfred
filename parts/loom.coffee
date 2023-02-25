@@ -231,7 +231,6 @@ if Meteor.isClient
             Docs.find match,
                 sort:_timestamp:-1
                 limit:5
-    Template.loom.helpers
         view_latest_class: -> 
             if Session.get('view_latest') then 'large active' else 'compact basic'
         fullview_doc: ->
@@ -267,6 +266,7 @@ if Meteor.isClient
                 $set:
                     editing:true
                     _doc_id:new_id
+        'click .logout': -> Meteor.logout()
         'click .clear_fullview': -> 
             Session.set('fullview_id',null)
             $('body').toast('full view cleared')

@@ -63,6 +63,10 @@ template(name='loom')
                 input.search_site(type='text' autocomplete="off" value=current_site_search placeholder='ask loom...')
         // .item
         +model_dropdown
+        .right.menu
+            if currentUser
+                a.item.logout
+                    |logout #{currentUser.username}
     .ui.padded.divided.celled.stackable.centered.grid
         .eight.wide.center.aligned.column
             // +quickchat

@@ -8,7 +8,7 @@ if Meteor.isClient
             Session.set 'username', username
             Meteor.call 'find_username', username, (err,res)->
                 if res
-                    console.log res
+                    # console.log res
                     Session.set('enter_mode', 'login')
 
         'blur .username': ->
