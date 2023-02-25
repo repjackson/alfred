@@ -49,3 +49,12 @@ template(name='replys')
                                 +viewing_small
                                 +remove_button
                                 
+template(name='voting_small')
+    if points
+        strong #{points}
+    i.thumbs.up.link.icon.upvote(class=upvote_class)
+    //- each upvoter_ids
+    //-     +user_pill
+    i.thumbs.down.link.icon.downvote(class=downvote_class)
+    //- each downvoter_ids
+    //-     +user_pill

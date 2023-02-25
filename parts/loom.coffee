@@ -134,9 +134,6 @@ if Meteor.isClient
             
         # 'keyup .search_site': _.throttle((e,t)->
         'keyup .search_site': (e,t)->
-            # console.log Router.current().route.getName()
-            # current_name = Router.current().route.getName()
-            
             # query = $('.search_site').val()
             search = t.$('.search_site').val().trim().toLowerCase()
             if search.length > 2
@@ -150,8 +147,6 @@ if Meteor.isClient
             if e.which is 13
                 $(e.currentTarget).closest('.search_site').transition('pulse', 100)
     
-                # unless current_name is 'shop'
-                #     Router.go '/shop'
                 Session.set('current_query', search)
                 
                 # console.log Session.get('current_query')
@@ -178,7 +173,6 @@ if Meteor.isClient
             #             Meteor.users.update Meteor.userId(),
             #                 $addToSet:
             #                     history_ids:found_result._id
-            #             Router.go "/d/#{found_result.model}/#{found_result._id}"
             #         else 
             #             picked_tags.push search
             #             Meteor.call 'call_icon', search, ->

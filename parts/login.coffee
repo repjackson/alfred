@@ -36,9 +36,6 @@ if Meteor.isClient
                 # else
                     # console.log res
                     # $(e.currentTarget).closest('.grid').transition('fly right', 500)                    
-                    # Meteor.setTimeout ->
-                    #     Router.go "/"
-                    # , 500
 
         'keyup .password, keyup .username': (e,t)->
             if e.which is 13
@@ -57,9 +54,6 @@ if Meteor.isClient
                             $('body').toast({
                                 message: err.reason
                             })
-                        # else
-                        #     # Router.go "/user/#{username}"
-                        #     Router.go "/"
 
 
     Template.login.helpers
@@ -71,31 +65,12 @@ if Meteor.isClient
             else
                 'disabled'
         is_logging_in: -> Meteor.loggingIn()
-        
-        
-        
 if Meteor.isClient
     Template.register.onCreated ->
         Session.setDefault 'email', null
         Session.setDefault 'email_status', 'invalid'
         
     Template.register.events
-        # 'keyup .first_name': ->
-        #     first_name = $('.first_name').val()
-        #     Session.set 'first_name', first_name
-        # 'keyup .last_name': ->
-        #     last_name = $('.last_name').val()
-        #     Session.set 'last_name', last_name
-        # 'keyup .email_field': ->
-        #     email = $('.email_field').val()
-        #     Session.set 'email', email
-        #     Meteor.call 'validate_email', email, (err,res)->
-        #         console.log res
-        #         if res is true
-        #             Session.set 'email_status', 'valid'
-        #         else
-        #             Session.set 'email_status', 'invalid'
-
         'keyup .username': ->
             username = $('.username').val()
             Session.set 'username', username
@@ -124,8 +99,6 @@ if Meteor.isClient
             password = $('.password').val()
             # if Session.equals 'enter_mode', 'register'
             # if confirm "register #{username}?"
-            # Meteor.call 'validate_email', email, (err,res)->
-            #     console.log res
             # options = {
             #     username:username
             #     password:password
@@ -175,9 +148,6 @@ if Meteor.isClient
                             #     Session.set 'message', "#{username} not found"
                             #     Session.set 'enter_mode', 'register'
                             #     Session.set 'username', "#{username}"
-                        # else
-                            # Router.go '/'
-                            # Router.go "/user/#{username}"
                 # else
                 #     Meteor.loginWithPassword username, password, (err,res)=>
                 #         if err
@@ -185,27 +155,15 @@ if Meteor.isClient
                 #                 Session.set 'message', "#{username} not found"
                 #                 Session.set 'enter_mode', 'register'
                 #                 Session.set 'username', "#{username}"
-                #         else
-                #             Router.go '/'
 
 
     Template.register.helpers
         can_register: ->
             # Session.get('first_name') and Session.get('last_name') and Session.get('email_status', 'valid') and Session.get('password').length>3
             Session.get('username') and Session.get('password').length>2
-
-            # Session.get('username')
-
-        # email: -> Session.get 'email'
         username: -> Session.get 'username'
-        # first_name: -> Session.get 'first_name'
-        # last_name: -> Session.get 'last_name'
         registering: -> Session.equals 'enter_mode', 'register'
         enter_class: -> if Meteor.loggingIn() then 'loading disabled' else ''
-        # email_valid: ->
-        #     Session.equals 'email_status', 'valid'
-        # email_invalid: ->
-        #     Session.equals 'email_status', 'invalid'
 
 if Meteor.isServer
     Meteor.methods
@@ -214,20 +172,15 @@ if Meteor.isServer
             console.log result
             result
 
-        # verify_email: (email)->
-        #     (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
-
-
         create_user: (options)->
             console.log 'creating user', options
             Accounts.createUser options
 
         can_submit: ->
             username = Session.get 'username'
-            email = Session.get 'email'
             password = Session.get 'password'
             password2 = Session.get 'password2'
-            if username and email
+            if username
                 if password.length > 0 and password is password2
                     true
                 else
