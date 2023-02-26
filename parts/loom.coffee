@@ -362,7 +362,7 @@ if Meteor.isServer
         # sort_key = "_timestamp"
         sort_direction = -1
         if picked_tags.length > 0
-            match.tags = $in:picked_tagss
+            match.tags = $in:picked_tags
         # if view_latest
         #     sort_key = '_timestamp'
         #     sort_direction = -1
