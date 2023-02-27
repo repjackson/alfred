@@ -25,13 +25,13 @@ head
     link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
     link(rel="manifest" href="/site.webmanifest")
     // link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
-    script(src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js")
+    // script(src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js")
 
 
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.js')
     
-    //- script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-140259454-1')
+    script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-140259454-1')
     script.
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -43,9 +43,9 @@ body
     +loom
     
     
-template(name='datepicker')
-    .get
-        #datepicker
+// template(name='datepicker')
+//     .get
+//         #datepicker
     
     
 template(name='loom')
@@ -75,10 +75,10 @@ template(name='loom')
                     i.remove.link.icon.zoomer.unpick_tag(title='clear tag')
                     |#{this}
             if currentUser
-                +session_set key='view_mode' value='grid' icon='th' 
-                +session_set key='view_mode' value='list' icon='list'
-                +session_set key='view_mode' value='feed' icon='stream'
-                +session_toggle key='view_calendar' label='calendar' icon='calendar'
+                // +session_set key='view_mode' value='grid' icon='th' 
+                // +session_set key='view_mode' value='list' icon='list'
+                // +session_set key='view_mode' value='feed' icon='stream'
+                // +session_toggle key='view_calendar' label='calendar' icon='calendar'
                 .scrolling
                     // .ui.hidden.divider
                     if session_is 'view_mode' 'list'

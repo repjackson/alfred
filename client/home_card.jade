@@ -43,7 +43,7 @@ template(name='home_card')
                 else if content
                     |!{content}
                 if link
-                    iframe.invert(width='90%' height='220px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
+                    iframe.invert.celled(width='90%' height='220px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
                 else if youtube_id
                     +youtube_view key='youtube_id'
                 else if image_id
@@ -89,6 +89,15 @@ template(name='home_card')
                 //     .ui.small.label #{this}
                 if currentUser.admin_mode 
                     +remove_button
+                if is 'model' 'task'
+                    +complete_button
+                    .ui.header task
             // if template_exists
             //     +Template.dynamic template=model_template
         
+
+template(name='complete_button')
+    if complete 
+        .ui.header completed {{from_now complete_timestamp}}
+    .ui.button.mark_complete
+        i.checkmark.icon

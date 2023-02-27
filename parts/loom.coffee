@@ -32,29 +32,29 @@ Docs.before.insert (userId, doc)->
     return
 
 if Meteor.isClient 
-    Template.datepicker.onRendered ->
-        Session.setDefault('view_calendar',true)
-        @picker = new easepick.create({
-            element: "#datepicker",
-            css: [
-                "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"
-            ],
-            zIndex: 10,
-            plugins: [
-                "RangePlugin"
-            ]
-            inline: true
-        })
-        # console.log @picker
-        # $('#rangestart').calendar({
-        #   type: 'date',
-        #   today:true,
-        # #   endCalendar: $('#rangeend')
-        # });
-        # $('#rangeend').calendar({
-        #   type: 'date',
-        #   startCalendar: $('#rangestart')
-        # });
+    # Template.datepicker.onRendered ->
+    #     Session.setDefault('view_calendar',true)
+    #     @picker = new easepick.create({
+    #         element: "#datepicker",
+    #         css: [
+    #             "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css"
+    #         ],
+    #         zIndex: 10,
+    #         plugins: [
+    #             "RangePlugin"
+    #         ]
+    #         inline: true
+    #     })
+    #     # console.log @picker
+    #     # $('#rangestart').calendar({
+    #     #   type: 'date',
+    #     #   today:true,
+    #     # #   endCalendar: $('#rangeend')
+    #     # });
+    #     # $('#rangeend').calendar({
+    #     #   type: 'date',
+    #     #   startCalendar: $('#rangestart')
+    #     # });
     Template.session_toggle.events 
         'click .toggle': ->
             # console.log Session.get("#{@key}"), @key
@@ -64,20 +64,30 @@ if Meteor.isClient
         
     Template.eft_filter.events 
         'click .pick_eft': -> picked_tags.push @label.toLowerCase()
-    Template.datepicker.events 
-        'click .get': (e,t)-> 
-            console.log t.picker.getStartDate()
-            console.log t.picker.getEndDate()
-            # Template.currentInstance()getStartDate
+    # Template.datepicker.events 
+    #     'click .get': (e,t)-> 
+    #         console.log t.picker.getStartDate()
+    #         console.log t.picker.getEndDate()
+    #         # Template.currentInstance()getStartDate
     Template.loom.helpers
         session_is: (key)-> Session.get("#{key}")
 
+    Template.complete_button.events 
+        'click .mark_complete': ->
+            # if confirm 'complete'
+            Docs.update @_id, 
+                $set:
+                    complete:true
+                    complete_timestamp:Date.now()
+                    completed_user_id:Meteor.userId()
 
 if Meteor.isClient
     $.cloudinary.config
         cloud_name:"facet"
     
+    Template.registerHelper 'is', (key,val) -> @["#{key}"] is val
     Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
+    Template.registerHelper '_when', (input) -> moment(input).fromNow()
     Template.registerHelper '_author', () -> Meteor.users.findOne @_author_id
 
     Template.site_embed.onRendered ->
@@ -335,13 +345,13 @@ if Meteor.isClient
             # Session.get('post_title_filter')
 
 if Meteor.isServer
-    Meteor.publish 'home_docs_count', (query_object, sort_object)->
-        # if model 
-        Counts.publish this, 'food_product_counter', 
-            Docs.find({
-                model:'recipe'
-            })
-        return undefined    # otherwise coffeescript returns a Counts.publish
+    # Meteor.publish 'home_docs_count', (query_object, sort_object)->
+    #     # if model 
+    #     Counts.publish this, 'food_product_counter', 
+    #         Docs.find({
+    #             model:'recipe'
+    #         })
+    #     return undefined    # otherwise coffeescript returns a Counts.publish
     
     Meteor.publish 'home_docs', (
         search=null
