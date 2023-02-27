@@ -97,7 +97,10 @@ template(name='home_card')
         
 
 template(name='complete_button')
-    if complete 
-        .ui.header completed {{from_now complete_timestamp}}
-    .ui.button.mark_complete
-        i.checkmark.icon
+    if complete
+        .ui.header completed {{from_now complete_timestamp}} by #{completed_username}
+        .ui.icon.button.mark_incomplete
+            i.undo.icon
+    else 
+        .ui.icon.button.mark_complete
+            i.checkmark.icon

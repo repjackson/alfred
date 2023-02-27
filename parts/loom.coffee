@@ -80,6 +80,15 @@ if Meteor.isClient
                     complete:true
                     complete_timestamp:Date.now()
                     completed_user_id:Meteor.userId()
+                    completed_username:Meteor.user().username
+        'click .mark_incomplete': ->
+            # if confirm 'complete'
+            Docs.update @_id, 
+                $set:
+                    complete:false
+                    complete_timestamp:Date.now()
+                    completed_user_id:Meteor.userId()
+                    completed_username:Meteor.user().username
 
 if Meteor.isClient
     $.cloudinary.config
@@ -87,7 +96,7 @@ if Meteor.isClient
     
     Template.registerHelper 'is', (key,val) -> @["#{key}"] is val
     Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
-    Template.registerHelper '_when', (input) -> moment(input).fromNow()
+    Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
     Template.registerHelper '_author', () -> Meteor.users.findOne @_author_id
 
     Template.site_embed.onRendered ->
