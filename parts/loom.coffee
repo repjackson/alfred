@@ -107,11 +107,14 @@ if Meteor.isServer
     Meteor.methods 
         schema: ->
             # dl = HTTP.get(Meteor.absoluteUrl("/schema.jsonld"))
-            dl = HTTP.get(Meteor.absoluteUrl("/small.json"))
-            # console.log _.keys(dl)
-            console.log dl
-            # for schema in dl.data.["@graph"]
-            #     console.log @id
+            myjson = JSON.parse(Assets.getText("schema.jsonld"));
+
+            # dl = HTTP.get(Meteor.absoluteUrl("/small.json"))
+            # parsed = EJSON.parse(dl.content)
+            # console.log _.keys(myjson)
+            # console.log dl
+            for schema in myjson["@graph"]
+                console.log schema["@id"]
     Cloudinary.config
         cloud_name: 'facet'
         api_key: Meteor.settings.cloudinary_key

@@ -31,3 +31,4 @@ ecmascript@0.16.5
 tmeasday:publish-counts
 http
 reactive-var@1.0.12
+ejson
