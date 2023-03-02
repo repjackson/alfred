@@ -69,6 +69,13 @@ template(name='loom')
                     |logout #{currentUser.username}
     .ui.padded.divided.celled.stackable.centered.grid
         .eight.wide.center.aligned.column
+            .ui.header schemas
+            each model_docs_helper 'schema'
+                +print_this
+                .ui.header 
+                    |#{id}
+                    
+        .eight.wide.center.aligned.column
             // +quickchat
             each picked_tags
                 .ui.label

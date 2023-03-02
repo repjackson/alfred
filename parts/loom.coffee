@@ -368,6 +368,7 @@ if Meteor.isClient
         'click .pick_me': -> Session.set('fullview_id', @_id)
     
     Template.loom.onCreated ->
+        @autorun => @subscribe 'model_docs', 'schema', ->
         @autorun => @subscribe 'home_docs',
             Session.get('current_query')
             picked_tags.array()
@@ -378,6 +379,9 @@ if Meteor.isClient
             # Session.get('post_title_filter')
 
 if Meteor.isServer
+    Meteor.publish 'model_docs', (model)->
+        Docs.find 
+            model:model
     # Meteor.publish 'home_docs_count', (query_object, sort_object)->
     #     # if model 
     #     Counts.publish this, 'food_product_counter', 

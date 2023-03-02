@@ -2,6 +2,9 @@
 # Template.registerHelper 'cal_time', (input)-> moment(input).calendar()
 # # Template.registerHelper 'comma', (input) ->
 # #     input.toLocaleString("en-US")
+Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
+Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
+Template.registerHelper 'model_docs', (model) -> 
 
 Template.registerHelper 'session_get', (key) -> Session.get("#{key}")
 # # Template.registerHelper 'current_user_doc', (user) ->
@@ -69,9 +72,9 @@ Template.registerHelper 'session_get', (key) -> Session.get("#{key}")
 #     Docs.find 
 #         _id:$in:Meteor.user().bookmarked_ids
 
-# Template.registerHelper 'model_docs_helper', (model) ->
-#     Docs.find 
-#         model:model
+Template.registerHelper 'model_docs_helper', (model) ->
+    Docs.find 
+        model:model
 # Template.registerHelper 'subs_ready', () -> 
 #     Template.instance().subscriptionsReady()
 
