@@ -1,7 +1,6 @@
 accounts-base@2.2.6
 accounts-password@2.3.3
 allow-deny@1.1.1
-apollo@4.1.0
 arunoda:streams@0.1.17
 autoupdate@1.8.0
 babel-compiler@7.10.2
@@ -84,8 +83,6 @@ shell-server@0.5.0
 socket-stream-client@0.5.0
 spacebars@1.2.0
 spacebars-compiler@1.2.1
-swydo:blaze-apollo@0.5.0
-swydo:ddp-apollo@4.0.2
 templating@1.4.1
 templating-compiler@1.4.1
 templating-runtime@1.5.0
