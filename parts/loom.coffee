@@ -113,21 +113,21 @@ if Meteor.isServer
             # parsed = EJSON.parse(dl.content)
             # console.log _.keys(myjson)
             # console.log dl
+            Docs.remove({model:'schema'})
             for schema in myjson["@graph"][..1]
                 # console.log schema["@id"]
                 # console.log schema
                 found_local_doc = 
                     Docs.findOne 
                         model:'schema'
-                        id:schema["@id"]
+                        '@id':["@id"]
                 if found_local_doc
                     console.log 'found doc', found_local_doc
                 else
                     console.log 'not found doc', schema['@id']
-                    Docs.insert 
-                        model:'schema'
-                        id:schema["@id"]
-                        schema:schema
+                    schema.model = 'schema'
+                    new_id = Docs.insert schema
+                    console.log Docs.findOne new_id
     Cloudinary.config
         cloud_name: 'facet'
         api_key: Meteor.settings.cloudinary_key

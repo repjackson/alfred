@@ -71,9 +71,10 @@ template(name='loom')
         .eight.wide.center.aligned.column
             .ui.header schemas
             each model_docs_helper 'schema'
-                +print_this
-                .ui.header 
+                .ui.item 
+                    +print_this
                     |#{id}
+                    |#{_id}
                     
         .eight.wide.center.aligned.column
             // +quickchat
