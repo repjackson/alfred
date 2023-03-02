@@ -104,6 +104,9 @@ if Meteor.isClient
             
     
 if Meteor.isServer
+    Meteor.methods 'schema', ->
+        dl = HTTP.get(Meteor.absoluteUrl("/schema.jsonld")).data;
+        console.log dl
     Cloudinary.config
         cloud_name: 'facet'
         api_key: Meteor.settings.cloudinary_key
