@@ -69,8 +69,6 @@ if Meteor.isClient
     #         console.log t.picker.getStartDate()
     #         console.log t.picker.getEndDate()
     #         # Template.currentInstance()getStartDate
-    Template.loom.helpers
-        session_is: (key)-> Session.get("#{key}")
 
     Template.complete_button.events 
         'click .mark_complete': ->
@@ -105,7 +103,7 @@ if Meteor.isClient
     
 if Meteor.isServer
     Meteor.methods 
-        schema: ->
+        get_schemas: ->
             # dl = HTTP.get(Meteor.absoluteUrl("/schema.jsonld"))
             myjson = JSON.parse(Assets.getText("schema.jsonld"));
 
@@ -113,14 +111,14 @@ if Meteor.isServer
             # parsed = EJSON.parse(dl.content)
             # console.log _.keys(myjson)
             # console.log dl
-            Docs.remove({model:'schema'})
-            for schema in myjson["@graph"][..1]
+            # Docs.remove({model:'schema'})
+            for schema in myjson["@graph"][..3]
                 # console.log schema["@id"]
                 # console.log schema
                 found_local_doc = 
                     Docs.findOne 
                         model:'schema'
-                        '@id':["@id"]
+                        '@id':schema["@id"]
                 if found_local_doc
                     console.log 'found doc', found_local_doc
                 else
@@ -233,7 +231,10 @@ if Meteor.isClient
 
 if Meteor.isClient
     Template.loom.helpers
+        session_is: (key)-> Session.get("#{key}")
+        schema_count: -> Docs.find(model:'schema').count()
         name: -> @['rdfs:label']
+        comment: -> @['rdfs:comment']
         is_searching: -> Session.get('current_query')
         # model_filters: -> model_filters.array()
         view_template: -> "#{@model}_view"
@@ -245,7 +246,6 @@ if Meteor.isClient
                 'four wide center aligned column'
             else 
                 'two wide center aligned column'
-                
                 
         # main_column_class: ->
         #     if Session.get('show_map') or Session.get('show_calendar')
@@ -280,6 +280,7 @@ if Meteor.isClient
             if Session.get('fullview_id')
                 Docs.findOne Session.get('fullview_id')
     Template.loom.events
+        'click .reload': -> Meteor.call 'get_schemas', ->
         'click .view_latest': ->
             # trying different view session storage
             current_role = Docs.findOne Meteor.user().current_role_id
