@@ -233,6 +233,7 @@ if Meteor.isClient
 
 if Meteor.isClient
     Template.loom.helpers
+        name: -> @['rdfs:label']
         is_searching: -> Session.get('current_query')
         # model_filters: -> model_filters.array()
         view_template: -> "#{@model}_view"

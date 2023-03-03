@@ -44,9 +44,9 @@ template(name='home_card')
                     |!{content}
                 if link
                     iframe.invert.celled(width='90%' height='220px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
-                else if youtube_id
-                    +youtube_view key='youtube_id'
-                else if image_id
+                // else if youtube_id
+                //     +youtube_view key='youtube_id'
+                if image_id
                     img.ui.fluid.image.toggle_fullview.pointer(src="{{c.url image_id width=50 height=50}}")
         .content 
             .description

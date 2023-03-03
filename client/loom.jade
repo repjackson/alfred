@@ -73,8 +73,8 @@ template(name='loom')
             each model_docs_helper 'schema'
                 .ui.item 
                     +print_this
-                    |#{id}
-                    |#{_id}
+                    // |#{'@id'}
+                    |#{name}
                     
         .eight.wide.center.aligned.column
             // +quickchat
@@ -230,8 +230,8 @@ template(name='home_list_item')
                 |#{location}            
             if location
                 |#{datetime}
-        if youtube_id 
-            +youtube_view key='youtube_id'
+        // if youtube_id 
+        //     +youtube_view key='youtube_id'
         .content 
                 |!{body}
                 |!{brief}
