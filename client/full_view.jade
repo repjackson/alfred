@@ -1,6 +1,7 @@
 template(name='full_view')
     .content 
         // a.ui.centered.inline.header.zoomer(href="/d/#{model}/#{_id}")
+        .ui.header #{model}
         if title
             a.ui.centered.inline.header.zoomer
                 |#{title}
