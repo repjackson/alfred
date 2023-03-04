@@ -30,8 +30,27 @@ Docs.before.insert (userId, doc)->
     # doc.downvoters = []
     # doc.upvoters = []
     return
-
 if Meteor.isClient 
+    Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
+    Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
+    Template.registerHelper 'model_docs', (model) -> 
+    
+    Template.registerHelper 'session_get', (key) -> Session.get("#{key}")
+    Template.registerHelper 'model_docs_helper', (model) ->
+        Docs.find 
+            model:model
+    Template.registerHelper 'picked_tags', ()-> picked_tags.array()
+        
+    Template.registerHelper '_is', (key,value)-> @["#{key}"] is value
+    
+    Template.registerHelper 'parent_schema', ()->
+        Docs.findOne 
+            model:'schema'
+            'rdfs:label':@model
+    Template.registerHelper 'nl2br', (text)->
+        nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
+        new Spacebars.SafeString(nl2br)
+
     # Template.datepicker.onRendered ->
     #     Session.setDefault('view_calendar',true)
     #     @picker = new easepick.create({
@@ -91,11 +110,12 @@ if Meteor.isClient
 if Meteor.isClient
     $.cloudinary.config
         cloud_name:"facet"
-    
     Template.registerHelper 'is', (key,val) -> @["#{key}"] is val
     Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
     Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
     Template.registerHelper '_author', () -> Meteor.users.findOne @_author_id
+    Template.registerHelper 'schema_name', () -> @['rdfs:label']
+    Template.registerHelper 'schema_comment', () -> @['rdfs:comment']
 
     Template.site_embed.onRendered ->
         # $('.accordion').accordion()

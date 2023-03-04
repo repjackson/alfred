@@ -1,36 +1,42 @@
 Meteor.methods 
-#     uncamel: (input)->
-#         # insert a space between lower & upper
-# 		.replace(/([a-z])([A-Z])/g, '$1 $2')
-#         # space before last upper in a sequence followed by lower
-# 		.replace(/\b([A-Z]+)([A-Z])([a-z])/, '$1 $2$3')
-#         # uppercase the first character
-# 		.replace(/^./, (str)->{  str.toUpperCase(); })
-#         }
-
     get_schemas: ->
         # dl = HTTP.get(Meteor.absoluteUrl("/schema.jsonld"))
-        myjson = JSON.parse(Assets.getText("schema.jsonld"));
+        # myjson = JSON.parse(Assets.getText("schema.jsonld"));
 
         # dl = HTTP.get(Meteor.absoluteUrl("/small.json"))
         # parsed = EJSON.parse(dl.content)
         # console.log _.keys(myjson)
         # console.log dl
-        # Docs.remove({model:'schema'})
-        for schema in myjson["@graph"][..100]
-            # console.log schema["@id"]
-            # console.log schema
-            found_local_doc = 
-                Docs.findOne 
-                    model:'schema'
-                    '@id':schema["@id"]
-            if found_local_doc
-                console.log 'found doc', found_local_doc
-            else
-                console.log 'not found doc', schema['@id']
-                schema.model = 'schema'
-                new_id = Docs.insert schema
-                console.log Docs.findOne new_id
+        Docs.remove({model:'schema'})
+        # for doc in myjson["@graph"][..100]
+        #     # console.log schema["@id"]
+        #     # console.log schema
+        #     found_local_doc = 
+        #         Docs.findOne 
+        #             model:'schema'
+        #             id:doc["@id"]
+        #     if found_local_doc
+        #         console.log 'found doc', found_local_doc.id
+            # else
+            #     console.log 'not found doc', schema['@id']
+            #     schema.model = 'schema'
+            #     new_id = Docs.insert 
+            #         model:'schema'
+    #                 # id:@id: 
+    #                 #     @type
+    #                 #     : 
+    #                 #     "rdf:Property"
+    #                 #     model
+    #                 #     : 
+    #                 #     "schema"
+    #                 #     rdfs:comment
+    #                 #     : 
+    #                 #     "The International Standard Musical Work Code for the composition."
+    #                 #     rdfs:label
+    #                 #     : 
+    #                 #     "iswcCode"
+
+    #             console.log Docs.findOne new_id
 Cloudinary.config
     cloud_name: 'facet'
     api_key: Meteor.settings.cloudinary_key

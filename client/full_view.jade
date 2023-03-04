@@ -2,6 +2,10 @@ template(name='full_view')
     .content 
         // a.ui.centered.inline.header.zoomer(href="/d/#{model}/#{_id}")
         .ui.header #{model}
+        with parent_schema
+            .ui.header 
+                +print_this
+                |schema:#{schema_name}
         if title
             a.ui.centered.inline.header.zoomer
                 |#{title}
