@@ -74,13 +74,13 @@ template(name='loom')
                 a.item.logout
                     |logout #{currentUser.username}
     .ui.padded.divided.celled.stackable.centered.grid
-        .eight.wide.center.aligned.column
+        .sixteen.wide.center.aligned.column
             if my_drafts.count
                 .ui.segment
-                    .ui.header 
+                    .ui.inline.header 
                         i.save.icon
                         |drafts
-                    .ui.selection.animated.list 
+                    .ui.selection.animated.horizontal.list 
                         each my_drafts
                             .ui.link.item    
                                 +print_this
@@ -91,11 +91,11 @@ template(name='loom')
                     i.remove.link.icon.zoomer.unpick_tag(title='clear tag')
                     |#{this}
             if currentUser
-                +session_set key='view_mode' value='grid' icon='th' 
-                +session_set key='view_mode' value='list' icon='list'
-                +session_set key='view_mode' value='feed' icon='stream'
-                +session_toggle key='view_calendar' label='calendar' icon='calendar'
-                .scrolling
+                // +session_set key='view_mode' value='grid' icon='th' 
+                // +session_set key='view_mode' value='list' icon='list'
+                // +session_set key='view_mode' value='feed' icon='stream'
+                // +session_toggle key='view_calendar' label='calendar' icon='calendar'
+                .scrollin
                     // .ui.hidden.divider
                     if session_is 'view_mode' 'list'
                         .ui.divided.selection.items 
@@ -106,7 +106,7 @@ template(name='loom')
                             each doc_results
                                 +home_card
                     else    
-                        .ui.centered.one.cards
+                        .ui.centered.cards
                             each doc_results
                                 +home_card
             else 

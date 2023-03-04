@@ -115,9 +115,6 @@ if Meteor.isClient
 
     Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
     Template.registerHelper '_author', () -> Meteor.users.findOne @_author_id
-    Template.registerHelper 'schema_name', () -> @['rdfs:label']
-    Template.registerHelper 'schema_comment', () -> @['rdfs:comment']
-            
     
             
 if Meteor.isClient
@@ -247,7 +244,6 @@ if Meteor.isClient
         fullview_doc: ->
             if Session.get('fullview_id')
                 Docs.findOne Session.get('fullview_id')
-    Template.loom.helpers
     Template.loom.events
         'click .remove_tag': ->
             console.log @
@@ -302,14 +298,14 @@ if Meteor.isClient
         'click .unpick_model': -> 
             # model_filters.remove @valueOf()
             Session.set('model_filter',null)
-        'click .show_modal': (e,t)->
-            Session.set('current_thing_id', @_id)
-            console.log @
-            # $(e.currentTarget).closest('.ui.modal').modal({
-            $('.ui.modal').modal({
-                inverted:true
-                # blurring:true
-                }).modal('show')
+        # 'click .show_modal': (e,t)->
+        #     Session.set('current_thing_id', @_id)
+        #     console.log @
+        #     # $(e.currentTarget).closest('.ui.modal').modal({
+        #     $('.ui.modal').modal({
+        #         inverted:true
+        #         # blurring:true
+        #         }).modal('show')
     # Template.thing_maker.events 
     #     'click .show_modal': ->
     #         $('.ui.modal').modal({
