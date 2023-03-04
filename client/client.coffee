@@ -18,5 +18,5 @@ moment.locale('en', {
     }
 });
 
-$.cloudinary.config
-    cloud_name:"facet"
+# $.cloudinary.config
+#     cloud_name:"facet"

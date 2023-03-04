@@ -14,7 +14,6 @@ mobile-experience@1.1.0
 accounts-base@2.2.6
 accounts-password@2.3.3
 
-lepozepo:cloudinary
 blaze-html-templates
 momentjs:moment
 mquandalle:jade
@@ -23,7 +22,6 @@ coffeescript
 manuel:reactivearray
 meteorhacks:aggregate
 
-dburles:collection-helpers
 shell-server@0.5.0
 tmeasday:publish-counts
 reactive-var@1.0.12
