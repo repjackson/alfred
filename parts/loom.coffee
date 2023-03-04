@@ -360,6 +360,7 @@ if Meteor.isClient
         # $('.tabular.menu .item').tab();
 
     Template.loom.onCreated ->
+        # alert 'hi'
         @autorun => @subscribe 'current_user_doc', ->
         @autorun => @subscribe 'model_docs', 'schema', ->
         @autorun => @subscribe 'my_drafts', ->

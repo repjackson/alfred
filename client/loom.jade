@@ -79,7 +79,7 @@ template(name='loom')
                 .ui.header current doc #{model} 
             .ui.header.reload
                 |#{schema_count} schemas
-            .ui.divided.selection.animated.list
+            .ui.divided.selection.animated.list.smallscroll
                 each model_docs_helper 'schema'
                     .ui.item 
                         +print_this
@@ -94,8 +94,7 @@ template(name='loom')
                     i.left.chevron.icon
                 .ui.hidden.divider
                 with fullview_doc 
-                    .ui.one.cards
-                        +full_view
+                    +full_view
         .eight.wide.center.aligned.column
             // +quickchat
             each picked_tags
