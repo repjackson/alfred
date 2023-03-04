@@ -2,10 +2,13 @@ template(name='full_view')
     .ui.fluid.card
         .content 
             // a.ui.centered.inline.header.zoomer(href="/d/#{model}/#{_id}")
-            .ui.header #{model}
-            if title
-                a.ui.centered.inline.header.zoomer
-                    |#{title}
+            .ui.large.basic.label #{model}
+            if is_editing 
+                +text_edit key='title'
+            else             
+                if title
+                    a.ui.centered.inline.header.zoomer
+                        |#{title}
             span.left.floated
                 if icon 
                     +i name=icon color=icon_color
@@ -46,8 +49,9 @@ template(name='full_view')
                 iframe.invert(width='100%' height='500px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
             // else if youtube_id
             //     +youtube_view key='youtube_id'
-            if image_url
-                img.ui.fluid.image.toggle_fullview.pointer(src=image_url)
+            unless is_editing
+                if image_url
+                    img.ui.fluid.image.toggle_fullview.pointer(src=image_url)
         .content 
             .description
                 // .ui.header lat: #{lat}
@@ -59,38 +63,45 @@ template(name='full_view')
                 //     img.ui.image(src="{{c.url _author.image_id width=400 height=400}}")
                     // i.user.icon
                     |#{_author_username}
-            .content
-                .left.floated
-                    // +voting
-                a.right.floated.zoomer.fly_right(href="/d/#{model}/#{_id}")
-                    i.eye.icon
-                    | #{views} views
-                    each viewer_usernames
-                        .ui.small.inverted.label #{this}
-                if _author_id
-                    +author_info
+        .content
+            .left.floated
+                +voting
+            a.right.floated.zoomer.fly_right(href="/d/#{model}/#{_id}")
+                i.eye.icon
+                | #{views} views
+                each viewer_usernames
+                    .ui.small.inverted.label #{this}
+            if _author_id
+                +author_info
+            div
+            // +eft_viewer_small
+            each tags 
+                .ui.label 
+                    if is_editing
+                        i.remove.link.icon.remove_tag(title='remove tag')
+                    |#{this}
+            if is_editing 
                 div
-                // +eft_viewer_small
-                each tags 
-                    .ui.label 
-                        if is_editing
-                            i.remove.link.icon.remove_tag(title='remove tag')
-                        |#{this}
-                if is_editing 
-                    +text_edit key='title'
-                    +image_edit key='image_id'
-                    .ui.icon.input(title='add tags')
-                        i.tag.icon
-                        input.add_tag(type='text')
-                    +print_this
-                    +remove_button
-                if is_editing 
-                    i.large.circular.green.save.link.icon
-                else 
-                    if can_edit
-                        i.large.circular.blue.pencil.link.icon
-            // if template_exists
-            //     +Template.dynamic template=model_template
+                .ui.icon.input(title='add tags')
+                    i.tag.icon
+                    input.add_tag(type='text' placeholder='add tag')
+            if is_editing 
+                div
+                +image_edit key='image_id'
+                div
+                +print_this
+                +remove_button
+            if is_editing 
+                .ui.basic.green.large.button.save_this
+                    i.green.save.icon
+                    |save
+            else 
+                if can_edit
+                    .ui.basic.blue.large.button.edit_this
+                        i.blue.pencil.link.icon
+                        |edit
+        // if template_exists
+        //     +Template.dynamic template=model_template
         unless is 'published' true
             .ui.big.green.button.publish 
                 i.eye.icon
@@ -100,4 +111,6 @@ template(name='full_view')
     
     
 template(name='remove_button')
-    i.large.remove.red.link.circular.icon.delete(title='delete')
+    .ui.basic.red.button.delete
+        i.remove.red.icon(title='delete')
+        |delete

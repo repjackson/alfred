@@ -228,7 +228,9 @@ Template.image_edit.events
     # "change input[name='upload_image']": (e) ->
     "click .upload_image": (e) ->
         # files = e.currentTarget.files
+        Session.set('loading',true)
         parent = Template.parentData()
+        # myWidget = cloudinary.openUploadWidget({
         myWidget = cloudinary.createUploadWidget({
             cloudName: 'facet', 
             googleApiKey:Meteor.settings.public.custom_search_api
@@ -240,9 +242,8 @@ Template.image_edit.events
                             # "#{@key}":res.public_id
                             image_url:result.info.secure_url
         )
-        
         myWidget.open();
-        
+        Session.set('loading',false)
         # Cloudinary.upload files[0],
         #     # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
         #     # model:"private" # optional: makes the image accessible only via a signed url. The signed url is available publicly for 1 hour.

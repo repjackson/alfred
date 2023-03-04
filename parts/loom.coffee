@@ -51,6 +51,10 @@ if Meteor.isClient
         }
     });
     
+    Template.registerHelper 'field_value', () -> 
+        console.log @
+        parent = Template.parentData()
+        parent["#{@key}"]
     Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
     Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
     Template.registerHelper 'model_docs', (model) -> 
@@ -278,8 +282,8 @@ if Meteor.isClient
                         publish_status:'published'
                         published:true
                         published_timestamp:Date.now()
-        'click .pencil': -> Session.set('editing',true)
-        'click .save': -> Session.set('editing',false)
+        'click .edit_this': -> Session.set('editing',true)
+        'click .save_this': -> Session.set('editing',false)
         'keyup .add_tag': (e,t)->
             if e.which is 13 
                 tag = $('.add_tag').val()
@@ -287,8 +291,13 @@ if Meteor.isClient
                     Docs.update @_id, 
                         $addToSet:tags:tag
                     tag = $('.add_tag').val('')
+        'blur .add_tag': (e,t)->
+            tag = $('.add_tag').val()
+            if tag.length > 1
+                Docs.update @_id, 
+                    $addToSet:tags:tag
+                tag = $('.add_tag').val('')
     Template.loom.events
-        'click .reload': -> Meteor.call 'get_schemas', ->
         'click .view_latest': ->
             # trying different view session storage
             current_role = Docs.findOne Meteor.user().current_role_id

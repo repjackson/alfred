@@ -1,6 +1,6 @@
 if Meteor.isClient
     Template.print_this.events 
-        'click .print': -> console.log @
+        'click .print_me': -> console.log @
     Template.comments.onRendered ->
         # Meteor.setTimeout ->
         #     $('.accordion').accordion()

@@ -55,6 +55,9 @@ template(name='loom')
             .ui.inline.header
                 img.ui.mini.inline.image(src="https://cdn-icons-png.flaticon.com/512/2128/2128771.png")
                 |loom
+                if session_get 'loading'
+                    i.large.yin.yang.loading.icon
+                    |loading...
         .input.item
             .ui.icon.left.action.input
                 if current_site_search

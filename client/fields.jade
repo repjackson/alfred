@@ -313,14 +313,8 @@ template(name='image_edit')
         if icon
             i.icon(class=icon)
         .ui.inline.header
-            if title
-                |#{title}
-            else if label
-                |#{label}
-            else if key
-                |#{key}
-            else
-                |#{this}            
+            i.image.icon 
+            |image
         .field
             if ../image_url
                 with ..
