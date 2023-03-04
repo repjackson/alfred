@@ -111,14 +111,12 @@ if Meteor.isClient
     $.cloudinary.config
         cloud_name:"facet"
     Template.registerHelper 'is', (key,val) -> @["#{key}"] is val
+    Template.registerHelper 'can_edit', () -> @_author_id is Meteor.userId()
     Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
     Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
     Template.registerHelper '_author', () -> Meteor.users.findOne @_author_id
     Template.registerHelper 'schema_name', () -> @['rdfs:label']
     Template.registerHelper 'schema_comment', () -> @['rdfs:comment']
-
-    Template.site_embed.onRendered ->
-        # $('.accordion').accordion()
             
     
             
@@ -128,7 +126,20 @@ if Meteor.isClient
     Template.model_dropdown.helpers
         current_model_filter: ->
             Session.get('model_filter')
+    Template.remove_button.events
+        'click .delete': ->
+            if confirm 'delete'
+                Docs.remove @_id
     Template.loom.events
+        'click .add_new_doc': ->
+            new_id = 
+                Docs.insert 
+                    published:'false'
+                    publish_status:'draft'
+            Meteor.users.update Meteor.userId(),
+                $set:
+                    current_route:'doc_edit'
+                    current_doc_id:new_id
         'click .unpick_tag': (e,t)->
             picked_tags.remove @valueOf()
         'click .clear_search': (e,t)->
@@ -193,16 +204,6 @@ if Meteor.isClient
     
 
 if Meteor.isClient
-    Template.add_schema_doc.events 
-        'click .add_schema_doc': ->
-            console.log @['rdfs:label']
-            new_id = Docs.insert 
-                model:@['rdfs:label']
-                publish_status:'draft'
-            Meteor.users.update Meteor.userId(), 
-                $set:
-                    current_doc_id:new_id
-                
     Template.loom.helpers
         my_drafts:->
             Docs.find 
@@ -214,30 +215,12 @@ if Meteor.isClient
                     
         session_is: (key)-> Session.get("#{key}")
         schema_count: -> Docs.find(model:'schema').count()
-        name: -> @['rdfs:label']
-        comment: -> @['rdfs:comment']
         is_searching: -> Session.get('current_query')
         # model_filters: -> model_filters.array()
         view_template: -> "#{@model}_view"
         edit_template: -> "#{@model}_edit"
         current_viewing_thing: ->
             Docs.findOne Session.get('current_thing_id')
-        left_column_class: ->
-            if Session.get('expand_leftbar')
-                'four wide center aligned column'
-            else 
-                'two wide center aligned column'
-                
-        # main_column_class: ->
-        #     if Session.get('show_map') or Session.get('show_calendar')
-        #         'eight wide column'
-        #     else 
-        #         'twelve wide column'
-        # right_column_class: ->
-        #     if Session.get('show_map') or Session.get('show_calendar')
-        #         'four wide column'
-        #     else 
-        #         'no_show'
                 
         doc_results: ->
             # Docs.find {model:$ne:'comment'},
@@ -381,8 +364,9 @@ if Meteor.isClient
 
     Template.loom.onCreated ->
         # alert 'hi'
+        @autorun => @subscribe 'me', ->
+        @autorun => @subscribe 'users', ->
         @autorun => @subscribe 'current_user_doc', ->
-        @autorun => @subscribe 'model_docs', 'schema', ->
         @autorun => @subscribe 'my_drafts', ->
         # @autorun => @subscribe 'home_docs',
         #     Session.get('current_query')

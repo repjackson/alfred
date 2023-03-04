@@ -63,20 +63,27 @@ template(name='loom')
                 input.search_site(type='text' autocomplete="off" value=current_site_search placeholder='ask loom...')
         // .item
         +model_dropdown
+        if currentUser
+            a.item.add_new_doc
+                i.plus.icon
         .right.menu
             if currentUser
                 a.item.logout
                     |logout #{currentUser.username}
     .ui.padded.divided.celled.stackable.centered.grid
+        if currentUser.current_route
+            with current_user_doc
+                .ui.header editing doc #{_id}
         .eight.wide.center.aligned.column
             .ui.segment
                 .ui.header 
                     i.save.icon
                     |drafts
-                each my_drafts
-                    .ui.item    
-                        +print_this
-                        .inline.header.pick_me #{model} #{_when}
+                .ui.selection.animated.list 
+                    each my_drafts
+                        .ui.link.item    
+                            +print_this
+                            a.inline.header.pick_me #{model} #{_when}
             with current_doc 
                 .ui.header current doc #{model} 
             .ui.header.reload
@@ -154,7 +161,7 @@ template(name='eft_dropdown')
 
 
 template(name='model_dropdown')
-    .ui.simple.dropdown.button
+    .ui.simple.dropdown.button.item
         i.database.icon
         // i.dropdown.icon 
         if current_model_filter
@@ -330,7 +337,7 @@ template(name='eft_filter')
         //     i.large.checkmark.icon
 
 template(name='filter_model')
-    .item.inverted.pick_model.zoomer(class=button_class)
+    .item.pick_model.zoomer(class=button_class)
         // .item.pick_model.zoomer(class=button_class)
         // +i name=icon color=color cl="ui mini inline image"
         +i name=icon color=color cl="model_item_icon ui inline image"

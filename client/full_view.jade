@@ -2,10 +2,6 @@ template(name='full_view')
     .content 
         // a.ui.centered.inline.header.zoomer(href="/d/#{model}/#{_id}")
         .ui.header #{model}
-        with parent_schema
-            .ui.header 
-                +print_this
-                |schema:#{schema_name}
         if title
             a.ui.centered.inline.header.zoomer
                 |#{title}
@@ -84,12 +80,20 @@ template(name='full_view')
                 +author_info
             div
             // +eft_viewer_small
-            if currentUser.admin_mode
-                +print_this
-                +remove_button
             each tags 
                 .ui.small.label #{this}
+            if can_edit 
+                .ui.icon.input(title='add tags')
+                    i.tag.icon
+                    input(type='text')
+                +print_this
+                +remove_button
         // if template_exists
         //     +Template.dynamic template=model_template
     .extra.content
         +comments
+
+
+
+template(name='remove_button')
+    i.large.remove.red.link.circular.icon.delete(title='delete')
