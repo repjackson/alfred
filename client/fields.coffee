@@ -234,6 +234,10 @@ Template.image_edit.events
             uploadPreset: 'loompreset'}, (error, result) =>
                 if not error and result and result.event is "success"
                     console.log('Done! Here is the image info: ', result.info); 
+                    Docs.update parent._id,
+                        $set:
+                            # "#{@key}":res.public_id
+                            image_url:result.info.secure_url
         )
         
         myWidget.open();
@@ -247,8 +251,6 @@ Template.image_edit.events
         #         else
         #             doc = Docs.findOne parent._id
         #             if doc
-        #                 Docs.update parent._id,
-        #                     $set:"#{@key}":res.public_id
         #             else 
         #                 Meteor.users.update parent._id,
         #                     $set:"#{@key}":res.public_id

@@ -322,15 +322,19 @@ template(name='image_edit')
             else
                 |#{this}            
         .field
-            if field_value
-                //- label Image
-                a(href="{{c.url field_value }}" target='_window')
-                    img.ui.centered.fluid.rounded.image(src="{{c.url field_value height=500 gravity='face' crop='fill'}}" class=cl)
-                a#remove_photo.ui.right.corner.link.basic.label
-                    i.remove.link.icon
-                // .ui.button.call_cloud_visual
-                //     i.dna.icon
-                //     |autotag
+            if ../image_url
+                with ..
+                    img.ui.centered.fluid.rounded.image(src=image_url)
+                    
+                // if field_value
+                //     //- label Image
+                //     a(href="{{c.url field_value }}" target='_window')
+                //         img.ui.centered.fluid.rounded.image(src="{{c.url field_value height=500 gravity='face' crop='fill'}}" class=cl)
+                //     a#remove_photo.ui.right.corner.link.basic.label
+                //         i.remove.link.icon
+                //     // .ui.button.call_cloud_visual
+                //     //     i.dna.icon
+                //     //     |autotag
             else
                 .ui.big.button.upload_image 
                     |upload
