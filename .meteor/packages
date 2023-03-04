@@ -27,3 +27,5 @@ tmeasday:publish-counts
 reactive-var@1.0.12
 check
 matb33:collection-hooks
+hot-module-replacement
+standard-minifier-css
