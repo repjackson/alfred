@@ -71,24 +71,26 @@ template(name='full_view')
             div
             // +eft_viewer_small
             each tags 
-                +tag
-            if can_edit 
+                .ui.label 
+                    if is_editing
+                        i.remove.link.icon.remove_tag(title='remove tag')
+                    |#{this}
+            if is_editing 
                 .ui.icon.input(title='add tags')
                     i.tag.icon
                     input.add_tag(type='text')
                 +print_this
                 +remove_button
+            if is_editing 
+                i.large.circular.green.save.link.icon
+            else 
+                if can_edit
+                    i.large.circular.blue.pencil.link.icon
         // if template_exists
         //     +Template.dynamic template=model_template
     .extra.content
         +comments
 
-template(name='tag')
-    .ui.label 
-        with ..
-            if can_edit 
-                i.remove.link.icon(title='remove tag')
-        |#{this}
 
 template(name='remove_button')
     i.large.remove.red.link.circular.icon.delete(title='delete')

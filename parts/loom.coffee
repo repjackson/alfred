@@ -113,6 +113,8 @@ if Meteor.isClient
     Template.registerHelper 'is', (key,val) -> @["#{key}"] is val
     Template.registerHelper 'can_edit', () -> @_author_id is Meteor.userId()
     Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
+    Template.registerHelper 'is_editing', () -> Session.equals('editing',true)
+
     Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
     Template.registerHelper '_author', () -> Meteor.users.findOne @_author_id
     Template.registerHelper 'schema_name', () -> @['rdfs:label']
@@ -214,14 +216,18 @@ if Meteor.isClient
                 Docs.findOne Meteor.user().current_doc_id
                     
         session_is: (key)-> Session.get("#{key}")
-        schema_count: -> Docs.find(model:'schema').count()
+        # schema_count: -> Docs.find(model:'schema').count()
         is_searching: -> Session.get('current_query')
         # model_filters: -> model_filters.array()
         view_template: -> "#{@model}_view"
         edit_template: -> "#{@model}_edit"
         current_viewing_thing: ->
             Docs.findOne Session.get('current_thing_id')
-                
+        is_editing: -> Session.equals('editing',true)
+        can_edit_this: ->
+            if Session.get('fullview_id')
+                cd = Docs.findOne Session.get('fullview_id')
+                cd._author_id is Meteor.userId()
         doc_results: ->
             # Docs.find {model:$ne:'comment'},
             match = {}
@@ -243,13 +249,16 @@ if Meteor.isClient
         fullview_doc: ->
             if Session.get('fullview_id')
                 Docs.findOne Session.get('fullview_id')
-    Template.tag.events
-        'click .remove': ->
+    Template.loom.helpers
+    Template.loom.events
+        'click .remove_tag': ->
             console.log @
-            # Docs.update @_id, 
-            #     $pull:tags:valueOf()
-            # tag = $('.add_tag').val(@value)
+            Docs.update Session.get('fullview_id'), 
+                $pull:tags:@valueOf()
+            tag = $('.add_tag').val(@valueOf())
     Template.full_view.events
+        'click .pencil': -> Session.set('editing',true)
+        'click .save': -> Session.set('editing',false)
         'keyup .add_tag': (e,t)->
             if e.which is 13 
                 tag = $('.add_tag').val()

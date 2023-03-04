@@ -71,9 +71,6 @@ template(name='loom')
                 a.item.logout
                     |logout #{currentUser.username}
     .ui.padded.divided.celled.stackable.centered.grid
-        if currentUser.current_route
-            with current_user_doc
-                .ui.header editing doc #{_id}
         .eight.wide.center.aligned.column
             .ui.segment
                 .ui.header 
@@ -84,19 +81,6 @@ template(name='loom')
                         .ui.link.item    
                             +print_this
                             a.inline.header.pick_me #{model} #{_when}
-            with current_doc 
-                .ui.header current doc #{model} 
-            .ui.header.reload
-                |#{schema_count} schemas
-            .ui.divided.selection.animated.list.smallscroll
-                each model_docs_helper 'schema'
-                    .ui.item 
-                        +print_this
-                        // |#{'@id'}
-                        .inline.header #{schema_name}
-                        .content #{schema_comment}
-                        +add_schema_doc
-                    
         if session_get 'fullview_id'
             .scrolling.eight.wide.centered.column
                 .ui.circular.basic.fluid.compact.purple.icon.button.clear_fullview 
