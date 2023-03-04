@@ -243,6 +243,20 @@ if Meteor.isClient
         fullview_doc: ->
             if Session.get('fullview_id')
                 Docs.findOne Session.get('fullview_id')
+    Template.tag.events
+        'click .remove': ->
+            console.log @
+            # Docs.update @_id, 
+            #     $pull:tags:valueOf()
+            # tag = $('.add_tag').val(@value)
+    Template.full_view.events
+        'keyup .add_tag': (e,t)->
+            if e.which is 13 
+                tag = $('.add_tag').val()
+                if tag.length > 1
+                    Docs.update @_id, 
+                        $addToSet:tags:tag
+                    tag = $('.add_tag').val('')
     Template.loom.events
         'click .reload': -> Meteor.call 'get_schemas', ->
         'click .view_latest': ->

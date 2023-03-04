@@ -54,20 +54,10 @@ template(name='full_view')
             //     // i.newspaper.large.icon
             +author_info
             +print_this
-            if location 
-                .ui.label 
-                    i.marker.icon
-                    |#{location}
             // .ui.image.large.label 
             //     img.ui.image(src="{{c.url _author.image_id width=400 height=400}}")
                 // i.user.icon
                 |#{_author_username}
-            if tags 
-                each seven_tags 
-                    .ui.basic.label #{this}
-
-            // +eft_view_item_small
-  
         .content
             .left.floated
                 // +voting
@@ -81,11 +71,11 @@ template(name='full_view')
             div
             // +eft_viewer_small
             each tags 
-                .ui.small.label #{this}
+                +tag
             if can_edit 
                 .ui.icon.input(title='add tags')
                     i.tag.icon
-                    input(type='text')
+                    input.add_tag(type='text')
                 +print_this
                 +remove_button
         // if template_exists
@@ -93,7 +83,12 @@ template(name='full_view')
     .extra.content
         +comments
 
-
+template(name='tag')
+    .ui.label 
+        with ..
+            if can_edit 
+                i.remove.link.icon(title='remove tag')
+        |#{this}
 
 template(name='remove_button')
     i.large.remove.red.link.circular.icon.delete(title='delete')
