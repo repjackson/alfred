@@ -1,14 +1,14 @@
 {
-    "name": "gchat",
-    "short_name": "gchat",
+    "name": "loom",
+    "short_name": "loom",
     "icons": [
         {
-            "src": "/android-chrome-96x96.png",
+            "src": "/logo.png",
             "sizes": "96x96",
             "type": "image/png"
         }
     ],
     "theme_color": "#000000",
-    "background_color": "blue",
+    "background_color": "black",
     "display": "fullscreen"
 }

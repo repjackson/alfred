@@ -90,7 +90,9 @@ Meteor.publish 'home_docs', (
     if model_filter
         match.model = model_filter
     else 
-        match.model = $in:essentials
+        # match.model = $in:essentials
+        match.model = $ne:'comment'
+        
     # console.log 'home match', match, model_filter
     result_count = Docs.find(match).count()
     console.log result_count

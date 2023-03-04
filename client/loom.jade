@@ -1,6 +1,6 @@
 head
     title loom
-    meta(name='viewport', content='user-scalable=yes, initial-scale=1.0, maximum-scale=3.0, width=device-width')
+    meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
     
@@ -9,8 +9,8 @@ head
     link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
 
     link(rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5")
-    meta(name="apple-mobile-web-app-title" content="gratigen")
-    meta(name="application-name" content="gratigen")
+    meta(name="apple-mobile-web-app-title" content="loom")
+    meta(name="application-name" content="loom")
     meta(name="msapplication-TileColor" content="#da532c")
     meta(name="theme-color" content="#000000")
     
@@ -50,7 +50,7 @@ body
     
     
 template(name='loom')
-    .ui.attached.menu
+    .ui.attached.menu.hscroll
         .item
             .ui.inline.header
                 img.ui.mini.inline.image(src="https://cdn-icons-png.flaticon.com/512/2128/2128771.png")
@@ -96,8 +96,14 @@ template(name='loom')
                 // +session_set key='view_mode' value='feed' icon='stream'
                 // +session_toggle key='view_calendar' label='calendar' icon='calendar'
                 .scrollin
-                    // .ui.hidden.divider
-                    if session_is 'view_mode' 'list'
+                    if session_get 'fullview_id'
+                        .scrollin.eight.wide.centered.column
+                            .ui.circular.basic.fluid.purple.icon.button.clear_fullview 
+                                i.left.chevron.icon
+                            .ui.hidden.divider
+                            with fullview_doc 
+                                +full_view
+                    else if session_is 'view_mode' 'list'
                         .ui.divided.selection.items 
                             each doc_results 
                                 +home_list_item
@@ -111,17 +117,6 @@ template(name='loom')
                                 +home_card
             else 
                 +login
-        if session_get 'fullview_id'
-            .scrollin.eight.wide.centered.column
-                .ui.circular.basic.fluid.purple.icon.button.clear_fullview 
-                    i.left.chevron.icon
-                .ui.hidden.divider
-                with fullview_doc 
-                    +full_view
-        // else if session_is 'view_calendar'
-        //     .column
-        //         +datepicker
-        //         // .scrolling.eight.wide.centered.column
             
     
 template(name='add_schema_doc')
