@@ -17,18 +17,14 @@ accounts-password@2.3.3
 lepozepo:cloudinary
 blaze-html-templates
 momentjs:moment
-matb33:collection-hooks
 mquandalle:jade
 underscore@1.0.11
 coffeescript
-check 
 manuel:reactivearray
 meteorhacks:aggregate
 
 dburles:collection-helpers
 shell-server@0.5.0
-ecmascript@0.16.5
 tmeasday:publish-counts
-http
 reactive-var@1.0.12
-ejson
+check

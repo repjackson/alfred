@@ -76,6 +76,8 @@ template(name='full_view')
                         i.remove.link.icon.remove_tag(title='remove tag')
                     |#{this}
             if is_editing 
+                +text_edit key='title'
+                +image_edit key='image_id'
                 .ui.icon.input(title='add tags')
                     i.tag.icon
                     input.add_tag(type='text')

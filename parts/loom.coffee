@@ -1,35 +1,35 @@
 @Docs = new Meteor.Collection 'docs'
 
-Docs.before.insert (userId, doc)->
-    if Meteor.userId()
-        doc._author_id = Meteor.userId()
-        doc._author_username = Meteor.user().username
-    timestamp = Date.now()
-    doc._timestamp = timestamp
-    doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
-    date = moment(timestamp).format('Do')
-    weekdaynum = moment(timestamp).isoWeekday()
-    weekday = moment().isoWeekday(weekdaynum).format('dddd')
+# Docs.before.insert (userId, doc)->
+#     if Meteor.userId()
+#         doc._author_id = Meteor.userId()
+#         doc._author_username = Meteor.user().username
+#     timestamp = Date.now()
+#     doc._timestamp = timestamp
+#     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
+#     date = moment(timestamp).format('Do')
+#     weekdaynum = moment(timestamp).isoWeekday()
+#     weekday = moment().isoWeekday(weekdaynum).format('dddd')
 
-    hour = moment(timestamp).format('h')
-    minute = moment(timestamp).format('m')
-    ap = moment(timestamp).format('a')
-    month = moment(timestamp).format('MMMM')
-    year = moment(timestamp).format('YYYY')
+#     hour = moment(timestamp).format('h')
+#     minute = moment(timestamp).format('m')
+#     ap = moment(timestamp).format('a')
+#     month = moment(timestamp).format('MMMM')
+#     year = moment(timestamp).format('YYYY')
 
-    # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
-    date_array = [ap, weekday, month, date, year]
-    if _
-        date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
-        # date_array = _.each(date_array, (el)-> console.log(typeof el))
-        # console.log date_array
-        doc._timestamp_tags = date_array
+#     # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
+#     date_array = [ap, weekday, month, date, year]
+#     if _
+#         date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
+#         # date_array = _.each(date_array, (el)-> console.log(typeof el))
+#         # console.log date_array
+#         doc._timestamp_tags = date_array
 
-    # doc.app = 'nf'
-    # doc.points = 0
-    # doc.downvoters = []
-    # doc.upvoters = []
-    return
+#     # doc.app = 'nf'
+#     # doc.points = 0
+#     # doc.downvoters = []
+#     # doc.upvoters = []
+#     return
 if Meteor.isClient 
     Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
     Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
@@ -108,8 +108,6 @@ if Meteor.isClient
                     completed_username:Meteor.user().username
 
 if Meteor.isClient
-    $.cloudinary.config
-        cloud_name:"facet"
     Template.registerHelper 'is', (key,val) -> @["#{key}"] is val
     Template.registerHelper 'can_edit', () -> @_author_id is Meteor.userId()
     Template.registerHelper '_when', () -> moment(@_timestamp).fromNow()
@@ -300,7 +298,7 @@ if Meteor.isClient
         'click .logout': -> Meteor.logout()
         'click .clear_fullview': -> 
             Session.set('fullview_id',null)
-            $('body').toast('full view cleared')
+            # $('body').toast('full view cleared')
         'click .unpick_model': -> 
             # model_filters.remove @valueOf()
             Session.set('model_filter',null)
@@ -350,7 +348,10 @@ if Meteor.isClient
     Template.loom.events 
         'click .pick_me': -> Session.set('fullview_id', @_id)
     Template.home_card.events 
-        'click .pick_me': -> Session.set('fullview_id', @_id)
+        'click .pick_me': -> 
+            Session.set('fullview_id', @_id)
+            Docs.update @_id, 
+                $inc:views:1
     Template.loom.onRendered ->
         # categoryContent = [
         #     { category:'eft', title:'food', color:"FF73EA", icon:'food' }
@@ -391,14 +392,14 @@ if Meteor.isClient
         @autorun => @subscribe 'users', ->
         @autorun => @subscribe 'current_user_doc', ->
         @autorun => @subscribe 'my_drafts', ->
-        # @autorun => @subscribe 'home_docs',
-        #     Session.get('current_query')
-        #     picked_tags.array()
-        #     Session.get('model_filter')
-        #     # model_filters.array()
-        #     picked_tags.array()
-        #     Session.get('view_latest')
-        #     # Session.get('post_title_filter')
+        @autorun => @subscribe 'home_docs',
+            Session.get('current_query')
+            picked_tags.array()
+            Session.get('model_filter')
+            # model_filters.array()
+            picked_tags.array()
+            Session.get('view_latest')
+            # Session.get('post_title_filter')
 
     
 if Meteor.isClient    

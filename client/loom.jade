@@ -68,53 +68,55 @@ template(name='loom')
                 i.plus.icon
         .right.menu
             if currentUser
+                a.item(title='points')
+                    |#{currentUser.points}p
                 a.item.logout
                     |logout #{currentUser.username}
     .ui.padded.divided.celled.stackable.centered.grid
         .eight.wide.center.aligned.column
-            .ui.segment
-                .ui.header 
-                    i.save.icon
-                    |drafts
-                .ui.selection.animated.list 
-                    each my_drafts
-                        .ui.link.item    
-                            +print_this
-                            a.inline.header.pick_me #{model} #{_when}
-        if session_get 'fullview_id'
-            .scrolling.eight.wide.centered.column
-                .ui.circular.basic.fluid.compact.purple.icon.button.clear_fullview 
-                    i.left.chevron.icon
-                .ui.hidden.divider
-                with fullview_doc 
-                    +full_view
-        .eight.wide.center.aligned.column
+            if my_drafts.count
+                .ui.segment
+                    .ui.header 
+                        i.save.icon
+                        |drafts
+                    .ui.selection.animated.list 
+                        each my_drafts
+                            .ui.link.item    
+                                +print_this
+                                a.inline.header.pick_me #{model} #{_when}
             // +quickchat
             each picked_tags
                 .ui.label
                     i.remove.link.icon.zoomer.unpick_tag(title='clear tag')
                     |#{this}
             if currentUser
-                // +session_set key='view_mode' value='grid' icon='th' 
-                // +session_set key='view_mode' value='list' icon='list'
-                // +session_set key='view_mode' value='feed' icon='stream'
-                // +session_toggle key='view_calendar' label='calendar' icon='calendar'
-                // .scrolling
-                //     // .ui.hidden.divider
-                //     if session_is 'view_mode' 'list'
-                //         .ui.divided.selection.items 
-                //             each doc_results 
-                //                 +home_list_item
-                //     else if session_is 'view_mode' 'grid'
-                //         .ui.three.stackable.cards
-                //             each doc_results
-                //                 +home_card
-                //     else    
-                //         .ui.centered.one.cards
-                //             each doc_results
-                //                 +home_card
+                +session_set key='view_mode' value='grid' icon='th' 
+                +session_set key='view_mode' value='list' icon='list'
+                +session_set key='view_mode' value='feed' icon='stream'
+                +session_toggle key='view_calendar' label='calendar' icon='calendar'
+                .scrolling
+                    // .ui.hidden.divider
+                    if session_is 'view_mode' 'list'
+                        .ui.divided.selection.items 
+                            each doc_results 
+                                +home_list_item
+                    else if session_is 'view_mode' 'grid'
+                        .ui.three.stackable.cards
+                            each doc_results
+                                +home_card
+                    else    
+                        .ui.centered.one.cards
+                            each doc_results
+                                +home_card
             else 
                 +login
+        if session_get 'fullview_id'
+            .scrollin.eight.wide.centered.column
+                .ui.circular.basic.fluid.purple.icon.button.clear_fullview 
+                    i.left.chevron.icon
+                .ui.hidden.divider
+                with fullview_doc 
+                    +full_view
         // else if session_is 'view_calendar'
         //     .column
         //         +datepicker
@@ -329,8 +331,6 @@ template(name='filter_model')
         |#{model}
                     
                     
-template(name='i')
-    img(src="https://img.icons8.com/color/48/000000/#{name}.png" class='ui inline image' title=title)
     
 template(name='session_set')
     .ui.compact.large.circular.button.set_session_value(class=calculated_class)
