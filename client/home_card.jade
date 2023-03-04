@@ -55,10 +55,6 @@ template(name='home_card')
                 //     // i.newspaper.large.icon
                 // +author_info
                 // +print_this
-                if location 
-                    .ui.label 
-                        i.marker.icon
-                        |#{location}
                 // .ui.image.large.label 
                 //     img.ui.image(src="{{c.url _author.image_id width=400 height=400}}")
                     // i.user.icon
@@ -71,7 +67,11 @@ template(name='home_card')
       
             .content
                 .left.floated
-                    +voting
+                    unless can_edit
+                        +voting
+                    else 
+                        if points
+                            |#{points}pts
                 a.right.floated.zoomer.fly_right(href="/d/#{model}/#{_id}")
                     | #{views} views
                 // if _author_id
@@ -85,8 +85,8 @@ template(name='home_card')
                 // if currentUser.admin_mode
                 //     +print_this
                 //     +remove_button
-                // each tags 
-                //     .ui.small.label #{this}
+                each tags 
+                    .ui.small.label #{this}
                 +give_button
                 if is 'model' 'task'
                     +complete_button

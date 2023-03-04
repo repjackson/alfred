@@ -97,7 +97,7 @@ Meteor.publish 'home_docs', (
     result_count = Docs.find(match).count()
     console.log result_count
     Docs.find match,
-        limit:10
+        limit:20
         sort:"#{sort_key}":sort_direction
         # fields:
         #     title:1

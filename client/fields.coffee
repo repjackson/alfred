@@ -231,6 +231,7 @@ Template.image_edit.events
         parent = Template.parentData()
         myWidget = cloudinary.createUploadWidget({
             cloudName: 'facet', 
+            googleApiKey:Meteor.settings.custom_search_api
             uploadPreset: 'loompreset'}, (error, result) =>
                 if not error and result and result.event is "success"
                     console.log('Done! Here is the image info: ', result.info); 

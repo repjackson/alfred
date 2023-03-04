@@ -55,7 +55,7 @@ template(name='loom')
             .ui.inline.header
                 img.ui.mini.inline.image(src="https://cdn-icons-png.flaticon.com/512/2128/2128771.png")
                 |loom
-        .item
+        .input.item
             .ui.icon.left.action.input
                 if current_site_search
                     i.remove.large.red.link.icon.clear_search.zoomer(title='clear search')
@@ -63,14 +63,15 @@ template(name='loom')
                     i.search.large.grey.link.icon.zoomer(title='search')
                 input.search_site(type='text' autocomplete="off" value=current_site_search placeholder='ask loom...')
         // .item
-        +model_dropdown
-        if currentUser
-            a.item.add_new_doc
-                i.plus.icon
+        // +model_dropdown
         .right.menu
             if currentUser
+                a.item.add_new_doc
+                    i.plus.icon
                 a.item(title='points')
                     |#{currentUser.points}p
+                a.item(title='coins')
+                    |#{currentUser.coin_count}c
                 a.item.logout
                     |logout #{currentUser.username}
     .ui.padded.divided.celled.stackable.centered.grid
@@ -84,7 +85,7 @@ template(name='loom')
                         each my_drafts
                             .ui.link.item    
                                 +print_this
-                                a.inline.header.pick_me #{model} #{_when}
+                                a.inline.header.pick_me #{title} #{model} #{_when}
             // +quickchat
             each picked_tags
                 .ui.label
@@ -118,10 +119,6 @@ template(name='loom')
             else 
                 +login
             
-    
-template(name='add_schema_doc')
-    i.plus.circular.link.icon.add_schema_doc(title='add new doc')
-    
     
 template(name='session_toggle')
     .ui.tertiary.button.toggle

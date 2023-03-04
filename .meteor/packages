@@ -26,3 +26,4 @@ shell-server@0.5.0
 tmeasday:publish-counts
 reactive-var@1.0.12
 check
+matb33:collection-hooks
