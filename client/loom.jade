@@ -79,48 +79,48 @@ template(name='loom')
                     |logout #{currentUser.username}
     .ui.padded.divided.celled.stackable.centered.grid
         .sixteen.wide.center.aligned.column
-            if my_drafts.count
-                .ui.segment
-                    .ui.inline.header 
-                        i.save.icon
-                        |drafts
-                    .ui.selection.animated.horizontal.list 
-                        each my_drafts
-                            .ui.link.item    
-                                +print_this
-                                a.inline.header.pick_me #{title} #{model} #{_when}
+            if currentUser
+                if my_drafts.count
+                    .ui.segment
+                        .ui.inline.header 
+                            i.save.icon
+                            |drafts
+                        .ui.selection.animated.horizontal.list 
+                            each my_drafts
+                                .ui.link.item    
+                                    +print_this
+                                    a.inline.header.pick_me #{title} #{model} #{_when}
             // +quickchat
             each picked_tags
                 .ui.label
                     i.remove.link.icon.zoomer.unpick_tag(title='clear tag')
                     |#{this}
-            if currentUser
-                // +session_set key='view_mode' value='grid' icon='th' 
-                // +session_set key='view_mode' value='list' icon='list'
-                // +session_set key='view_mode' value='feed' icon='stream'
-                // +session_toggle key='view_calendar' label='calendar' icon='calendar'
-                .scrollin
-                    if session_get 'fullview_id'
-                        .scrollin.eight.wide.centered.column
-                            .ui.circular.basic.fluid.purple.icon.button.clear_fullview 
-                                i.left.chevron.icon
-                            .ui.hidden.divider
-                            with fullview_doc 
-                                +full_view
-                    else if session_is 'view_mode' 'list'
-                        .ui.divided.selection.items 
-                            each doc_results 
-                                +home_list_item
-                    else if session_is 'view_mode' 'grid'
-                        .ui.three.stackable.cards
-                            each doc_results
-                                +home_card
-                    else    
-                        .ui.centered.cards
-                            each doc_results
-                                +home_card
-            else 
-                +login
+            // +session_set key='view_mode' value='grid' icon='th' 
+            // +session_set key='view_mode' value='list' icon='list'
+            // +session_set key='view_mode' value='feed' icon='stream'
+            // +session_toggle key='view_calendar' label='calendar' icon='calendar'
+            .scrollin
+                if session_get 'fullview_id'
+                    .scrollin.eight.wide.centered.column
+                        .ui.circular.basic.fluid.purple.icon.button.clear_fullview 
+                            i.left.chevron.icon
+                        .ui.hidden.divider
+                        with fullview_doc 
+                            +full_view
+                else if session_is 'view_mode' 'list'
+                    .ui.divided.selection.items 
+                        each doc_results 
+                            +home_list_item
+                else if session_is 'view_mode' 'grid'
+                    .ui.three.stackable.cards
+                        each doc_results
+                            +home_card
+                else    
+                    .ui.centered.cards
+                        each doc_results
+                            +home_card
+            // else 
+            //     +login
             
     
 template(name='session_toggle')
