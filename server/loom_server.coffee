@@ -5,11 +5,12 @@
 
 
 Meteor.methods 
-    create_ai_doc: (data)->
+    create_ai_doc: (data, input)->
         console.log 'making ai doc', data
         Docs.insert 
             model:'ai'
             res:data
+            title:input
 
 Docs.allow
     insert: (userId, doc) -> 

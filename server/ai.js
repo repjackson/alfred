@@ -19,6 +19,6 @@ Meteor.methods({
   presence_penalty: 0,
     });
     console.log(response.data)
-    Meteor.call('create_ai_doc',response.data)
+    Meteor.call('create_ai_doc',response.data, input)
     }
 })
