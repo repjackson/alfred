@@ -1,10 +1,14 @@
 const { Configuration, OpenAIApi } = require("openai");
 Meteor.methods({
-  ai: async function(input) {
+  ai: async function(input,parent_id=null) {
     const configuration = new Configuration({
       apiKey: Meteor.settings.private.openai2,
     });
     const openai = new OpenAIApi(configuration);
+    if (parent_id) {
+      parent = Docs.findOne(parent_id)
+      prompt = input + parent.body
+    } 
     
     const response = await openai.createCompletion({
         model: "text-davinci-003",

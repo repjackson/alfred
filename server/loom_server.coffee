@@ -11,6 +11,7 @@ Meteor.methods
             model:'ai'
             res:data
             title:input
+            body:data.choices[0].text
 
 Docs.allow
     insert: (userId, doc) -> 

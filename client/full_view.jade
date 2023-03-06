@@ -103,12 +103,13 @@ template(name='full_view')
                     .ui.basic.blue.large.button.edit_this
                         i.blue.pencil.link.icon
                         |edit
-        // if template_exists
-        //     +Template.dynamic template=model_template
-        unless is 'published' true
-            .ui.big.green.button.publish 
-                i.eye.icon
-                |publish
+            // if template_exists
+            //     +Template.dynamic template=model_template
+            unless is 'published' true
+                .ui.big.green.button.publish 
+                    i.eye.icon
+                    |publish
+                
         .extra.content
             +comments
     
