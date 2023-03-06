@@ -1,4 +1,5 @@
 @Docs = new Meteor.Collection 'docs'
+@Results = new Meteor.Collection 'results'
 
 Docs.before.insert (userId, doc)->
     if Meteor.userId()
@@ -422,6 +423,7 @@ if Meteor.isClient
         # alert 'hi'
         @autorun => @subscribe 'me', ->
         # @autorun => @subscribe 'users', ->
+        @autorun => @subscribe 'tag_results', picked_tags.array(), ->
         @autorun => @subscribe 'current_user_doc', ->
         @autorun => @subscribe 'my_drafts', ->
         @autorun => @subscribe 'home_docs',
@@ -432,6 +434,7 @@ if Meteor.isClient
             picked_tags.array()
             Session.get('view_latest')
             # Session.get('post_title_filter')
+            ->
 
     
 if Meteor.isClient    

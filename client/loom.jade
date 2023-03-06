@@ -119,8 +119,8 @@ template(name='loom')
                     .ui.centered.cards
                         each doc_results
                             +home_card
-            // else 
-            //     +login
+            unless currentUser 
+                +login
             
     
 template(name='session_toggle')

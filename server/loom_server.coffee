@@ -169,3 +169,57 @@ Meteor.publish 'user_current_doc', ->
     if Meteor.user()
         Docs.find 
             _id: Meteor.user()._doc_id
+
+
+# Meteor.publish 'tag_results', (
+#     picked_tags=[]
+#     # picked_subreddit=null
+#     # picked_author=null
+#     # query
+#     # searching
+#     # dummy
+#     )->
+
+#     self = @
+#     match = {}
+
+#     # match.model = $in: ['reddit','wikipedia']
+#     # match.model = $ne: 'comment'
+#     # if query
+#     if picked_tags.length > 0
+#         match.tags = $all: picked_tags
+#     # if picked_subreddit
+#     #     match.subreddit = picked_subreddit
+#     limit = 20
+#     # else
+#     #     limit = 10
+#     #     match._timestamp = $gt:moment().subtract(1, 'days')
+#     # else /
+#         # match.tags = $all: picked_tags
+#     console.log 'tag match', match
+#     agg_doc_count = Docs.find(match).count()
+#     tag_cloud = Docs.aggregate([
+#         { $match: match }
+#         { $project: "tags": 1 }
+#         { $unwind: "$tags" }
+#         { $group: _id: "$tags", count: $sum: 1 }
+#         # { $match: _id: $nin: picked_tags }
+#         # { $match: count: $lt: agg_doc_count }
+#         # { $match: _id: {$regex:"#{current_query}", $options: 'i'} }
+#         { $sort: count: -1, _id: 1 }
+#         { $limit: 11 }
+#         { $project: _id: 0, name: '$_id', count: 1 }
+#     ], {})
+#     # ], {
+#     #     allowDiskUse: true
+#     # }
+
+#     tag_cloud.forEach (tag, i) =>
+#         self.added 'results', Random.id(),
+#             name: tag.name
+#             count: tag.count
+#             model:'tag'
+#             # index: i
+    
+#     self.ready()
+#     # else []
