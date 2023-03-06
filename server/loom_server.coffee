@@ -3,6 +3,14 @@
 #     api_key: Meteor.settings.cloudinary_key
 #     api_secret: Meteor.settings.cloudinary_secret
 
+
+Meteor.methods 
+    create_ai_doc: (data)->
+        console.log 'making ai doc', data
+        Docs.insert 
+            model:'ai'
+            res:data
+
 Docs.allow
     insert: (userId, doc) -> 
         true    

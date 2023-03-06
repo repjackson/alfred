@@ -169,6 +169,15 @@ if Meteor.isClient
             t.$('.current_query').val('')
             
         # 'keyup .search_site': _.throttle((e,t)->
+        'keyup .ai_input': (e,t)->
+            # query = $('.search_site').val()
+            search = t.$('.ai_input').val()
+            if e.which is 13
+                $(e.currentTarget).closest('.ai_input').transition('pulse', 100)
+                Meteor.call 'ai', search, ->
+                # Session.set('current_query', search)
+                $('.ai_input').val('')
+                
         'keyup .search_site': (e,t)->
             # query = $('.search_site').val()
             search = t.$('.search_site').val().trim().toLowerCase()

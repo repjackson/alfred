@@ -36,6 +36,9 @@ template(name='home_card')
         if image_url
             img.ui.centered.medium.rounded.image(src=image_url)
         .content
+            if _is 'model' 'ai'
+                each res.choices 
+                    |!{text}
             .smallscroll 
                 if body 
                     // - limit to 200 words closed block
