@@ -177,6 +177,16 @@ if Meteor.isClient
                 Meteor.call 'ai', search, ->
                 # Session.set('current_query', search)
                 $('.ai_input').val('')
+                $('body').toast({title: "submitting: #{search}"})
+        'click .submit_ai': (e,t)->
+            # query = $('.search_site').val()
+            search = t.$('.ai_input').val()
+            $(e.currentTarget).closest('.ai_input').transition('pulse', 100)
+            Meteor.call 'ai', search, ->
+            # Session.set('current_query', search)
+            $('.ai_input').val('')
+            $('body').toast({title: "submitting: #{search}"})
+
                 
         'keyup .search_site': (e,t)->
             # query = $('.search_site').val()

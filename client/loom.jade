@@ -60,14 +60,14 @@ template(name='loom')
                     |loading...
         .input.item
             .ui.icon.left.action.input
+                i.brain.large.pink.link.icon.zoomer.submit_ai(title='search')
+                input.ai_input(type='text' autocomplete="off" value=current_site_search placeholder='ask da vinci...')
+            .ui.icon.left.action.input
                 if current_site_search
                     i.remove.large.red.link.icon.clear_search.zoomer(title='clear search')
                 else
                     i.search.large.grey.link.icon.zoomer(title='search')
                 input.search_site(type='text' autocomplete="off" value=current_site_search placeholder='ask loom...')
-            .ui.icon.left.action.input
-                i.brain.large.grey.link.icon.zoomer(title='search')
-                input.ai_input(type='text' autocomplete="off" value=current_site_search placeholder='ask loom...')
         // .item
         // +model_dropdown
         .right.menu
