@@ -1,15 +1,10 @@
 {
   "dependencies": {
     "@babel/runtime": "^7.9.2",
-    "@fortawesome/fontawesome-free": "^6.3.0",
     "bcrypt": "^5.0.1",
-    "bootstrap": "4.6.2",
-    "jquery": "^3.6.3",
     "openai": "^3.2.1",
-    "popper.js": "^1.16.1",
     "request": "^2.88.2",
-    "request-promise": "^4.2.6",
-    "simpl-schema": "^3.4.1"
+    "request-promise": "^4.2.6"
   },
   "scripts": {
     "start": "MONGO_URL=mongodb+srv://daoadmin:daoadminpassword@cluster1-etul3.mongodb.net/riversidedb meteor --settings settings.json",
