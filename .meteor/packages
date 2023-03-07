@@ -29,6 +29,3 @@ matb33:collection-hooks
 standard-minifier-css
 modules
 ecmascript
-aldeed:autoform
-communitypackages:autoform-bootstrap4
-jquery@3.0.0!
