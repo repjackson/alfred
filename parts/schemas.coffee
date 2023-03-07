@@ -44,14 +44,15 @@
                 #     field_type:'text'
                 #     icon:'header'
                 # }
+            ]
             viewing_roles:['admin','author']
             point_view_cost:'number'
             attendees:'user_picker'
             list_all: ->
+                console.log @
                 Docs.find 
-                    model:'event'
+                    model:'ai'
             field_list:['title','author', ]
-            ]
         posts:
             name:'Posts'
             parent_models:['Thing']
