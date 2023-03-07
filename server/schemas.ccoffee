@@ -1,0 +1,15 @@
+@schemas = {
+    models: {
+        events: {
+            name:'Events'
+            parent_models:['post']
+            fields: {
+                title: {
+                    field_type:'text'
+                    icon:'header'
+                }
+                
+            }
+        }
+   }
+}
