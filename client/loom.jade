@@ -82,14 +82,16 @@ template(name='loom')
                     |logout #{currentUser.username}
     .ui.padded.divided.celled.stackable.centered.grid
         .sixteen.wide.center.aligned.column
-            // if can_view
-            //     .ui.header hi
-            //     with schemas 
-            //         .ui.header 
-            //             |name #{models.events.name}
-            //         each models.events.fields
-            //             .ui.header field name: #{name}
-                    
+            if can_view
+                .ui.header hi
+                // with https://github.com/schema/file.json 
+                with schemas
+                    .ui.header 
+                        |name #{models.events.name}
+                    each models.events.fields
+                        .ui.header field name: #{name}
+            each schemas.events.list_all
+                .ui.header #{title}
             if currentUser
                 if my_drafts.count
                     .ui.segment
