@@ -60,6 +60,9 @@ if Meteor.isClient
     Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
     Template.registerHelper 'model_docs', (model) -> 
     
+    Template.registerHelper 'schemas', (key) -> schemas
+    # Meteor.isClient && Template.registerHelper("Schemas", Schemas);
+
     Template.registerHelper 'session_get', (key) -> Session.get("#{key}")
     Template.registerHelper 'model_docs_helper', (model) ->
         Docs.find 
