@@ -5,6 +5,13 @@
 
 
 Meteor.methods 
+    # parse: (parent_id)->
+    #     parent = Docs.findOne parent_id 
+    #     if parent
+    #         console.log 'parsing', parent
+            
+    ai_add_tags: (data,parent_id)->
+        console.log 'taggin',data
     create_ai_doc: (data, input)->
         console.log 'making ai doc', data
         Docs.insert 

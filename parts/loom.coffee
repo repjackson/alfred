@@ -137,6 +137,9 @@ if Meteor.isClient
     #         console.log t.picker.getEndDate()
     #         # Template.currentInstance()getStartDate
 
+    Template.parse_this.events 
+        'click .parse': ->
+            Meteor.call 'parse', Session.get('fullview_id'), ->
     Template.complete_button.events 
         'click .mark_complete': ->
             # if confirm 'complete'

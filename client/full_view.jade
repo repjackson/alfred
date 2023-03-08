@@ -63,6 +63,7 @@ template(name='full_view')
                 if image_url
                     img.ui.fluid.image.toggle_fullview.pointer(src=image_url)
         .content 
+            +parse_this
             .description
                 // .ui.header lat: #{lat}
                 // .ui.header lng: #{lng}
@@ -126,6 +127,9 @@ template(name='remove_button')
         i.remove.red.icon(title='delete')
         |delete
         
+template(name='parse_this')
+    .ui.button.parse 
+        |parse
         
 template(name='field_template')
     .ui.header field: #{title}
