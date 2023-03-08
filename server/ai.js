@@ -53,8 +53,13 @@ Meteor.methods({
             command = (a.substring(a.indexOf("set:"), a.lastIndexOf('}}') + 1));
             // command 
             // stripped = 
-            stripped = (command.substring(command.indexOf("{"), command.lastIndexOf('}') + 1));
+            stripped = (command.substring(command.indexOf("{"), command.indexOf("}") + 1));
             console.log('stripped', stripped)
+            key = (stripped.substring(stripped.indexOf("{")+1, command.indexOf(':')));
+            
+            value = (stripped.substring(stripped.indexOf(":")+1, command.indexOf('}')-1));
+            console.log('key', key)
+            console.log('value', value)
             Meteor.call('ai_update_field',stripped, parent_id)
             } 
         }
