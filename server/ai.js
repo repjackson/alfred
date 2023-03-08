@@ -17,7 +17,7 @@ Meteor.methods({
                 prompt:input,
                 //   prompt: "create a schema.org schema for the following event: 'Come join us for a night of dancing at the Riverside in Boulder, Colorado! Enjoy the beautiful views of the river and the Rocky Mountains while you dance to your favorite tunes. Our DJ will be spinning all your favorite hits from the 70s, 80s, 90s, and today'",
                 temperature: 0,
-                max_tokens: 60,
+                max_tokens: 100,
                 top_p: 1,
                 frequency_penalty: 0.5,
                 presence_penalty: 0,
@@ -32,22 +32,30 @@ Meteor.methods({
         const openai = new OpenAIApi(configuration);
         if (parent_id) {
             parent = Docs.findOne(parent_id)
-            if (parent) {
-                console.log('parsing', parent)
-            }
+            // if (parent) {
+                // console.log('parsing', parent)
+            // }
             // prompt = input + parent.body
         
             const response = await openai.createCompletion({
                 model: "text-davinci-003",
-                prompt:"create a list of keywords for: " + parent.body,
+                // prompt:"create a list of keywords as an array of strings in json for: " + parent.body,
+                // prompt:"create a mongo document schema for: " + parent.body,
+                // prompt:"create a meteor.js database update call in javascript that updates field values for: " + parent.body,
+                prompt:"write mongodb meteor coffeescript code that updates the title of this document to 'oracle2' " + parent,
                 temperature: 0,
-                max_tokens: 60,
+                max_tokens: 100,
                 top_p: 1,
                 frequency_penalty: 0.5,
                 presence_penalty: 0,
             });
-            console.log(response.data)
-            Meteor.call('ai_add_tags',response.data, parent_id)
+            a = response.data.choices[0].text
+            command = (a.substring(a.indexOf("set:"), a.lastIndexOf('}}') + 1));
+            // command 
+            // stripped = 
+            stripped = (command.substring(command.indexOf("{"), command.lastIndexOf('}') + 1));
+            console.log('stripped', stripped)
+            Meteor.call('ai_update_field',stripped, parent_id)
             } 
         }
 })

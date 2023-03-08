@@ -5,6 +5,12 @@
 
 
 Meteor.methods 
+    ai_update_field: (command,parent_id)->
+        # set_object = clean(ai_result)
+        # console.log typeof command
+        # parsed = JSON.parse(command)
+        # console.log 'parsed', typeof parsed, parsed
+        # Docs.update parent_id, set_object
     # parse: (parent_id)->
     #     parent = Docs.findOne parent_id 
     #     if parent
