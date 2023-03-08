@@ -32,18 +32,26 @@
                         # gcall 'complete_task', ->
             ]
             viewing_roles:['admin','author']
+            edit_roles:['admin','author','owner','holder']
             point_view_cost:'number'
+            can_edit: ->
+                console.log @
+                Meteor.user().roles in @edit_roles
             attendees:'user_picker'
             field_list:['title','author', ]
         events:
             name:'Events'
+            slug:'event'
             parent_models:['post']
             fields: [
-                name:'title'
-                # title: {
-                #     field_type:'text'
-                #     icon:'header'
-                # }
+                {
+                    name:'title'
+                    type:'text'
+                    index:1
+                    icon:'header'
+                    can_edit: ->
+                        Meteor.userId()
+                }
             ]
             viewing_roles:['admin','author']
             point_view_cost:'number'
@@ -69,9 +77,35 @@
                 holder:
                     field_type:'user'
                     icon:'user'
-    field_types: []
+        product:
+            slug:'product'
+        service:
+            slug:'service'
+        offer:
+            slug:'offer'
+        request:
+            slug:'request'
+        role:
+            slug:'role'
+        resources:
+            slug:'resource'
+        skills:
+            slug:'skill'
+        badge:
+            slug:'badge'
+        org:
+            slug:'org'
+        group:
+            slug:'group'
+        project:
+            slug:'project'
+    field_types:
+        list:['text','datetime','boolean','latlong']
     methods: 
         complete_task: ->
+            Docs.update @_id, 
+                $set:
+                    completed:true
             # notify user 
             # tranfer coin
         tranfer_coin: (target, source, parent)->

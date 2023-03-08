@@ -37,9 +37,11 @@ template(name='full_view')
             .content.smallscroll 
                 iframe.invert(width='100%' height='500px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
         if _is 'model' 'ai'
+            .ui.header ai
             each res.choices 
                 |!{text}
-
+            each schemas.models.ai.fields
+                .ui.header ai field title: #{title}
         .content.smallscrol
             if body 
                 // - limit to 200 words closed block
