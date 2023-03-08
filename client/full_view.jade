@@ -1,4 +1,8 @@
 template(name='full_view')
+    with schemas.models.this_param
+        each fields 
+            +field_template
+            
     .ui.fluid.card
         .content 
             // a.ui.centered.inline.header.zoomer(href="/d/#{model}/#{_id}")
@@ -41,7 +45,8 @@ template(name='full_view')
             each res.choices 
                 |!{text}
             each schemas.models.ai.fields
-                .ui.header ai field title: #{title}
+                +field_template
+                // .ui.header ai field title: #{title}
         .content.smallscrol
             if body 
                 // - limit to 200 words closed block
@@ -120,3 +125,11 @@ template(name='remove_button')
     .ui.basic.red.button.delete
         i.remove.red.icon(title='delete')
         |delete
+        
+        
+template(name='field_template')
+    .ui.header field: #{title}
+    if can_edit 
+        +edit_template
+    else if can_view
+        +view_template

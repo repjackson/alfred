@@ -1,10 +1,9 @@
 @schemas =
-    name:'schemas mothafucka!'
     models:
-        tasks:
-            name:'Tasks'
+        task:
+            name:'Task'
             slug:'task'
-            parent_models:['post']
+            parent_models:['post', 'thing']
             fields: [
                 name:'title'
                 timer_start:
@@ -39,8 +38,8 @@
                 Meteor.user().roles in @edit_roles
             attendees:'user_picker'
             field_list:['title','author', ]
-        events:
-            name:'Events'
+        event:
+            name:'Event'
             slug:'event'
             parent_models:['post']
             fields: [
@@ -61,9 +60,11 @@
                 Docs.find 
                     model:'ai'
             field_list:['title','author', ]
-        posts:
-            name:'Posts'
+        post:
+            name:'Post'
             parent_models:['Thing']
+            _is_author:->
+                Meteor.userId() is @_author_id
             fields:
                 title:
                     field_type:'text'
@@ -74,10 +75,19 @@
                 owner:
                     field_type:'user'
                     icon:'user'
+                    required:true
+                    can_edit: -> @_is_author
                 holder:
                     field_type:'user'
                     icon:'user'
-        ai:
+                published:
+                    type:'boolean'
+                    on_change: ->
+                        if @published
+                            Docs.update @_id,   
+                                publish_timestamp:Date.now()
+                            Meteor.call 'mint_one_coin', @_author_id, Meteor.userId(), @_id, ->
+        ai:             
             slug:'ai'
             fields:[
                 {
@@ -88,29 +98,82 @@
                 }
             ]
         product:
+            name:'Product'
             slug:'product'
         service:
+            name:'Service'
             slug:'service'
         offer:
+            name:'Offer'
             slug:'offer'
         request:
+            name:'Request'
             slug:'request'
         role:
+            name:'Role'
             slug:'role'
-        resources:
+        resource:
+            name:'Resource'
             slug:'resource'
         skills:
+            name:'Skills'
             slug:'skill'
         badge:
+            name:'Badge'
             slug:'badge'
         org:
+            name:'Org'
             slug:'org'
+            subtype:
+                type:'string'
+                template:'list_picker'
+                allowed_values:@subtypes
+            subtypes:
+                type:'doc_ref'
+                ref_model:'org_subtype'
+                # ['event production company','event venue']
+            # subtype_ref:schemas.models.org_subtype
         group:
+            name:'Group'
             slug:'group'
         project:
+            name:'Project'
             slug:'project'
+        
     field_types:
         list:['text','datetime','boolean','latlong']
+    hooks:
+        before: ->
+            doc = {}
+            if Meteor.userId()
+                doc._author_id = Meteor.userId()
+                doc._author_username = Meteor.user().username
+            timestamp = Date.now()
+            doc._timestamp = timestamp
+            doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
+            date = moment(timestamp).format('Do')
+            weekdaynum = moment(timestamp).isoWeekday()
+            weekday = moment().isoWeekday(weekdaynum).format('dddd')
+        
+            hour = moment(timestamp).format('h')
+            minute = moment(timestamp).format('m')
+            ap = moment(timestamp).format('a')
+            month = moment(timestamp).format('MMMM')
+            year = moment(timestamp).format('YYYY')
+        
+            # date_array = [ap, "hour #{hour}", "min #{minute}", weekday, month, date, year]
+            date_array = [ap, weekday, month, date, year]
+            if _
+                date_array = _.map(date_array, (el)-> el.toString().toLowerCase())
+                # date_array = _.each(date_array, (el)-> console.log(typeof el))
+                # console.log date_array
+                doc._timestamp_tags = date_array
+            Docs.update @_id, 
+                $set:
+                    _author_id:Meteor.userId()
+                    _author_username:Meteor.user().username
+                    _timestamp:Date.now()
+ 
     methods: 
         complete_task: ->
             Docs.update @_id, 

@@ -1,0 +1,19 @@
+var timer = document.createElement('div');
+timer.innerHTML = '0';
+document.body.appendChild(timer);
+var timerInterval = null;
+var startButton = document.createElement('button');
+startButton.innerHTML = 'Start';
+document.body.appendChild(startButton);
+startButton.onclick = function() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    startButton.innerHTML = 'Start';
+  } else {
+    timerInterval = setInterval(function() {
+      timer.innerHTML = parseInt(timer.innerHTML) + 1;
+    }, 1000);
+    startButton.innerHTML = 'Pause';
+  }
+};

@@ -52,6 +52,11 @@ if Meteor.isClient
         }
     });
     
+    Router.route '/', (->
+        @layout 'layout'
+        @render 'loom'
+        ), name:'loom'    
+    
     Template.registerHelper 'field_value', () -> 
         console.log @
         parent = Template.parentData()
@@ -75,6 +80,11 @@ if Meteor.isClient
         Docs.findOne 
             model:'schema'
             'rdfs:label':@model
+    Template.registerHelper 'can_edit', ()->
+        # this is the field 
+        current_model = Router.current().params.model
+        field = @
+        @can_edit
     Template.registerHelper 'nl2br', (text)->
         nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
         new Spacebars.SafeString(nl2br)

@@ -13,6 +13,12 @@ Meteor.methods
             title:input
             body:data.choices[0].text
 
+Meteor.methods 
+    import_model:(model)->
+        # import event.coffee
+        schemas.models.push event_file
+
+
 Docs.allow
     insert: (userId, doc) -> 
         true    
