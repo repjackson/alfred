@@ -36,10 +36,10 @@ template(name='home_card')
         if image_url
             img.ui.centered.medium.rounded.image(src=image_url)
         .content
-            if _is 'model' 'ai'
-                each res.choices 
-                    |!{text}
-            .smallscroll 
+            // if _is 'model' 'ai'
+            //     each res.choices 
+            //         |!{text}
+            .smallscrol 
                 if body 
                     // - limit to 200 words closed block
                     |{{nl2br body}}
@@ -67,34 +67,34 @@ template(name='home_card')
 
                 // +eft_view_item_small
       
-            .content
-                .left.floated
-                    unless can_edit
-                        +voting
-                    else 
-                        if points
-                            |#{points}pts
-                a.right.floated.zoomer.fly_right(href="/d/#{model}/#{_id}")
-                    | #{views} views
-                // if _author_id
-                //     +author_info
-                
-                    //- i.eye.icon
-                //     each viewer_usernames
-                //         .ui.small.inverted.label #{this}
-                div
-                // +eft_viewer_small
-                // if currentUser.admin_mode
-                //     +print_this
-                //     +remove_button
-                each tags 
-                    .ui.small.label #{this}
-                +give_button
-                if is 'model' 'task'
-                    +complete_button
-                    .ui.header task
-            // if template_exists
-            //     +Template.dynamic template=model_template
+        .content
+            .left.floated
+                unless can_edit
+                    +voting
+                else 
+                    if points
+                        |#{points}pts
+            a.right.floated.zoomer.fly_right(href="/d/#{model}/#{_id}")
+                | #{views} views
+            // if _author_id
+            //     +author_info
+            
+                //- i.eye.icon
+            //     each viewer_usernames
+            //         .ui.small.inverted.label #{this}
+            div
+            // +eft_viewer_small
+            // if currentUser.admin_mode
+            //     +print_this
+            //     +remove_button
+            each tags 
+                .ui.small.label #{this}
+            +give_button
+            if is 'model' 'task'
+                +complete_button
+                .ui.header task
+        // if template_exists
+        //     +Template.dynamic template=model_template
         
 
 template(name='give_button')

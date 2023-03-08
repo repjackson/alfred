@@ -115,6 +115,45 @@
         resource:
             name:'Resource'
             slug:'resource'
+        resource:
+            name: 'string'
+            description: 'string'
+            category: 'string'
+            type: 'string'
+            status: 'string'
+            owner: 'string'
+            rentedBy: 'string'
+            rentedStartDate: 'date'
+            rentedEndDate: 'date'
+            contributedTo: [
+                type: 'string'
+                id: 'string'
+            ]
+            availableForRent: 'boolean'
+            availableForContribution: 'boolean'
+            location: {
+                address: 'string'
+                latitude: 'number'
+                longitude: 'number'
+            }
+            images: [String]
+            tags: [String]
+            comments: [
+                text: String
+                author: String
+                date: Date
+            ]
+            attachments: [
+                name: String
+                url: String
+                size: Number
+                type: String
+                uploadedBy: String
+                uploadedDate: Date
+                description: String
+                visibility: String
+                isFeatured: Boolean
+            ]
         skills:
             name:'Skills'
             slug:'skill'
