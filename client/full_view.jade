@@ -13,6 +13,7 @@ template(name='full_view')
                 if title
                     a.ui.centered.inline.header.zoomer
                         |#{title}
+                .ui.header subtitle: #{subtitle}
             span.left.floated
                 if icon 
                     +i name=icon color=icon_color
@@ -117,7 +118,14 @@ template(name='full_view')
                 .ui.big.green.button.publish 
                     i.eye.icon
                     |publish
-                
+        .ui.header sub ai
+        .ui.icon.left.action.input
+            i.brain.large.pink.link.icon.zoomer.submit_ai(title='search')
+            input.ai_input2(type='text' autocomplete="off" value=current_site_search placeholder='ask da vinci...')
+        each model_docs_helper 'ai_comment'
+            .ui.segment
+                .ui.small.header #{title}, 
+                |#{body}
         .extra.content
             +comments
     

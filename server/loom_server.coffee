@@ -28,6 +28,14 @@ Meteor.methods
             res:data
             title:input
             body:data.choices[0].text
+    add_ai_comment: (input,response, parent_id)->
+        console.log 'making ai comment', response
+        Docs.insert 
+            model:'ai_comment'
+            # res:data
+            parent_id:parent_id
+            title:input
+            body:response
 
 Meteor.methods 
     import_model:(model)->

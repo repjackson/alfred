@@ -25,7 +25,7 @@ Meteor.methods({
         console.log(response.data)
         Meteor.call('create_ai_doc',response.data, input)
         },
-    parse: async function(parent_id) {
+    parse: async function(input,parent_id) {
         const configuration = new Configuration({
             apiKey: Meteor.settings.private.openai2,
         });
@@ -43,6 +43,7 @@ Meteor.methods({
                 // prompt:"create a mongo document schema for: " + parent.body,
                 // prompt:"create a meteor.js database update call in javascript that updates field values for: " + parent.body,
                 prompt:"write mongodb meteor coffeescript code that updates the title of this document to 'oracle2' " + parent,
+                // prompt: input + parent.body,
                 temperature: 0,
                 max_tokens: 100,
                 top_p: 1,
@@ -58,11 +59,40 @@ Meteor.methods({
             console.log('stripped', stripped)
             key = (stripped.substring(stripped.indexOf("{")+1, stripped.indexOf(":")));
             
-            value = (stripped.substring(stripped.indexOf(":")+1, stripped.indexOf("}")-1));
+            value = (stripped.substring(stripped.indexOf(":")+3, stripped.indexOf("}")-1));
             
             console.log('key', key)
             console.log('value', value)
             Meteor.call('ai_update_field',key,value, parent_id)
+            } 
+        },
+    ai_comment: async function(input,parent_id) {
+        const configuration = new Configuration({
+            apiKey: Meteor.settings.private.openai2,
+        });
+        const openai = new OpenAIApi(configuration);
+        if (parent_id) {
+            parent = Docs.findOne(parent_id)
+            // if (parent) {
+                // console.log('parsing', parent)
+            // }
+            // prompt = input + parent.body
+            console.log('input',input,'parent body',parent.body)
+            const response = await openai.createCompletion({
+                model: "text-davinci-003",
+                // prompt:"create a list of keywords as an array of strings in json for: " + parent.body,
+                // prompt:"create a mongo document schema for: " + parent.body,
+                // prompt:"create a meteor.js database update call in javascript that updates field values for: " + parent.body,
+                // prompt:"write mongodb meteor coffeescript code that updates the title of this document to 'oracle2' " + parent,
+                prompt: parent.body + input,
+                temperature: 0,
+                max_tokens: 100,
+                top_p: 1,
+                frequency_penalty: 0.5,
+                presence_penalty: 0,
+            });
+            response_text = response.data.choices[0].text
+            Meteor.call('add_ai_comment',input,response_text,parent_id)
             } 
         }
 })

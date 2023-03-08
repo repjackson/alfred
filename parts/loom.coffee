@@ -271,6 +271,17 @@ if Meteor.isClient
     
 
 if Meteor.isClient
+    Template.full_view.events
+        'keyup .ai_input2': (e,t)->
+            # query = $('.search_site').val()
+            input = t.$('.ai_input2').val()
+            if e.which is 13
+                $(e.currentTarget).closest('.ai_input').transition('pulse', 100)
+                Meteor.call 'ai_comment', input, Session.get('fullview_id'),->
+                # Session.set('current_query', search)
+                $('.ai_input').val('')
+                # $('body').toast({title: "submitting: #{search}"})
+
     Template.loom.helpers
         my_drafts:->
             Docs.find 
@@ -464,6 +475,8 @@ if Meteor.isClient
         #   })
         # $('.tabular.menu .item').tab();
 
+    Template.full_view.onCreated ->
+        @autorun => @subscribe 'model_docs','ai_comment', ->
     Template.loom.onCreated ->
         # alert 'hi'
         @autorun => @subscribe 'me', ->
