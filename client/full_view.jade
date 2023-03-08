@@ -42,8 +42,8 @@ template(name='full_view')
                 iframe.invert(width='100%' height='500px' src=link frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='')
         if _is 'model' 'ai'
             .ui.header ai
-            each res.choices 
-                |!{text}
+            // each res.choices 
+            //     |!{text}
             each schemas.models.ai.fields
                 +field_template
                 // .ui.header ai field title: #{title}

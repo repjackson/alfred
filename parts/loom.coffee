@@ -58,7 +58,7 @@ if Meteor.isClient
         ), name:'loom'    
     
     Template.registerHelper 'field_value', () -> 
-        console.log @
+        # console.log @
         parent = Template.parentData()
         parent["#{@key}"]
     Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
@@ -81,7 +81,7 @@ if Meteor.isClient
             model:'schema'
             'rdfs:label':@model
     Template.registerHelper 'can_edit', ()->
-        console.log @
+        console.log 'can edit?',@
     # this is the field 
         current_model = Router.current().params.model
         field = @
@@ -313,7 +313,7 @@ if Meteor.isClient
                 Docs.findOne Session.get('fullview_id')
     Template.loom.events
         'click .remove_tag': ->
-            console.log @
+            # console.log @
             Docs.update Session.get('fullview_id'), 
                 $pull:tags:@valueOf()
             tag = $('.add_tag').val(@valueOf())
@@ -535,8 +535,9 @@ Meteor.methods
                     $inc:
                         upvotes:1
                         points:1
-            Meteor.users.update doc._author_id,
-                $inc:karma:1
+            # Meteor.users.update doc._author_id,
+            #     $inc:karma:1
+            Meteor.call 'calc_user_points', doc._author_id, ->
         else
             Docs.update doc._id,
                 $inc:
@@ -546,6 +547,7 @@ Meteor.methods
                 $inc:anon_karma:1
 
     downvote: (doc)->
+        # for now, voting is 'free', target gets points, author doesnt lose them
         if Meteor.userId()
             if doc.upvoter_ids and Meteor.userId() in doc.upvoter_ids
                 Docs.update doc._id,
@@ -567,8 +569,9 @@ Meteor.methods
                     $inc:
                         points:-1
                         downvotes:1
-            Meteor.users.update doc._author_id,
-                $inc:karma:-1
+            # Meteor.users.update doc._author_id,
+            #     $inc:karma:-1
+            Meteor.call 'calc_user_points', doc._author_id, ->
         else
             Docs.update doc._id,
                 $inc:
@@ -576,3 +579,21 @@ Meteor.methods
                     anon_downvotes:1
             Meteor.users.update doc._author_id,
                 $inc:anon_karma:-1
+                
+                
+                
+    calc_user_points: (user_id)->
+        user = Meteor.users.findOne user_id 
+        user_points = 0
+        authored_docs = Docs.find(
+            _author_id:user_id
+            points:$exists:true
+            )
+        for doc in authored_docs.fetch()
+            user_points += doc.points
+            # doc_object = Docs.findOne doc._id
+            # console.log 'doc object', doc
+            # if doc.points 
+        console.log 'user points', user.points, user_points
+        Meteor.users.update user_id, 
+            $set:points:user_points

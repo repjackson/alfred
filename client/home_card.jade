@@ -69,8 +69,8 @@ template(name='home_card')
       
         .content
             .left.floated
-                unless can_edit
-                    +voting
+                // unless can_edit
+                +voting
                 else 
                     if points
                         |#{points}pts
