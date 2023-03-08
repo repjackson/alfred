@@ -54,13 +54,15 @@ Meteor.methods({
             // command 
             // stripped = 
             stripped = (command.substring(command.indexOf("{"), command.indexOf("}") + 1));
-            console.log('stripped', stripped)
-            key = (stripped.substring(stripped.indexOf("{")+1, command.indexOf(':')));
             
-            value = (stripped.substring(stripped.indexOf(":")+1, command.indexOf('}')-1));
+            console.log('stripped', stripped)
+            key = (stripped.substring(stripped.indexOf("{")+1, stripped.indexOf(":")));
+            
+            value = (stripped.substring(stripped.indexOf(":")+1, stripped.indexOf("}")-1));
+            
             console.log('key', key)
             console.log('value', value)
-            Meteor.call('ai_update_field',stripped, parent_id)
+            Meteor.call('ai_update_field',key,value, parent_id)
             } 
         }
 })
