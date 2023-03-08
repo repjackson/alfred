@@ -77,6 +77,16 @@
                 holder:
                     field_type:'user'
                     icon:'user'
+        ai:
+            slug:'ai'
+            fields:[
+                {
+                    title:'title'
+                }
+                {
+                    title:'body'
+                }
+            ]
         product:
             slug:'product'
         service:
