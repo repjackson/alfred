@@ -56,6 +56,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'loom'
         ), name:'loom'    
+    Router.route '/coin', (->
+        @layout 'layout'
+        @render 'coin'
+        ), name:'coin'    
     
     Template.registerHelper 'field_value', () -> 
         # console.log @

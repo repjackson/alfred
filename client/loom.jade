@@ -43,14 +43,14 @@ head
 // body 
 //     +loom
 template(name='layout')
+    +nav
     +yield
     
 // template(name='datepicker')
 //     .get
 //         #datepicker
     
-    
-template(name='loom')
+template(name='nav')    
     .ui.attached.menu.hscroll
         .item
             .ui.inline.header
@@ -77,21 +77,16 @@ template(name='loom')
                     i.plus.icon
                 a.item(title='points')
                     |#{currentUser.points}p
-                a.item(title='coins')
+                a.item(href="/coin" title='coins')
                     |#{currentUser.coin_count}c
                 a.item.logout
                     |logout #{currentUser.username}
+    
+template(name='loom')
     .ui.padded.divided.celled.stackable.centered.grid
         .sixteen.wide.center.aligned.column
             // if can_view
             // with https://github.com/schema/file.json 
-            with schemas
-                .ui.header 
-                    |name #{models.events.name}
-                each models.events.fields
-                    .ui.header field name: #{name}
-            // each schemas.models.events.list_all
-            .ui.header name #{title}
             each schemas.models.events.list_all
                 .ui.header ? #{title}
             if currentUser
@@ -143,6 +138,7 @@ template(name='session_toggle')
         if icon     
             i.icon(class=icon)
         |#{label}
+    
     
 template(name='icon_browser')
     // .ui.header icons
