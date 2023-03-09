@@ -53,7 +53,7 @@ template(name='layout')
 template(name='nav')    
     .ui.attached.menu.hscroll
         .item
-            .ui.inline.header
+            a.ui.inline.header(href="/")
                 img.ui.mini.inline.image(src="https://cdn-icons-png.flaticon.com/512/2128/2128771.png")
                 |loom
                 if session_get 'loading'
@@ -78,7 +78,7 @@ template(name='nav')
                 a.item(title='points')
                     |#{currentUser.points}p
                 a.item(href="/coin" title='coins')
-                    |#{currentUser.coin_count}c
+                    |#{my_coins.count}c
                 a.item.logout
                     |logout #{currentUser.username}
     

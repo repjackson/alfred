@@ -65,6 +65,10 @@ if Meteor.isClient
         # console.log @
         parent = Template.parentData()
         parent["#{@key}"]
+    Template.registerHelper 'my_coins', () -> 
+        Docs.find 
+            model:'coin'
+            _author_id:Meteor.userId()
     Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
     Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
     Template.registerHelper 'model_docs', (model) -> 
