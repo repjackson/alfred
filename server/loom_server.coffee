@@ -19,10 +19,13 @@ Meteor.methods
         console.log 'MAKING ai doc', data, input
         for choice in data.choices
             console.log 'choice text', choice.text
-            new_object = choice.text
-                # (text.substring(stripped.indexOf("{")+1, stripped.indexOf(":")));
-            parsed = JSON.parse new_object
-            console.log 'PARSE',parsed
+            new_object = 
+                (choice.text.substring(choice.text.indexOf("{")+1, choice.text.lastIndexOf("}")));
+            # parsed = JSON.parse new_object.json()
+            console.log 'new object cleaned', new_object
+            # parsed = new_object.json()
+            parsed = JSON.parse(new_object)
+            console.log 'PARSE',parsed, 'TYPE', typeof parsed
 
         Docs.insert 
             model:'ai'

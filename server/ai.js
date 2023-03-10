@@ -22,7 +22,7 @@ Meteor.methods({
 
             //   prompt: "create a schema.org schema for the following event: 'Come join us for a night of dancing at the Riverside in Boulder, Colorado! Enjoy the beautiful views of the river and the Rocky Mountains while you dance to your favorite tunes. Our DJ will be spinning all your favorite hits from the 70s, 80s, 90s, and today'",
             temperature: 0,
-            max_tokens: 100,
+            max_tokens: 1000,
             top_p: 1,
             frequency_penalty: 0.5,
             presence_penalty: 0,
