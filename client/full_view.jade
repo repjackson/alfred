@@ -1,7 +1,10 @@
 template(name='full_view')
-    with schemas.models.this_param
-        each fields 
-            +field_template
+    .ui.vertical.list
+        each doc_fields 
+            .ui.large.basic.label
+                // .ui.header #{this}: #{this_value}
+                +field_template
+        
             
     .ui.fluid.card
         .content 
@@ -140,7 +143,8 @@ template(name='parse_this')
         |parse
         
 template(name='field_template')
-    .ui.header field: #{title}
+    .ui.header #{this}: 
+    .ui.header #{field_value}
     if can_edit 
         +edit_template
     else if can_view

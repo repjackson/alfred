@@ -1,4 +1,88 @@
 @schemas =
+    # users:
+    #     id: string
+    #     username: string
+    #     email: string
+    #     password: string
+    #     firstName: string
+    #     lastName: string
+    #     profilePicture: string
+    #     bio: string
+    #     location: {
+    #         country: string
+    #         state: string
+    #         city: string
+    #         zip: string
+    #     }
+    #     contact: {
+    #         phone: string
+    #         website: string
+    #         socialMedia: {
+    #             twitter: string
+    #             instagram: string
+    #             facebook: string
+    #             linkedin: string
+    #         }
+    #     }
+    #     skills: {
+    #         skillId: string
+    #         skillName: string
+    #         skillLevel: string
+    #         skillDescription: string
+    #     }
+    #     interests: {
+    #         interestId: string
+    #         interestName: string
+    #     }
+    #     requests: {
+    #         requestId: string
+    #         requestType: string
+    #         requestDescription: string
+    #         requestStatus: string
+    #         createdDate: Date
+    #         updatedDate: Date
+    #     }
+    #     offers: {
+    #         offerId: string
+    #         offerType: string
+    #         offerDescription: string
+    #         offerStatus: string
+    #         createdDate: Date
+    #         updatedDate: Date
+    #     }
+    #     products: {
+    #         productId: string
+    #         productName: string
+    #         productDescription: string
+    #         productPrice: number
+    #         productImages: string
+    #     }
+    #     services: {
+    #         serviceId: string
+    #         serviceName: string
+    #         serviceDescription: string
+    #         servicePrice: number
+    #         serviceImages: string
+    #     }
+    #     badges: {
+    #         badgeId: string
+    #         badgeName: string
+    #         badgeDescription: string
+    #         badgeImage: string
+    #     }
+    #     projects: {
+    #         projectId: string
+    #         projectName: string
+    #         projectDescription: string
+    #         projectStatus: string
+    #         startDate: Date
+    #         endDate: Date
+    #         contributors: {
+    #             contributorId: string
+    #             contributorRole: string
+    #         }
+    #     }
+    # }
     models:
         task:
             name:'Task'
@@ -60,6 +144,64 @@
                 Docs.find 
                     model:'ai'
             field_list:['title','author', ]
+
+        #     id: string
+        #     eventName: String
+        #     eventDescription: String
+        #     eventLocation: {
+        #         country: String
+        #         state: String
+        #         city: String
+        #         zip: String
+        #     }
+        #     eventStartDate: Date
+        #     eventEndDate: Date
+        #     eventOrganizer: {
+        #         organizerId: String
+        #         organizerName: String
+        #     }
+        #     eventSponsors: {
+        #         sponsorId: String
+        #         sponsorName: String
+        #     }
+        #     eventAttendees: {
+        #         attendeeId: String
+        #         attendeeName: String
+        #         attendeeStatus: String
+        #         attendeeRole: String
+        #     }
+        #     eventTasks: {
+        #         taskId: String
+        #         taskName: String
+        #         taskDescription: String
+        #         taskDeadline: Date
+        #         taskStatus: String
+        #         taskAssignedTo: String
+        #         taskCreatedBy: String
+        #         taskBounty: {
+        #             bountyType: String
+        #             bountyAmount: number
+        #         }
+        #     }
+        #     eventResources: {
+        #         resourceId: String
+        #         resourceName: String
+        #         resourceDescription: String
+        #         resourceType: String
+        #         resourceOwner: String
+        #         resourceLocation: {
+        #             country: String
+        #             state: String
+        #             city: String
+        #             zip: String
+        #         }
+        #         resourceRentStatus: String
+        #         resourceRentee: String
+        #         resourceProject: String
+        #     }
+        # }
+            
+            
         post:
             name:'Post'
             parent_models:['Thing']
@@ -87,6 +229,26 @@
                             Docs.update @_id,   
                                 publish_timestamp:Date.now()
                             Meteor.call 'mint_one_coin', @_author_id, Meteor.userId(), @_id, ->
+                # id: String
+                # author: User
+                # title: String
+                # body: String
+                # attachments: Array of Attachment
+                # tags: Array of String
+                # created_at: Date
+                # updated_at: Date
+                # upvotes: Number
+                # downvotes: Number
+                # comments: Array of Comment
+                # location: Location
+                # visibility: String
+                # privacy: String
+                # status: String
+                # featured: Boolean
+                # promoted: Boolean
+                # paid: Boolean
+                # price: Number
+                # currency: String
         ai:             
             slug:'ai'
             fields:[
@@ -109,51 +271,168 @@
         request:
             name:'Request'
             slug:'request'
+            
+            # id: String,
+            # title: String,
+            # description: String,
+            # category: String,
+            # location: {
+            #     address: String,
+            #     city: String,
+            #     state: String,
+            #     country: String,
+            #     latitude: Number,
+            #     longitude: Number
+            # },
+            # budget: {
+            #     amount: Number,
+            #     currency: String
+            # },
+            # deadline: Date,
+            # status: String,
+            # requester: {
+            #     id: String,
+            #     name: String,
+            #     email: String,
+            #     phone: String,
+            #     avatar: String
+            # },
+            # offers: [{
+            #     id: String,
+            #     provider: {
+            #         id: String,
+            #         name: String,
+            #         email: String,
+            #         phone: String,
+            #         avatar: String
+            #     },
+            #     price: {
+            #         amount: Number,
+            #         currency: String
+            #     },
+            #     message: String,
+            #     attachments: [{
+            #         type: String,
+            #         url: String,
+            #         name: String,
+            #         size: String
+            #     }],
+            #     status: String
+            # }],
+            # comments: [{
+            #     id: String,
+            #     author: {
+            #         id: String,
+            #         name: String,
+            #         email: String,
+            #         phone: String,
+            #         avatar: String
+            #     },
+            #     message: String,
+            #     attachments: [{
+            #         type: String,
+            #         url: String,
+            #         name: String,
+            #         size: String
+            #     }],
+            #     created_at: Date,
+            #     edited_at: Date
+            #     }]
+            # }
+            
+            
         role:
             name:'Role'
             slug:'role'
         resource:
             name:'Resource'
             slug:'resource'
-        resource:
-            name: 'string'
-            description: 'string'
-            category: 'string'
-            type: 'string'
-            status: 'string'
-            owner: 'string'
-            rentedBy: 'string'
-            rentedStartDate: 'date'
-            rentedEndDate: 'date'
-            contributedTo: [
-                type: 'string'
-                id: 'string'
-            ]
-            availableForRent: 'boolean'
-            availableForContribution: 'boolean'
-            location: {
-                address: 'string'
-                latitude: 'number'
-                longitude: 'number'
-            }
-            images: [String]
-            tags: [String]
-            comments: [
-                text: String
-                author: String
-                date: Date
-            ]
-            attachments: [
-                name: String
-                url: String
-                size: Number
-                type: String
-                uploadedBy: String
-                uploadedDate: Date
-                description: String
-                visibility: String
-                isFeatured: Boolean
-            ]
+            # id: String
+            # name: String
+            # description: String
+            # category: String
+            # subcategory: String
+            # type: String
+            # status: String
+            # location: {
+            #     address: String
+            #     city: String
+            #     state: String
+            #     country: String
+            #     zip: String
+            #     latitude: Float
+            #     longitude: Float
+            # }
+            # images: [String]
+            # tags: [String]
+            # features: {
+            #     rental: Boolean
+            #     lending: Boolean
+            #     contribution: Boolean
+            #     bounties: Boolean
+            #   }
+            # rental: {
+            #     availability: {
+            #         start: DateTime
+            #         end: DateTime
+            #     }
+            #     price: {
+            #         amount: Float
+            #         currency: String
+            #         unit: String
+            #     }
+            #     deposit: {
+            #         amount: Float
+            #         currency: String
+            #     }
+            #     rules: {
+            #         ageLimit: Int
+            #         maxRenters: Int
+            #         smokingAllowed: Boolean
+            #         petsAllowed: Boolean
+            #         otherRules: String
+            #     }
+            #     additionalInfo: {
+            #         insurance: String
+            #         delivery: Boolean
+            #         pickup: Boolean
+            #         otherInfo: String
+            #     }
+            # }
+            # contribution: {
+            #     availability: {
+            #         start: DateTime
+            #         end: DateTime
+            #     }
+            #     requirements: [String]
+            #     benefits: [String]
+            #     contactInfo: {
+            #         email: String
+            #         phone: String
+            #     }
+            # }
+            # bounties: {
+            #     cash: {
+            #         currency: String
+            #         amount: Float
+            #     }
+            #     points: {
+            #         currency: String
+            #         amount: Float
+            #     }
+            #     tokens: {
+            #         currency: String
+            #         amount: Float
+            #     }
+            #   }
+            # owner: {
+            #     id: String
+            #     name: String
+            #     email: String
+            #   }
+            # created_at: DateTime
+            # updated_at: DateTime
+            # }
         skills:
             name:'Skills'
             slug:'skill'
@@ -172,6 +451,129 @@
                 ref_model:'org_subtype'
                 # ['event production company','event venue']
             # subtype_ref:schemas.models.org_subtype
+            
+        # 	id: ID!
+        # 	name: String!
+        # 	description: String
+        # 	website: String
+        # 	email: String
+        # 	phone: String
+        # 	address: String
+        # 	city: String
+        # 	state: String
+        # 	zip: String
+        # 	country: String
+        # 	logoUrl: String
+        # 	bannerUrl: String
+        # 	tags: [String]
+        # 	socialMedia: [SocialMedia]
+        # 	members: [Member]
+        # 	roles: [Role]
+        # 	groups: [Group]
+        # 	projects: [Project]
+        # }
+        
+        # type SocialMedia {
+        # 	platform: String!
+        # 	url: String!
+        # }
+        
+        # type Member {
+        # 	id: ID!
+        # 	firstName: String!
+        # 	lastName: String!
+        # 	email: String!
+        # 	phone: String
+        # 	address: String
+        # 	city: String
+        # 	state: String
+        # 	zip: String
+        # 	country: String
+        # 	bio: String
+        # 	avatarUrl: String
+        # 	tags: [String]
+        # }
+        
+        # type Role {
+        #     id: ID!
+        # 	name: String!
+        # 	description: String
+        # 	permissions: [String]
+        # 	members: [Member]
+        # }
+        
+        # type Group {
+        # 	id: ID!
+        # 	name: String!
+        # 	description: String
+        # 	members: [Member]
+        # }
+        
+        # type Project {
+        # 	id: ID!
+        # 	name: String!
+        # 	description: String
+        # 	status: String
+        # 	startDate: String
+        # 	endDate: String
+        # 	resources: [Resource]
+        # 	tasks: [Task]
+        # }
+        
+        # type Resource {
+        # 	id: ID!
+        # 	name: String!
+        # 	description: String
+        # 	type: String!
+        # 	ownerId: ID!
+        # 	ownerType: String!
+        # 	status: String!
+        # 	availableFrom: String
+        # 	availableTo: String
+        # 	location: String
+        # 	rentalFee: Float
+        # }
+        
+        # type Task {
+        # 	id: ID!
+        # 	name: String!
+        # 	description: String
+        # 	status: String!
+        # 	startDate: String!
+        # 	endDate: String!
+        # 	assignee: Member
+        # 	resources: [Resource]
+        # 	comments: [Comment]
+        # 	attachments: [Attachment]
+        # }
+        
+        # type Comment {
+        # 	id: ID!
+        # 	content: String!
+        # 	author: Member!
+        # 	replies: [Comment]
+        # 	createdAt: String!
+        # }
+        
+        # type Attachment {
+        # 	id: ID!
+        # 	type: String!
+        # 	url: String!
+        # 	description: String
+        # }
+        
+        # type Query {
+        # 	organization(id: ID!): Organization
+        # 	organizations: [Organization]
+        # }
+        
+        # type Mutation {
+        # 	createOrganization(name: String!, description: String, website: String, email: String, phone: String, address: String, city: String, state: String, zip: String, country: String, logoUrl: String, bannerUrl: String): Organization
+        # 	updateOrganization(id: ID!, name: String, description: String, website: String, email: String, phone: String, address: String, city: String, state: String, zip: String, country: String, logoUrl: String, bannerUrl: String): Organization
+        # 	deleteOrganization(id: ID!): Boolean
+        # }
+                    
+            
         group:
             name:'Group'
             slug:'group'

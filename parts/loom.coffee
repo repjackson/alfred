@@ -203,6 +203,15 @@ if Meteor.isClient
             t.$('.current_query').val('')
             
         # 'keyup .search_site': _.throttle((e,t)->
+        'click .submit_ai': (e,t)->
+            # query = $('.search_site').val()
+            search = t.$('.ai_input').val()
+            $(e.currentTarget).closest('.ai_input').transition('pulse', 100)
+            Meteor.call 'ai', search, ->
+            # Session.set('current_query', search)
+            $('.ai_input').val('')
+            $('body').toast({title: "submitting: #{search}"})
+    Template.nav.events
         'keyup .ai_input': (e,t)->
             # query = $('.search_site').val()
             search = t.$('.ai_input').val()
@@ -212,14 +221,6 @@ if Meteor.isClient
                 # Session.set('current_query', search)
                 $('.ai_input').val('')
                 $('body').toast({title: "submitting: #{search}"})
-        'click .submit_ai': (e,t)->
-            # query = $('.search_site').val()
-            search = t.$('.ai_input').val()
-            $(e.currentTarget).closest('.ai_input').transition('pulse', 100)
-            Meteor.call 'ai', search, ->
-            # Session.set('current_query', search)
-            $('.ai_input').val('')
-            $('body').toast({title: "submitting: #{search}"})
 
                 
         'keyup .search_site': (e,t)->
@@ -279,17 +280,6 @@ if Meteor.isClient
     
 
 if Meteor.isClient
-    Template.full_view.events
-        'keyup .ai_input2': (e,t)->
-            # query = $('.search_site').val()
-            input = t.$('.ai_input2').val()
-            if e.which is 13
-                $(e.currentTarget).closest('.ai_input').transition('pulse', 100)
-                Meteor.call 'ai_comment', input, Session.get('fullview_id'),->
-                # Session.set('current_query', search)
-                $('.ai_input').val('')
-                # $('body').toast({title: "submitting: #{search}"})
-
     Template.loom.helpers
         my_drafts:->
             Docs.find 
@@ -339,29 +329,6 @@ if Meteor.isClient
             Docs.update Session.get('fullview_id'), 
                 $pull:tags:@valueOf()
             tag = $('.add_tag').val(@valueOf())
-    Template.full_view.events
-        'click .publish': -> 
-            if confirm 'publish?'
-                Docs.update @_id, 
-                    $set:
-                        publish_status:'published'
-                        published:true
-                        published_timestamp:Date.now()
-        'click .edit_this': -> Session.set('editing',true)
-        'click .save_this': -> Session.set('editing',false)
-        'keyup .add_tag': (e,t)->
-            if e.which is 13 
-                tag = $('.add_tag').val()
-                if tag.length > 1
-                    Docs.update @_id, 
-                        $addToSet:tags:tag
-                    tag = $('.add_tag').val('')
-        'blur .add_tag': (e,t)->
-            tag = $('.add_tag').val()
-            if tag.length > 1
-                Docs.update @_id, 
-                    $addToSet:tags:tag
-                tag = $('.add_tag').val('')
     Template.loom.events
         'click .view_latest': ->
             # trying different view session storage
@@ -483,8 +450,6 @@ if Meteor.isClient
         #   })
         # $('.tabular.menu .item').tab();
 
-    Template.full_view.onCreated ->
-        @autorun => @subscribe 'model_docs','ai_comment', ->
     Template.loom.onCreated ->
         # alert 'hi'
         @autorun => @subscribe 'me', ->
