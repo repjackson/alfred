@@ -1,9 +1,3 @@
-# Cloudinary.config
-#     cloud_name: 'facet'
-#     api_key: Meteor.settings.cloudinary_key
-#     api_secret: Meteor.settings.cloudinary_secret
-
-
 Meteor.methods 
     ai_update_field: (key,value,parent_id)->
         # set_object = clean(ai_result)
@@ -14,20 +8,28 @@ Meteor.methods
             {$set:
                 "#{key}":value
             }
-    # parse: (parent_id)->
-    #     parent = Docs.findOne parent_id 
-    #     if parent
-    #         console.log 'parsing', parent
+    parse: (parent_id)->
+        parent = Docs.findOne parent_id 
+        if parent
+            console.log 'parsing', parent
             
     ai_add_tags: (data,parent_id)->
         console.log 'taggin',data
     create_ai_doc: (data, input)->
-        console.log 'making ai doc', data
+        console.log 'MAKING ai doc', data, input
+        for choice in data.choices
+            console.log 'choice text', choice.text
+            new_object = choice.text
+                # (text.substring(stripped.indexOf("{")+1, stripped.indexOf(":")));
+            parsed = JSON.parse new_object
+            console.log 'PARSE',parsed
+
         Docs.insert 
             model:'ai'
             res:data
             title:input
             body:data.choices[0].text
+        
     add_ai_comment: (input,response, parent_id)->
         console.log 'making ai comment', response
         Docs.insert 

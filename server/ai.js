@@ -12,7 +12,8 @@ Meteor.methods({
         console.log('searching ai for:',input)
         const response = await openai.createCompletion({
             // model: "code-davinci-002",
-            model: "gpt-3.5-turbo",
+            // model: "gpt-3.5-turbo",
+            model: "text-davinci-003",
             //   prompt: "Decide whether a Tweet's sentiment is positive, neutral, or negative.\n\nTweet: \"I loved the new Batman movie!\"\nSentiment:",
             //   prompt: "create a description for a dance event at the Riverside in Boulder Colorado ",
                 // prompt: input
@@ -26,7 +27,7 @@ Meteor.methods({
             frequency_penalty: 0.5,
             presence_penalty: 0,
         });
-        console.log(response.data)
+        console.log('response, calling create',response.data)
         Meteor.call('create_ai_doc',response.data, input)
         },
     // parse: async function(input,parent_id) {
@@ -91,7 +92,7 @@ Meteor.methods({
                 // prompt:"create a mongo document schema for: " + parent.body,
                 // prompt:"create a meteor.js database update call in javascript that updates field values for: " + parent.body,
                 // prompt:"write mongodb meteor coffeescript code that updates the title of this document to 'oracle2' " + parent,
-                prompt: 'using this schema: (id: ID!, name: String, description: String, website: String, email: String, phone: String, address: String, city: String, state: String, zip: String, country: String, logoUrl: String, bannerUrl: String), generate meteor calls that do this:' + input,
+                prompt: 'using this schema: (id: ID!, name: String, description: String, website: String, email: String, phone: String, address: String, city: String, state: String, zip: String, country: String, logoUrl: String, bannerUrl: String), generate meteor calls that do this:' + input + parent.body,
                     // generate graphql queries and mutations that do this:' + input,
                 temperature: 0,
                 max_tokens: 100,

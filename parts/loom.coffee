@@ -203,6 +203,7 @@ if Meteor.isClient
             t.$('.current_query').val('')
             
         # 'keyup .search_site': _.throttle((e,t)->
+    Template.nav.events
         'click .submit_ai': (e,t)->
             # query = $('.search_site').val()
             search = t.$('.ai_input').val()
@@ -211,7 +212,6 @@ if Meteor.isClient
             # Session.set('current_query', search)
             $('.ai_input').val('')
             $('body').toast({title: "submitting: #{search}"})
-    Template.nav.events
         'keyup .ai_input': (e,t)->
             # query = $('.search_site').val()
             search = t.$('.ai_input').val()
