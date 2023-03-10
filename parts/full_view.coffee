@@ -12,17 +12,17 @@ if Meteor.isClient
     Template.full_view.onCreated ->
         @autorun => @subscribe 'model_docs','ai_comment', ->
     Template.full_view.onRendered ->
-        element = document.getElementById('editor');
-        console.log @data
-        # options = {schema:JSON.parse(@data)}
-        options = {
-            schema:@data
-            show_errors:'always'
-        }
-        console.log typeof @data
-        # options = {schema:@data.toJSON()}
-        # editor = new JSONEditor(element, {schema:{title:'hi',subtitle:'cool'}});
-        editor = new JSONEditor(element,options);
+        # element = document.getElementById('editor');
+        # console.log @data
+        # # options = {schema:JSON.parse(@data)}
+        # options = {
+        #     schema:@data
+        #     show_errors:'always'
+        # }
+        # console.log typeof @data
+        # # options = {schema:@data.toJSON()}
+        # # editor = new JSONEditor(element, {schema:{title:'hi',subtitle:'cool'}});
+        # editor = new JSONEditor(element,options);
 
     Template.field_template.helpers 
         field_type: ->
@@ -32,6 +32,14 @@ if Meteor.isClient
             doc = Docs.findOne Session.get('fullview_id')
             typeof doc["#{@valueOf()}"]
             Array.isArray(doc["#{@valueOf()}"])
+        object_value: ->
+            doc = Docs.findOne Session.get('fullview_id')
+            JSON.stringify(doc["#{@valueOf()}"],undefined,2)
+
+        is_object: ->
+            doc = Docs.findOne Session.get('fullview_id')
+            typeof doc["#{@valueOf()}"] is 'object'
+            # Array.isArray(doc["#{@valueOf()}"])
 
         can_show: ->
             unless @valueOf() in hidden_fields
