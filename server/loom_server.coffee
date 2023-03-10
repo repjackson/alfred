@@ -20,18 +20,27 @@ Meteor.methods
         for choice in data.choices
             console.log 'choice text', choice.text
             new_object = 
-                (choice.text.substring(choice.text.indexOf("{")+1, choice.text.lastIndexOf("}")));
+                (choice.text.substring(choice.text.indexOf("{"), choice.text.lastIndexOf("}")));
             # parsed = JSON.parse new_object.json()
             console.log 'new object cleaned', new_object
             # parsed = new_object.json()
-            parsed = JSON.parse(new_object)
-            console.log 'PARSE',parsed, 'TYPE', typeof parsed
-
-        Docs.insert 
-            model:'ai'
-            res:data
-            title:input
-            body:data.choices[0].text
+            console.log 'PARSING'
+            parsed = JSON.parse(choice.text)
+            console.log 'PARSED',parsed, 'TYPE', typeof parsed
+        
+        if parsed 
+            new_doc = parsed
+        else
+            new_doc = {}
+            new_doc.body = data.choices[0].text
+        
+            
+        new_doc.model = 'ai'
+        new_doc.res = data
+        new_doc.title = input
+        # new_doc.parsed_object = new_object
+        
+        Docs.insert new_doc 
         
     add_ai_comment: (input,response, parent_id)->
         console.log 'making ai comment', response
