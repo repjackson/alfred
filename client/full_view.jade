@@ -141,7 +141,13 @@ template(name='field_template')
     div
     if can_show
         span.ui.text #{this}: 
-        strong.ui.large.text #{field_value}
+        .ui.label type: #{field_type}
+        if is_array 
+            .ui.label is array
+            each field_value 
+                .ui.label #{this}
+        else 
+            strong.ui.large.text #{field_value}
         // if can_edit 
         //     +edit_template
         // else if can_view

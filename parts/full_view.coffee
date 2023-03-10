@@ -13,6 +13,14 @@ if Meteor.isClient
         @autorun => @subscribe 'model_docs','ai_comment', ->
     
     Template.field_template.helpers 
+        field_type: ->
+            doc = Docs.findOne Session.get('fullview_id')
+            typeof doc["#{@valueOf()}"]
+        is_array: ->
+            doc = Docs.findOne Session.get('fullview_id')
+            typeof doc["#{@valueOf()}"]
+            Array.isArray(doc["#{@valueOf()}"])
+
         can_show: ->
             unless @valueOf() in hidden_fields
                 true

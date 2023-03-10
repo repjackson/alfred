@@ -12,7 +12,7 @@ Meteor.methods({
         } 
         console.log('searching ai for:',input)
         var has_add
-        has_add = input.includes('add')
+        has_add = input.includes('add') || input.includes('create')
         if (has_add) {
             console.log('has add')
             prompt = 'json format without comments'+input 
