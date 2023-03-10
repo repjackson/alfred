@@ -11,7 +11,19 @@
 if Meteor.isClient
     Template.full_view.onCreated ->
         @autorun => @subscribe 'model_docs','ai_comment', ->
-    
+    Template.full_view.onRendered ->
+        element = document.getElementById('editor');
+        console.log @data
+        # options = {schema:JSON.parse(@data)}
+        options = {
+            schema:@data
+            show_errors:'always'
+        }
+        console.log typeof @data
+        # options = {schema:@data.toJSON()}
+        # editor = new JSONEditor(element, {schema:{title:'hi',subtitle:'cool'}});
+        editor = new JSONEditor(element,options);
+
     Template.field_template.helpers 
         field_type: ->
             doc = Docs.findOne Session.get('fullview_id')

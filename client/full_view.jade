@@ -1,6 +1,9 @@
 template(name='full_view')
     .ui.fluid.grid
         .eight.wide.column
+            .ui.header json editor
+            // #editor
+
             each doc_fields 
                 // .ui.header #{this}: #{this_value}
                 +field_template
