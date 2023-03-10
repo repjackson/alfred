@@ -1,8 +1,21 @@
+@hidden_fields = 
+    ['_id'
+    'title'
+    'model'
+    'body'
+    '_author_id'
+    '_timestamp'
+    'parent_id'
+    ]
+
 if Meteor.isClient
     Template.full_view.onCreated ->
         @autorun => @subscribe 'model_docs','ai_comment', ->
     
     Template.field_template.helpers 
+        can_show: ->
+            unless @valueOf() in hidden_fields
+                true
         field_value: ->
             doc = Docs.findOne Session.get('fullview_id')
             doc["#{@valueOf()}"]
