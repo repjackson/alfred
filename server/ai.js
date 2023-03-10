@@ -5,11 +5,19 @@ Meteor.methods({
             apiKey: Meteor.settings.private.openai2,
         });
         const openai = new OpenAIApi(configuration);
+        prompt = input
         if (parent_id) {
             parent = Docs.findOne(parent_id)
             prompt = input + parent.body
         } 
         console.log('searching ai for:',input)
+        var has_add
+        has_add = input.includes('add')
+        if (has_add) {
+            console.log('has add')
+            prompt = 'json format without comments'+input 
+        }
+        
         const response = await openai.createCompletion({
             // model: "code-davinci-002",
             // model: "gpt-3.5-turbo",
@@ -18,7 +26,7 @@ Meteor.methods({
             //   prompt: "create a description for a dance event at the Riverside in Boulder Colorado ",
                 // prompt: input
             // prompt: "using this schema: 'id: string, eventName: String, eventDescription: String, eventLocation: Point', generate graphql queries and mutations that do this:" + parent,
-            prompt: input,
+            prompt: prompt,
 
             //   prompt: "create a schema.org schema for the following event: 'Come join us for a night of dancing at the Riverside in Boulder, Colorado! Enjoy the beautiful views of the river and the Rocky Mountains while you dance to your favorite tunes. Our DJ will be spinning all your favorite hits from the 70s, 80s, 90s, and today'",
             temperature: 0,

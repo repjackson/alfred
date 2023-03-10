@@ -25,8 +25,11 @@ Meteor.methods
             console.log 'new object cleaned', new_object
             # parsed = new_object.json()
             console.log 'PARSING'
-            parsed = JSON.parse(choice.text)
-            console.log 'PARSED',parsed, 'TYPE', typeof parsed
+            has_add = input.includes('add')
+            if has_add
+                console.log 'HAS ADD'
+                parsed = JSON.parse(choice.text)
+                console.log 'PARSED',parsed, 'TYPE', typeof parsed
         
         if parsed 
             new_doc = parsed
