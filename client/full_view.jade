@@ -144,15 +144,19 @@ template(name='field_template')
     div
     if can_show
         span.ui.text #{this}: 
-        .ui.label type: #{field_type}
+        if field_type
+            .ui.label type: #{field_type}
         if is_array 
             .ui.label is array
             each field_value 
+                +field_template
                 .ui.label #{this}
         else if is_object
             .ui.large.label OBJECT
             |{{nl2br object_value}}
             // |#{object_value}
+            textarea.edit_textarea(rows='7') #{field_value}
+
         else
             strong.ui.large.text #{field_value}
         // if can_edit 

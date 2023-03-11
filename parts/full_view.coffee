@@ -48,8 +48,7 @@ if Meteor.isClient
             doc = Docs.findOne Session.get('fullview_id')
             doc["#{@valueOf()}"]
     Template.full_view.helpers 
-        doc_fields: ->
-            _.keys(@)
+        doc_fields: -> _.keys(@)
         this_value: ->
             doc = Docs.findOne Session.get('fullview_id')
             doc["#{@valueOf()}"]

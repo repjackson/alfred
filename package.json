@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "@babel/runtime": "^7.9.2",
+    "@fullcalendar/core": "^6.1.4",
+    "@fullcalendar/daygrid": "^6.1.4",
+    "@fullcalendar/interaction": "^6.1.4",
     "bcrypt": "^5.0.1",
     "openai": "^3.2.1"
   },

@@ -29,6 +29,7 @@ head
     // link(href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet")
     // script(src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js")
 
+    script(src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js")
 
     script(src='https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js')
     script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.8/dist/semantic.min.js')
@@ -51,37 +52,6 @@ template(name='layout')
 //     .get
 //         #datepicker
     
-template(name='nav')    
-    .ui.attached.menu.hscroll
-        .item
-            a.ui.inline.header(href="/")
-                img.ui.mini.inline.image(src="https://cdn-icons-png.flaticon.com/512/2128/2128771.png")
-                |loom
-                if session_get 'loading'
-                    i.large.yin.yang.loading.icon
-                    |loading...
-        .input.item
-            .ui.icon.left.action.input
-                i.brain.large.pink.link.icon.zoomer.submit_ai(title='search')
-                input.ai_input(type='text' autocomplete="off" value=current_site_search placeholder='ask da vinci...')
-            .ui.icon.left.action.input
-                if current_site_search
-                    i.remove.large.red.link.icon.clear_search.zoomer(title='clear search')
-                else
-                    i.search.large.grey.link.icon.zoomer(title='search')
-                input.search_site(type='text' autocomplete="off" value=current_site_search placeholder='ask loom...')
-        // .item
-        // +model_dropdown
-        .right.menu
-            if currentUser
-                a.item.add_new_doc
-                    i.plus.icon
-                a.item(title='points')
-                    |#{currentUser.points}p
-                a.item(href="/coin" title='coins')
-                    |#{my_coins.count}c
-                a.item.logout
-                    |logout #{currentUser.username}
     
 template(name='loom')
     .ui.padded.divided.celled.stackable.centered.grid
